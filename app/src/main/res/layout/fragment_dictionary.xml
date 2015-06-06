@@ -13,6 +13,15 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />
 
+    <TextView
+        android:id="@+id/dictionary_empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/dictionary_empty"
+        android:textSize="@dimen/text_size_header"
+        android:visibility="gone" />
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/dictionary_fab"
         android:layout_width="wrap_content"

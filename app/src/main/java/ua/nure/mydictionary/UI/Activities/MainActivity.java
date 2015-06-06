@@ -24,7 +24,7 @@ import ua.nure.mydictionary.UI.Fragments.Dictionary.DictionaryFragment;
 import ua.nure.mydictionary.UI.Fragments.Exercises.ExercisesFragment;
 import ua.nure.mydictionary.UI.Fragments.Parser.ParserFragment;
 import ua.nure.mydictionary.UI.Fragments.Web.InternetBrowserFragment;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarCreator;
+import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
 
 
@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createToolbar() {
-        mToolbar = ToolbarCreator.getToolbar(this);
-        //setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar = ToolbarHandler.getToolbar(this);
     }
 
     private void createNavigationDrawer() {
@@ -112,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLastSelection = 0;
         }
         mNavigationDrawer.setSelection(mDrawerLastSelection);
-
     }
 
     private void replaceFragment(Fragment fragment) {

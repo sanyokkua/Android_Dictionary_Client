@@ -17,21 +17,30 @@
 
     <string name="dictionary_add">Add Word</string>
     <string name="dictionary_del">Delete Word</string>
+    <string name="dictionary_del_dialog_title">Delete this word?</string>
     <string name="dictionary_add_translation">Add translation</string>
     <string name="dictionary_del_translation">Delete translation</string>
     <string name="dictionary_reset">Reset vocabulary</string>
     <string name="dictionary_add_word_hint">Foreign word</string>
     <string name="dictionary_add_translation_hint">Translation</string>
+    <string name="dictionary_word">Word:</string>
+    <string name="dictionary_empty">Dictionary is empty...</string>
+    <string name="dictionary_translation">Translation:</string>
+    <string name="dictionary_count">Count:</string>
 
     <string name="std_open">Open</string>
     <string name="std_cancel">Cancel</string>
     <string name="std_close">Close</string>
     <string name="std_back">Back</string>
+    <string name="std_ok">Ok</string>
+
+    <string name="empty_view">Empty...</string>
 
     <string name="browser_reload">Reload</string>
     <string name="browser_parse">Get all words</string>
     <string name="browser_create_bookmark">Create Bookmark</string>
     <string name="browser_address">address</string>
+    <string name="browser_delete_bookmark">Delete this bookmark?</string>
     <string name="parser_open_file">Open File</string>
     <string name="parser_parse">Parse</string>
     <string name="parser_description">Here you can open one of text files in your phone and get all words in that file</string>

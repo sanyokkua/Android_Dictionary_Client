@@ -13,10 +13,24 @@ import java.util.ArrayList;
 
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.SecondaryClasses.ImageFinder;
+import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private ArrayList<Exercise> mExercises;
     private Context context;
+    private static ViewHolder sLastViewHolder = null;
+    private OnResultCallback<Exercise> mOnResultCallback;
+    private OnItemClickListener mOnItemClickListener;
+    private boolean isLastRepeated = false;
+
+    public void setOnRemoveCallback(OnResultCallback callback) {
+        mOnResultCallback = callback;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener callback) {
+        mOnItemClickListener = callback;
+    }
 
     public ExerciseAdapter(ArrayList<Exercise> exercises) {
         mExercises = exercises;
@@ -27,6 +41,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         context = parent.getContext();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise, parent, false);
         ExerciseAdapter.ViewHolder viewHolder = new ExerciseAdapter.ViewHolder(v);
+        sLastViewHolder = viewHolder;
         return viewHolder;
     }
 
@@ -42,7 +57,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         return mExercises.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mName;
         private ImageView mPicture;
 
@@ -50,6 +65,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             super(view);
             mName = (TextView) view.findViewById(R.id.exercise_name_text_view);
             mPicture = (ImageView) view.findViewById(R.id.exercise_image_view);
+            view.setOnClickListener(this);
         }
 
         public TextView getNameTextView() {
@@ -59,5 +75,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         public ImageView getPictureImageView() {
             return mPicture;
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener != null)
+                mOnItemClickListener.onItemClick(v, getAdapterPosition());
+        }
+
     }
 }

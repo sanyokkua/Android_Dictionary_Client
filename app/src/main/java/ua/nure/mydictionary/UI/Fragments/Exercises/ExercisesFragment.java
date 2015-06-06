@@ -3,7 +3,6 @@ package ua.nure.mydictionary.UI.Fragments.Exercises;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.Fragments.Exercises.AdditionItems.Exercise;
 import ua.nure.mydictionary.UI.Fragments.Exercises.AdditionItems.ExerciseAdapter;
+import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
 
 public class ExercisesFragment extends Fragment implements Identifier {
@@ -42,7 +42,9 @@ public class ExercisesFragment extends Fragment implements Identifier {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.common_rv_container, container, false);
-
+        mToolbar = ToolbarHandler.getToolbar(getActivity());
+        ToolbarHandler.setOnlyTitleMode(mToolbar);
+        ToolbarHandler.getTitleTextView(mToolbar).setText(getString(R.string.title_exercise_fragment));
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.common_rv_container);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);

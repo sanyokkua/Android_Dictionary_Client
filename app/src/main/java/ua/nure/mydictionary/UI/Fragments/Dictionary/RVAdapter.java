@@ -1,6 +1,7 @@
 package ua.nure.mydictionary.UI.Fragments.Dictionary;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +11,55 @@ import java.util.ArrayList;
 
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.SecondaryClasses.Word;
+import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
+import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private ArrayList<Word> mWords;
-    private OnRemoveCallback mOnRemoveCallback;
+    private OnResultCallback<Word> mOnRemoveCallback;
+    private OnResultCallback<Word> mOnItemClickCallback;
+    private static ViewHolder sLastViewHolder = null;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
+    private boolean isLastRepeated = false;
+
+    public void setOnRemoveCallback(OnResultCallback<Word> callback) {
+        mOnRemoveCallback = callback;
+    }
+
+    public void setOnOnItemClickCallback(OnResultCallback<Word> callback) {
+        mOnItemClickCallback = callback;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener callback) {
+        mOnItemClickListener = callback;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener callback) {
+        mOnItemLongClickListener = callback;
+    }
+
+    public RVAdapter(ArrayList<Word> words, OnResultCallback callback) {
+        mWords = words;
+        mOnRemoveCallback = callback;
+    }
+
+    public RVAdapter(ArrayList<Word> words, OnResultCallback<Word> onRemoveCallback, OnResultCallback<Word> onItemClickCallback) {
+        mWords = words;
+        mOnRemoveCallback = onRemoveCallback;
+        mOnItemClickCallback = onItemClickCallback;
+    }
 
     public RVAdapter(ArrayList<Word> words) {
         mWords = words;
-    }
-
-    public RVAdapter(ArrayList<Word> words, OnRemoveCallback callback) {
-        mWords = words;
-        mOnRemoveCallback = callback;
-    }
-
-    public void setOnRemoveCallback(OnRemoveCallback callback) {
-        mOnRemoveCallback = callback;
     }
 
     @Override
     public RVAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dictionary_word, parent, false);
         RVAdapter.ViewHolder viewHolder = new RVAdapter.ViewHolder(v);
+        sLastViewHolder = viewHolder;
         return viewHolder;
     }
 
@@ -39,7 +67,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.getWordTextView().setText(mWords.get(position).getWord());
         holder.getTranslationTextView().setText(mWords.get(position).getTranslation());
-        holder.getCountTextView().setText(mWords.get(position).getCount()+"");
+        holder.getCountTextView().setText(mWords.get(position).getCount() + "");
     }
 
     @Override
@@ -48,14 +76,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     public void removeItem(int position) {
-        if (mOnRemoveCallback != null) {
-            mOnRemoveCallback.removeCallback(mWords.get(position));
+        if (position < mWords.size()) {
+            if (mOnRemoveCallback != null) {
+                mOnRemoveCallback.resultCallback(mWords.get(position));
+            }
+            mWords.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mWords.size());
+            notifyDataSetChanged();
         }
-        mWords.remove(position);
-        notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView mWordTextView;
         private TextView mTranslationTextView;
         private TextView mCountTextView;
@@ -65,6 +97,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             mWordTextView = (TextView) view.findViewById(R.id.dictionary_word_text_view);
             mTranslationTextView = (TextView) view.findViewById(R.id.dictionary_translation_text_view);
             mCountTextView = (TextView) view.findViewById(R.id.dictionary_count_text_view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
         public TextView getWordTextView() {
@@ -78,9 +112,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         public TextView getCountTextView() {
             return mCountTextView;
         }
-    }
 
-    public interface OnRemoveCallback {
-        void removeCallback(Word removed);
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener != null)
+                mOnItemClickListener.onItemClick(v, getAdapterPosition());
+            if (mOnItemClickCallback != null)
+                mOnItemClickCallback.resultCallback(mWords.get(getAdapterPosition()));
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (mOnItemLongClickListener != null)
+                mOnItemLongClickListener.onItemLongClick(v, getAdapterPosition());
+            return false;
+        }
     }
 }

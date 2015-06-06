@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.SecondaryClasses.OpenFileDialog;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarCreator;
+import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
 
 public class ParserFragment extends Fragment implements Identifier, View.OnClickListener {
@@ -41,10 +43,9 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_parser, container, false);
-        mToolbar = ToolbarCreator.getToolbar(getActivity());
-        mToolbar.setTitle(getString(R.string.title_parser_fragment));
-        setHasOptionsMenu(true);
-
+        mToolbar = ToolbarHandler.getToolbar(getActivity());
+        ToolbarHandler.setOnlyTitleMode(mToolbar);
+        ToolbarHandler.getTitleTextView(mToolbar).setText(getString(R.string.title_parser_fragment));
         mButtonOpenFile = (Button) rootView.findViewById(R.id.parser_open_file_button);
         mButtonParse = (Button) rootView.findViewById(R.id.parser_parse_button);
         mButtonOpenFile.setOnClickListener(this);
@@ -81,12 +82,13 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
     private void startParsing() {
         if (mFilePath != null) {
             Snackbar.make(getView(), "parsing:" + mFilePath, Snackbar.LENGTH_LONG).show();
-        } else new AlertDialog.Builder(getActivity()).setTitle("Error")
-                .setMessage("File wasn't chosen").setCancelable(true)
-                .setNeutralButton(getActivity().getResources()
-                        .getString(R.string.std_cancel), new DialogInterface.OnClickListener() {
+        } else new MaterialDialog.Builder(getActivity()).title("Error")
+                .content("File wasn't chosen").cancelable(true)
+                .negativeText(getActivity().getResources()
+                        .getString(R.string.std_cancel)).callback(new MaterialDialog.ButtonCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
                         dialog.cancel();
                     }
                 }).show();

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.LinkedList;
 
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarCreator;
+import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
 
 public class InternetBrowserFragment extends Fragment implements Identifier {
@@ -37,9 +37,10 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.common_container, container, false);
-        mToolbar = ToolbarCreator.getToolbar(getActivity());
-        mToolbar.setTitle(getString(R.string.title_browser_fragment));
-        setHasOptionsMenu(true);
+        mToolbar = ToolbarHandler.getToolbar(getActivity());
+        //mToolbar.setTitle(getString(R.string.title_browser_fragment));
+        ToolbarHandler.setBrowserMode(mToolbar);
+        //setHasOptionsMenu(true);
         return rootView;
     }
 
