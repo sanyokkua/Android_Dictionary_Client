@@ -4,6 +4,7 @@
     android:id="@+id/bookmark_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_big_margin"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="@dimen/cardview_default_radius">
@@ -17,9 +18,9 @@
             android:id="@+id/bookmark_header_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="@dimen/text_size_header"
             android:layout_gravity="top|center_horizontal"
-            android:hint="Name" />
+            android:hint="Name"
+            android:textSize="@dimen/text_size_header" />
 
         <ImageView
             android:id="@+id/bookmark_image_view"

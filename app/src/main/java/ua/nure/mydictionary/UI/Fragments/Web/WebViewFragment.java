@@ -2,25 +2,41 @@ package ua.nure.mydictionary.UI.Fragments.Web;
 
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import ua.nure.mydictionary.R;
+import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.Bookmark;
+import ua.nure.mydictionary.UI.SecondaryClasses.DataAccess.BookmarkDataAccess;
+import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 
 public class WebViewFragment extends Fragment implements InternetBrowserFragment.OnPageRefresh, InternetBrowserFragment.GetHtml {
     private static final String ARG_ADDRESS_STRING = "ARG_ADDRESS_STRING";
     private String mAddress;
     private String mHtmlText;
     private WebView mWebView;
+    private Toolbar mToolbar;
+    private EditText mAddressEditText;
+    private ImageButton mAddBookmarkImageButton;
 
+    public WebViewFragment() {
+        // Required empty public constructor
+    }
 
     public static WebViewFragment newInstance(String address) {
         WebViewFragment fragment = new WebViewFragment();
@@ -30,44 +46,88 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
         return fragment;
     }
 
-    public WebViewFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_browser, container, false);
+        mToolbar = ToolbarHandler.getToolbar(getActivity());
+        mAddressEditText = ToolbarHandler.getEditText(mToolbar);
+        mAddBookmarkImageButton = ToolbarHandler.getBookmarkImageButton(mToolbar);
+        mAddBookmarkImageButton.setVisibility(View.VISIBLE);
+        mAddBookmarkImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveBookmark();
+            }
+        });
         mWebView = (WebView) rootView.findViewById(R.id.browser_web_view);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new LoadListener(), "HTMLOUT");
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                view.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                view.loadUrl("javascript:window.HTMLOUT.processHTML" +
+                        "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
             }
         });
-        openAddress(mAddress);
+        Bundle args = getArguments();
+        if (args != null) {
+            mAddress = args.getString(ARG_ADDRESS_STRING);
+            openAddress(mAddress);
+        } else Log.d("BUNDLE_IN_WEB_VIEW", "Bundle is null");
         return rootView;
     }
 
+    private void saveBookmark() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.add_bookmark_dialog, null, false);
+        final EditText name = (EditText) dialogView.findViewById(R.id.dialog_add_bookmark_name_edit_text);
+        final EditText url = (EditText) dialogView.findViewById(R.id.dialog_add_bookmark_url_edit_text);
+        url.setText(mWebView.getUrl());
+        new MaterialDialog.Builder(getActivity())
+                .customView(dialogView, false)
+                .positiveText(getActivity().getResources()
+                        .getString(R.string.dictionary_add))
+                .negativeText(getActivity().getResources()
+                        .getString(R.string.std_cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        if (url.getText().length() > 0 && name.getText().length() > 0) {
+                            BookmarkDataAccess saver = new BookmarkDataAccess(getActivity());
+                            saver.addAndSave(new Bookmark(url.getText().toString(), name.getText().toString()));
+                            Snackbar.make(getView(), R.string.browser_bookmark_added, Snackbar.LENGTH_LONG).show();
+                            dialog.cancel();
+                        } else {
+                            if (url.getText().length() == 0) url.requestFocus();
+                            if (name.getText().length() == 0) name.requestFocus();
+                        }
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                    }
+                }).show();
+    }
+
     private void openAddress(String address) {
-        if (address != null && address.length() > 0) {
-            if (!address.subSequence(0, 6).equals("http://")) {
-                address = "http://" + address;
-            }
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            URL url = null;
-            try {
-                url = new URL(address);
-            } catch (MalformedURLException ex) {
-                Log.e("APP_URL_EXCEPTION", ex.getMessage());
-            }
-            if (url != null) {
-                mWebView.loadUrl(url.toString());
-            }
+        URI uri = URI.create(address);
+        if ("".equals(uri.getSchemeSpecificPart())) {
+            address = "http://" + address;
+            uri = URI.create(address);
         }
+        URL url = null;
+        try {
+            url = new URL("http", uri.getSchemeSpecificPart(), "");
+        } catch (MalformedURLException ex) {
+            Log.e("APP_URL_EXCEPTION", ex.getMessage());
+        }
+        if (url != null) {
+            mWebView.loadUrl(url.toString());
+            mAddressEditText.setText(url.toString());
+        } else mWebView.stopLoading();
     }
 
     @Override
@@ -80,10 +140,10 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
         return mHtmlText;
     }
 
-    class LoadListener {
+    private class LoadListener {
         @android.webkit.JavascriptInterface
         public void processHTML(String html) {
-            Log.e("result", html);
+            //Log.d("result", html);
             mHtmlText = html;
         }
     }

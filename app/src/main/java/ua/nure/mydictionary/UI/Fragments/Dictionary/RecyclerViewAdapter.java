@@ -1,7 +1,6 @@
 package ua.nure.mydictionary.UI.Fragments.Dictionary;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,28 @@ import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<Word> mWords;
     private OnResultCallback<Word> mOnRemoveCallback;
     private OnResultCallback<Word> mOnItemClickCallback;
-    private static ViewHolder sLastViewHolder = null;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
     private boolean isLastRepeated = false;
+
+    public RecyclerViewAdapter(ArrayList<Word> words, OnResultCallback callback) {
+        mWords = words;
+        mOnRemoveCallback = callback;
+    }
+
+    public RecyclerViewAdapter(ArrayList<Word> words, OnResultCallback<Word> onRemoveCallback, OnResultCallback<Word> onItemClickCallback) {
+        mWords = words;
+        mOnRemoveCallback = onRemoveCallback;
+        mOnItemClickCallback = onItemClickCallback;
+    }
+
+    public RecyclerViewAdapter(ArrayList<Word> words) {
+        mWords = words;
+    }
 
     public void setOnRemoveCallback(OnResultCallback<Word> callback) {
         mOnRemoveCallback = callback;
@@ -40,26 +53,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         mOnItemLongClickListener = callback;
     }
 
-    public RVAdapter(ArrayList<Word> words, OnResultCallback callback) {
-        mWords = words;
-        mOnRemoveCallback = callback;
-    }
-
-    public RVAdapter(ArrayList<Word> words, OnResultCallback<Word> onRemoveCallback, OnResultCallback<Word> onItemClickCallback) {
-        mWords = words;
-        mOnRemoveCallback = onRemoveCallback;
-        mOnItemClickCallback = onItemClickCallback;
-    }
-
-    public RVAdapter(ArrayList<Word> words) {
-        mWords = words;
-    }
-
     @Override
-    public RVAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dictionary_word, parent, false);
-        RVAdapter.ViewHolder viewHolder = new RVAdapter.ViewHolder(v);
-        sLastViewHolder = viewHolder;
+        RecyclerViewAdapter.ViewHolder viewHolder = new RecyclerViewAdapter.ViewHolder(v);
         return viewHolder;
     }
 

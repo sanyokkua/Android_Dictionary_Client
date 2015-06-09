@@ -13,4 +13,9 @@ public class ImageFinder {
         }
         return null;
     }
+
+    public static Drawable findImageById(String id, Context context) {
+        if ("0".equals(id)) return findImageById(0, context);
+        return null;
+    }
 }

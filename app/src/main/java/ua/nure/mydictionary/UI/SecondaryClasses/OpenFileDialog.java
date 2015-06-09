@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * That class was taken from GitHub. Below is a link to that repository.
  * https://github.com/Scogun/Android-OpenFileDialog/blob/master/OpenFileDialog.java
  */
 public class OpenFileDialog extends AlertDialog.Builder {
@@ -45,47 +46,6 @@ public class OpenFileDialog extends AlertDialog.Builder {
     private Drawable folderIcon;
     private Drawable fileIcon;
     private String accessDeniedMessage;
-
-    public interface OpenDialogListener {
-        void OnSelectedFile(String fileName);
-    }
-
-    private class FileAdapter extends ArrayAdapter<File> {
-
-        public FileAdapter(Context context, List<File> files) {
-            super(context, android.R.layout.simple_list_item_1, files);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            TextView view = (TextView) super.getView(position, convertView, parent);
-            File file = getItem(position);
-            if (view != null) {
-                view.setText(file.getName());
-                if (file.isDirectory()) {
-                    setDrawable(view, folderIcon);
-                } else {
-                    setDrawable(view, fileIcon);
-                    if (selectedIndex == position)
-                        view.setBackgroundColor(getContext().getResources().getColor(android.R.color.holo_blue_dark));
-                    else
-                        view.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
-                }
-            }
-            return view;
-        }
-
-        private void setDrawable(TextView view, Drawable drawable) {
-            if (view != null) {
-                if (drawable != null) {
-                    drawable.setBounds(0, 0, 60, 60);
-                    view.setCompoundDrawables(drawable, null, null, null);
-                } else {
-                    view.setCompoundDrawables(null, null, null, null);
-                }
-            }
-        }
-    }
 
     public OpenFileDialog(Context context) {
         super(context);
@@ -106,6 +66,20 @@ public class OpenFileDialog extends AlertDialog.Builder {
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null);
+    }
+
+    private static Display getDefaultDisplay(Context context) {
+        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+    }
+
+    private static Point getScreenSize(Context context) {
+        Point screeSize = new Point();
+        getDefaultDisplay(context).getSize(screeSize);
+        return screeSize;
+    }
+
+    private static int getLinearLayoutMinHeight(Context context) {
+        return getScreenSize(context).y;
     }
 
     @Override
@@ -147,20 +121,6 @@ public class OpenFileDialog extends AlertDialog.Builder {
     public OpenFileDialog setAccessDeniedMessage(String message) {
         this.accessDeniedMessage = message;
         return this;
-    }
-
-    private static Display getDefaultDisplay(Context context) {
-        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-    }
-
-    private static Point getScreenSize(Context context) {
-        Point screeSize = new Point();
-        getDefaultDisplay(context).getSize(screeSize);
-        return screeSize;
-    }
-
-    private static int getLinearLayoutMinHeight(Context context) {
-        return getScreenSize(context).y;
     }
 
     private LinearLayout createMainLayout(Context context) {
@@ -241,6 +201,7 @@ public class OpenFileDialog extends AlertDialog.Builder {
 
     private List<File> getFiles(String directoryPath) {
         File directory = new File(directoryPath);
+        if (directory==null) return new ArrayList<File>();
         List<File> fileList = Arrays.asList(directory.listFiles(filenameFilter));
         Collections.sort(fileList, new Comparator<File>() {
             @Override
@@ -293,5 +254,46 @@ public class OpenFileDialog extends AlertDialog.Builder {
             }
         });
         return listView;
+    }
+
+    public interface OpenDialogListener {
+        void OnSelectedFile(String fileName);
+    }
+
+    private class FileAdapter extends ArrayAdapter<File> {
+
+        public FileAdapter(Context context, List<File> files) {
+            super(context, android.R.layout.simple_list_item_1, files);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getView(position, convertView, parent);
+            File file = getItem(position);
+            if (view != null) {
+                view.setText(file.getName());
+                if (file.isDirectory()) {
+                    setDrawable(view, folderIcon);
+                } else {
+                    setDrawable(view, fileIcon);
+                    if (selectedIndex == position)
+                        view.setBackgroundColor(getContext().getResources().getColor(android.R.color.holo_blue_dark));
+                    else
+                        view.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
+                }
+            }
+            return view;
+        }
+
+        private void setDrawable(TextView view, Drawable drawable) {
+            if (view != null) {
+                if (drawable != null) {
+                    drawable.setBounds(0, 0, 60, 60);
+                    view.setCompoundDrawables(drawable, null, null, null);
+                } else {
+                    view.setCompoundDrawables(null, null, null, null);
+                }
+            }
+        }
     }
 }

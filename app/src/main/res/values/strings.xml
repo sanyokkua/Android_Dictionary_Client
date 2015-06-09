@@ -40,6 +40,7 @@
     <string name="browser_parse">Get all words</string>
     <string name="browser_create_bookmark">Create Bookmark</string>
     <string name="browser_address">address</string>
+    <string name="browser_bookmark_added">Bookmark created</string>
     <string name="browser_delete_bookmark">Delete this bookmark?</string>
     <string name="parser_open_file">Open File</string>
     <string name="parser_parse">Parse</string>
@@ -50,7 +51,9 @@
 
     <string name="hello_world">Hello world!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_indeterminate">Progress</string>
+    <string name="dialog_please_wait">Please wait</string>
 
 </resources>

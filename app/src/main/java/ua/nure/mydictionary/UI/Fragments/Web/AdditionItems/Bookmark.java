@@ -1,24 +1,22 @@
 package ua.nure.mydictionary.UI.Fragments.Web.AdditionItems;
 
-import java.net.URL;
-
 public class Bookmark {
-    private URL url;
+    private String url;
     private String header;
-    private int pictureId;
+    private String pictureId;
 
-    public Bookmark(URL url, String header) {
-        this(url, header, 0);
+    public Bookmark(String url, String header) {
+        this(url, header, "0");
     }
 
-    public Bookmark(URL url, String header, int pictureId) {
+    public Bookmark(String url, String header, String pictureId) {
         this.url = url;
         this.header = header;
         this.pictureId = pictureId;
 
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
@@ -26,7 +24,7 @@ public class Bookmark {
         return header;
     }
 
-    public int getPictureId() {
+    public String getPictureId() {
         return pictureId;
     }
 }

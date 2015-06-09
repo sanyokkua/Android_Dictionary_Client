@@ -17,12 +17,15 @@ import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
+    private static ViewHolder sLastViewHolder = null;
     private ArrayList<Exercise> mExercises;
     private Context context;
-    private static ViewHolder sLastViewHolder = null;
     private OnResultCallback<Exercise> mOnResultCallback;
     private OnItemClickListener mOnItemClickListener;
-    private boolean isLastRepeated = false;
+
+    public ExerciseAdapter(ArrayList<Exercise> exercises) {
+        mExercises = exercises;
+    }
 
     public void setOnRemoveCallback(OnResultCallback callback) {
         mOnResultCallback = callback;
@@ -30,10 +33,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     public void setOnItemClickListener(OnItemClickListener callback) {
         mOnItemClickListener = callback;
-    }
-
-    public ExerciseAdapter(ArrayList<Exercise> exercises) {
-        mExercises = exercises;
     }
 
     @Override

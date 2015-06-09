@@ -18,15 +18,16 @@ import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
+    private static ViewHolder sLastViewHolder = null;
     private ArrayList<Bookmark> mBookmarks;
     private Context context;
-
     private OnResultCallback<Bookmark> mOnRemoveCallback;
-    private static ViewHolder sLastViewHolder = null;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
-    private boolean isLastRepeated = false;
-    private int mColorId = 0;
+
+    public BookmarkAdapter(ArrayList<Bookmark> bookmarks) {
+        mBookmarks = bookmarks;
+    }
 
     public void setOnRemoveCallback(OnResultCallback<Bookmark> callback) {
         mOnRemoveCallback = callback;
@@ -48,10 +49,6 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, mBookmarks.size());
         notifyDataSetChanged();
-    }
-
-    public BookmarkAdapter(ArrayList<Bookmark> bookmarks) {
-        mBookmarks = bookmarks;
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import java.util.LinkedList;
 
@@ -19,8 +20,13 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
     public static final String NAME = "BrowserFragment";
     private LinkedList<String> lastAddress = new LinkedList<>();
     private String mAddress = null;
-    private Fragment webPageFragment;
     private Toolbar mToolbar;
+    private BookmarkFragment.OnBookmarkOpenCallback mOnBookmarkOpenCallback = new BookmarkFragment.OnBookmarkOpenCallback() {
+        @Override
+        public void onBookmarkOpenCallback(String address) {
+            replaceFragment(WebViewFragment.newInstance(address));
+        }
+    };
 
     public InternetBrowserFragment() {
         // Required empty public constructor
@@ -28,8 +34,6 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
 
     public static InternetBrowserFragment newInstance() {
         InternetBrowserFragment fragment = new InternetBrowserFragment();
-        //Bundle args = new Bundle();
-        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -38,16 +42,29 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.common_container, container, false);
         mToolbar = ToolbarHandler.getToolbar(getActivity());
-        //mToolbar.setTitle(getString(R.string.title_browser_fragment));
         ToolbarHandler.setBrowserMode(mToolbar);
-        //setHasOptionsMenu(true);
+        setButtonsHandlers();
         return rootView;
+    }
+
+    private void setButtonsHandlers() {
+        ImageButton forwardButton = ToolbarHandler.getForwardImageButton(mToolbar);
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAddress = ToolbarHandler.getEditText(mToolbar).getText().toString();
+                lastAddress.add(mAddress);
+                replaceFragment(WebViewFragment.newInstance(lastAddress.pop()));
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        replaceFragment(BookmarkFragment.newInstance());
+        BookmarkFragment fragment = (BookmarkFragment) BookmarkFragment.newInstance();
+        fragment.setOnBookmarkOpenCallback(mOnBookmarkOpenCallback);
+        replaceFragment(fragment);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -55,6 +72,7 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.replace(R.id.common_container, fragment);
+            transaction.addToBackStack(null);
             transaction.commit();
         }
     }

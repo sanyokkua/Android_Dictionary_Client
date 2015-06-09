@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -29,20 +27,13 @@ import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "MyApplication";
+    public static final String LOG_TAG = "MY_DICTIONARY_LOG: ";
     private static final String LAST_FRAGMENT_NAME = "LAST_FRAGMENT_NAME";
     private static final String LAST_DRAWER_SELECTION = "LAST_DRAWER_SELECTION";
     private String mLastFragmentName;
     private Drawer mNavigationDrawer;
     private Toolbar mToolbar;
     private int mDrawerLastSelection;
-
-    private interface Identifiers {
-        int DICTIONARY = 0x01;
-        int BROWSER = 0x02;
-        int PARSER = 0x03;
-        int EXERCISES = 0x04;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +67,13 @@ public class MainActivity extends AppCompatActivity {
                         new SectionDrawerItem().withName(R.string.title_settings),
                         new DividerDrawerItem())
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(AdapterView<?> adapterView, View view, int id, long l, IDrawerItem iDrawerItem) {
-                        drawerItemSelected(iDrawerItem.getIdentifier());
-                        return false;
-                    }
-                }).withOnDrawerListener(new DrawerAdapter() {
+                                                   @Override
+                                                   public boolean onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
+                                                       selectDrawerItem(iDrawerItem.getIdentifier());
+                                                       return false;
+                                                   }
+                                               }
+                ).withOnDrawerListener(new DrawerAdapter() {
                     @Override
                     public void onDrawerOpened(View var1) {
                         InputMethodManager inputMethodManager =
@@ -123,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void drawerItemSelected(int identifier) {
+    private void selectDrawerItem(int identifier) {
         switch (identifier) {
             case Identifiers.BROWSER:
                 replaceFragment(InternetBrowserFragment.newInstance());
@@ -144,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(LAST_FRAGMENT_NAME, mLastFragmentName);
         outState.putInt(LAST_DRAWER_SELECTION, mDrawerLastSelection);
-        Log.d(LOG_TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
     }
 
@@ -153,31 +144,22 @@ public class MainActivity extends AppCompatActivity {
         mLastFragmentName = savedInstanceState.getString(LAST_FRAGMENT_NAME);
         mDrawerLastSelection = savedInstanceState.getInt(LAST_DRAWER_SELECTION);
         openLastFragment();
-        Log.d(LOG_TAG, "onRestoreInstanceState");
         super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
-        if (mNavigationDrawer.isDrawerOpen()) mNavigationDrawer.closeDrawer();
-        else super.onBackPressed();
+        if (mNavigationDrawer.isDrawerOpen())
+            mNavigationDrawer.closeDrawer();
+        else
+            super.onBackPressed();
+    }
+
+    private interface Identifiers {
+        int DICTIONARY = 0x01;
+        int BROWSER = 0x02;
+        int PARSER = 0x03;
+        int EXERCISES = 0x04;
     }
 
     private abstract class DrawerAdapter implements Drawer.OnDrawerListener {

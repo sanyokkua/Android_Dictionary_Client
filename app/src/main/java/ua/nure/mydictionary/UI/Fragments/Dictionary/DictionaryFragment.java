@@ -21,30 +21,43 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import ua.nure.mydictionary.AppLogic.Dictionary;
+import ua.nure.mydictionary.AppLogic.GeneralDictionary;
 import ua.nure.mydictionary.R;
+import ua.nure.mydictionary.UI.Activities.MainActivity;
+import ua.nure.mydictionary.UI.SecondaryClasses.DataAccess.WordDataAccess;
 import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
 import ua.nure.mydictionary.UI.SecondaryClasses.Word;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
 import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
 
 
 public class DictionaryFragment extends Fragment implements Identifier {
     public static final String NAME = "DictionaryFragment";
+
+    private static final String API_KEY = "trnsl.1.1.20150522T195930Z.010ab143cb4576f2.568a0965d1a708e331f7af72fc325e30861ff083";
+    private static final String PATH = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=";
+
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RVAdapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private FloatingActionButton mFloatingActionButton;
     private Toolbar mToolbar;
     private ArrayList<Word> mWords = new ArrayList<>();
     private TextView mEmptyDataTextView;
+    private Dictionary mDictionary = new GeneralDictionary("english", "russian");
 
     public DictionaryFragment() {
         // Required empty public constructor
     }
 
+    public static Fragment newInstance() {
+        DictionaryFragment fragment = new DictionaryFragment();
+        //Bundle bundle = new Bundle();
+        //fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -55,7 +68,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
         ToolbarHandler.getTitleTextView(mToolbar).setText(getString(R.string.title_dictionary_fragment));
         initRecyclerView(rootView);
         mEmptyDataTextView = (TextView) rootView.findViewById(R.id.dictionary_empty_text_view);
-        initRVAdapter(rootView, inflater, container);
+        initRecyclerViewAdapter(rootView, inflater, container);
         mRecyclerView.setAdapter(mAdapter);
         initFab(rootView);
         return rootView;
@@ -72,8 +85,8 @@ public class DictionaryFragment extends Fragment implements Identifier {
         mRecyclerView.getItemAnimator().setChangeDuration(1000);
     }
 
-    private void initRVAdapter(final View rootView, final LayoutInflater inflater, final ViewGroup container) {
-        mAdapter = new RVAdapter(getTempData(), new OnResultCallback<Word>() {
+    private void initRecyclerViewAdapter(final View rootView, final LayoutInflater inflater, final ViewGroup container) {
+        mAdapter = new RecyclerViewAdapter(mWords, new OnResultCallback<Word>() {
             @Override
             public void resultCallback(Word resultItem) {
                 Snackbar.make(rootView, "Deleted:" + resultItem.getWord(), Snackbar.LENGTH_LONG).show();
@@ -102,12 +115,6 @@ public class DictionaryFragment extends Fragment implements Identifier {
                         .show();
             }
         });
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, final int position) {
-                //Toast.makeText(getActivity(), "Click!): ", Toast.LENGTH_LONG).show();
-            }
-        });
         mAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, final int position) {
@@ -123,7 +130,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
                             public void onPositive(MaterialDialog dialog) {
                                 super.onPositive(dialog);
                                 mAdapter.removeItem(position);
-                                Log.d("MyAppRESULT", "mWords.Size: " + mWords.size());
+                                Log.d(MainActivity.LOG_TAG, "mWords.Size: " + mWords.size());
                                 if (mWords.isEmpty()) {
                                     mEmptyDataTextView.setVisibility(View.VISIBLE);
                                 } else {
@@ -154,13 +161,18 @@ public class DictionaryFragment extends Fragment implements Identifier {
     }
 
     private void openAddWordDialog() {
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_word_dialog, null, false);
-        final EditText word = (EditText) dialogView.findViewById(R.id.foreign_word_edit_text);
-        final EditText translation = (EditText) dialogView.findViewById(R.id.translation_edit_text);
-        Button translate = (Button) dialogView.findViewById(R.id.dialog_add_translate_button);
-
+        final EditText wordEditText = (EditText) dialogView.findViewById(R.id.foreign_word_edit_text);
+        final EditText translationEditText = (EditText) dialogView.findViewById(R.id.translation_edit_text);
+        final Button translateButton = (Button) dialogView.findViewById(R.id.dialog_add_translate_button);
+        translateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String translation = translateWord("en", "ru", wordEditText.getText().toString());
+                translationEditText.setText(translation);
+            }
+        });
         new MaterialDialog.Builder(getActivity())
                 .customView(dialogView, false)
                 .positiveText(getActivity().getResources()
@@ -171,7 +183,8 @@ public class DictionaryFragment extends Fragment implements Identifier {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        mWords.add(new Word(word.getText().toString(), translation.getText().toString(), new Random().nextInt(100)));
+                        mWords.add(new Word(wordEditText.getText().toString(), translationEditText.getText().toString(),
+                                new Random().nextInt(100)));
                         mAdapter.notifyDataSetChanged();
                         dialog.cancel();
                         mEmptyDataTextView.setVisibility(View.INVISIBLE);
@@ -185,18 +198,26 @@ public class DictionaryFragment extends Fragment implements Identifier {
                 }).show();
     }
 
-    private ArrayList<Word> getTempData() {
-        for (int i = 0; i < 1; i++) {
-            mWords.add(new Word("Word_" + i, "Translation_" + i, i * 11 % 10));
-        }
-        return mWords;
+    // TODO: method is not completed. Add Yandex API.
+    private String translateWord(String langFrom, String langTo, String word) {
+        String result;
+        String post = "";
+        return "translation";
     }
 
-    public static Fragment newInstance() {
-        DictionaryFragment fragment = new DictionaryFragment();
-        //Bundle bundle = new Bundle();
-        //fragment.setArguments(bundle);
-        return fragment;
+    @Override
+    public void onPause() {
+        super.onPause();
+        WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
+        wordDataAccess.save(mWords);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
+        mWords.addAll(wordDataAccess.getSavedData());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

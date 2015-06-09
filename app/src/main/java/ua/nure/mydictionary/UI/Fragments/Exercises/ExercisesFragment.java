@@ -58,7 +58,7 @@ public class ExercisesFragment extends Fragment implements Identifier {
     // TODO:delete before relize
     private ArrayList<Exercise> createItems() {
         ArrayList<Exercise> items = new ArrayList<>();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 10; i++) {
             items.add(new Exercise("Exercise(" + i + ")", i));
         }
         return items;
