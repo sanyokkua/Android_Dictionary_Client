@@ -18,11 +18,11 @@ import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.Bookmark;
 import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.BookmarkAdapter;
-import ua.nure.mydictionary.UI.SecondaryClasses.DataAccess.BookmarkDataAccess;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
+import ua.nure.mydictionary.UI.CommonClasses.DataAccess.BookmarkDataAccess;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnResultListener;
 
 
 public class BookmarkFragment extends Fragment {
@@ -55,6 +55,7 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ToolbarHandler.getEditText(ToolbarHandler.getToolbar(getActivity())).setText("");
         ToolbarHandler.setBrowserMode(ToolbarHandler.getToolbar(getActivity()));
     }
 
@@ -94,10 +95,10 @@ public class BookmarkFragment extends Fragment {
                         }).show();
             }
         });
-        adapter.setOnRemoveCallback(new OnResultCallback<Bookmark>() {
+        adapter.setOnRemoveListener(new OnResultListener<Bookmark>() {
             @Override
-            public void resultCallback(Bookmark resultItem) {
-                Snackbar.make(rootView, "Removed", Snackbar.LENGTH_LONG).show();
+            public void onResult(Bookmark resultItem) {
+                Snackbar.make(rootView, R.string.std_removed, Snackbar.LENGTH_LONG).show();
             }
         });
         return adapter;

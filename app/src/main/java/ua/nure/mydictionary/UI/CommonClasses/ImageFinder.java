@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses;
+package ua.nure.mydictionary.UI.CommonClasses;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

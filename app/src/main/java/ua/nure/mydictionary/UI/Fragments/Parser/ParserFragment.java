@@ -21,9 +21,9 @@ import java.util.Set;
 
 import ua.nure.mydictionary.AppLogic.BrutTextParser;
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.OpenFileDialog;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
+import ua.nure.mydictionary.UI.CommonClasses.OpenFileDialog;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonInterfaces.Identifier;
 
 public class ParserFragment extends Fragment implements Identifier, View.OnClickListener {
     public static final String NAME = "ParserFragment";

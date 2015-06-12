@@ -22,8 +22,8 @@ import ua.nure.mydictionary.UI.Fragments.Dictionary.DictionaryFragment;
 import ua.nure.mydictionary.UI.Fragments.Exercises.ExercisesFragment;
 import ua.nure.mydictionary.UI.Fragments.Parser.ParserFragment;
 import ua.nure.mydictionary.UI.Fragments.Web.InternetBrowserFragment;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonInterfaces.Identifier;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -164,16 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
     private abstract class DrawerAdapter implements Drawer.OnDrawerListener {
         @Override
-        public abstract void onDrawerOpened(View view); //Must be implemented in child class
+        public abstract void onDrawerOpened(View view);
 
         @Override
         public void onDrawerClosed(View view) {
-            //Nothing do.
+            //Do nothing
         }
 
         @Override
         public void onDrawerSlide(View view, float v) {
-            //Nothing do.
+            //Do nothing
         }
     }
 }

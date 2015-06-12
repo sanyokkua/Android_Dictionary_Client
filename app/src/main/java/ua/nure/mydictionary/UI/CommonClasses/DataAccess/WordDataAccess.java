@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses.DataAccess;
+package ua.nure.mydictionary.UI.CommonClasses.DataAccess;
 
 import android.content.Context;
 
@@ -10,60 +10,54 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.Bookmark;
+import ua.nure.mydictionary.UI.CommonClasses.Word;
 
-public class BookmarkDataAccess {
-    private final static String FILE_NAME = "Bookmark.bookmark";
+
+public class WordDataAccess {
+    private final static String FILE_NAME = "Words.words";
     private Context mContext;
-    private Throwable mainExeption;
+    private Throwable mainException;
 
-    public BookmarkDataAccess(Context context) {
+    public WordDataAccess(Context context) {
         mContext = context;
     }
 
-    public void save(ArrayList<Bookmark> bookmarks) {
+    public void save(ArrayList<Word> words) {
         File file = new File(mContext.getFilesDir(), FILE_NAME);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex.getMessage());
-            }
-        }
+        createFile(file);
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(
                     new OutputStreamWriter(mContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)));
             int counter = 0;
-            for (Bookmark bookmark : bookmarks) {
+            for (Word word : words) {
                 writer.write(counter + "");
                 writer.write(";");
-                writer.write(bookmark.getUrl());
+                writer.write(word.getWord());
                 writer.write(";");
-                writer.write(bookmark.getHeader());
+                writer.write(word.getTranslation());
                 writer.write(";");
-                writer.write(bookmark.getPictureId());
+                writer.write(word.getCount() + "");
                 writer.write(";");
                 writer.newLine();
             }
 
         } catch (IOException ex) {
-            mainExeption = ex;
+            mainException = ex;
             throw new RuntimeException(ex.getMessage());
         } finally {
             try {
                 writer.close();
             } catch (IOException ex) {
-                if (mainExeption != null) {
-                    throw new RuntimeException("MainExeption: " + mainExeption.getMessage() +
+                if (mainException != null) {
+                    throw new RuntimeException("MainExeption: " + mainException.getMessage() +
                             "Secondary exeption" + ex.getMessage());
                 } else new RuntimeException(ex.getMessage());
             }
         }
     }
 
-    public void addAndSave(Bookmark bookmark) {
-        File file = new File(mContext.getFilesDir(), FILE_NAME);
+    private void createFile(File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -71,6 +65,11 @@ public class BookmarkDataAccess {
                 throw new RuntimeException(ex.getMessage());
             }
         }
+    }
+
+    public void addAndSave(Word word) {
+        File file = new File(mContext.getFilesDir(), FILE_NAME);
+        createFile(file);
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(
@@ -78,59 +77,58 @@ public class BookmarkDataAccess {
             int counter = 0;
             writer.write(counter + "");
             writer.write(";");
-            writer.write(bookmark.getUrl());
+            writer.write(word.getWord());
             writer.write(";");
-            writer.write(bookmark.getHeader());
+            writer.write(word.getTranslation());
             writer.write(";");
-            writer.write(bookmark.getPictureId());
+            writer.write(word.getCount());
             writer.write(";");
             writer.newLine();
         } catch (IOException ex) {
-            mainExeption = ex;
+            mainException = ex;
             throw new RuntimeException(ex.getMessage());
         } finally {
             try {
                 writer.close();
             } catch (IOException ex) {
-                if (mainExeption != null) {
-                    throw new RuntimeException("MainExeption: " + mainExeption.getMessage() +
+                if (mainException != null) {
+                    throw new RuntimeException("MainExeption: " + mainException.getMessage() +
                             "Secondary exeption" + ex.getMessage());
                 } else new RuntimeException(ex.getMessage());
             }
         }
     }
 
-    public ArrayList<Bookmark> getSavedData() {
+    public ArrayList<Word> getSavedData() {
         File file = new File(mContext.getFilesDir(), FILE_NAME);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex.getMessage());
-            }
-        }
-        ArrayList<Bookmark> bookmarks = new ArrayList<>();
+        createFile(file);
+        ArrayList<Word> words = new ArrayList<>();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(mContext.openFileInput(FILE_NAME)));
             String line = null;
             while ((line = reader.readLine()) != null) {
-                String[] bookmarkData = line.split(";");
-                bookmarks.add(new Bookmark(bookmarkData[1], bookmarkData[2], bookmarkData[3]));
+                String[] allWords = line.split(";");
+                int count = 0;
+                try {
+                    count = Integer.parseInt(allWords[3]);
+                } catch (RuntimeException ex) {
+                }
+                words.add(new Word(allWords[1], allWords[2], count));
             }
         } catch (IOException ex) {
-            mainExeption = ex;
+            mainException = ex;
             throw new RuntimeException(ex.getMessage());
         } finally {
             try {
                 reader.close();
             } catch (IOException | NullPointerException ex) {
-                if (mainExeption != null) {
-                    throw new RuntimeException("MainException: " + mainExeption.getMessage() +
+                if (mainException != null) {
+                    throw new RuntimeException("MainException: " + mainException.getMessage() +
                             "Secondary Exception" + ex.getMessage());
                 } else new RuntimeException(ex.getMessage());
             }
         }
-        return bookmarks;
+        return words;
     }
 }

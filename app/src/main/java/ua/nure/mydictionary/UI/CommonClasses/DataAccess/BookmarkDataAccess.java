@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses.DataAccess;
+package ua.nure.mydictionary.UI.CommonClasses.DataAccess;
 
 import android.content.Context;
 
@@ -10,40 +10,33 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import ua.nure.mydictionary.UI.SecondaryClasses.Word;
+import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.Bookmark;
 
-
-public class WordDataAccess {
-    private final static String FILE_NAME = "Words.words";
+public class BookmarkDataAccess {
+    private final static String FILE_NAME = "Bookmark.bookmark";
     private Context mContext;
     private Throwable mainException;
 
-    public WordDataAccess(Context context) {
+    public BookmarkDataAccess(Context context) {
         mContext = context;
     }
 
-    public void save(ArrayList<Word> words) {
+    public void save(ArrayList<Bookmark> bookmarks) {
         File file = new File(mContext.getFilesDir(), FILE_NAME);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex.getMessage());
-            }
-        }
+        createFile(file);
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(
                     new OutputStreamWriter(mContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)));
             int counter = 0;
-            for (Word word : words) {
+            for (Bookmark bookmark : bookmarks) {
                 writer.write(counter + "");
                 writer.write(";");
-                writer.write(word.getWord());
+                writer.write(bookmark.getUrl());
                 writer.write(";");
-                writer.write(word.getTranslation());
+                writer.write(bookmark.getHeader());
                 writer.write(";");
-                writer.write(word.getCount() + "");
+                writer.write(bookmark.getPictureId());
                 writer.write(";");
                 writer.newLine();
             }
@@ -63,8 +56,7 @@ public class WordDataAccess {
         }
     }
 
-    public void addAndSave(Word word) {
-        File file = new File(mContext.getFilesDir(), FILE_NAME);
+    private void createFile(File file) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -72,6 +64,11 @@ public class WordDataAccess {
                 throw new RuntimeException(ex.getMessage());
             }
         }
+    }
+
+    public void addAndSave(Bookmark bookmark) {
+        File file = new File(mContext.getFilesDir(), FILE_NAME);
+        createFile(file);
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(
@@ -79,11 +76,11 @@ public class WordDataAccess {
             int counter = 0;
             writer.write(counter + "");
             writer.write(";");
-            writer.write(word.getWord());
+            writer.write(bookmark.getUrl());
             writer.write(";");
-            writer.write(word.getTranslation());
+            writer.write(bookmark.getHeader());
             writer.write(";");
-            writer.write(word.getCount());
+            writer.write(bookmark.getPictureId());
             writer.write(";");
             writer.newLine();
         } catch (IOException ex) {
@@ -101,28 +98,17 @@ public class WordDataAccess {
         }
     }
 
-    public ArrayList<Word> getSavedData() {
+    public ArrayList<Bookmark> getSavedData() {
         File file = new File(mContext.getFilesDir(), FILE_NAME);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex.getMessage());
-            }
-        }
-        ArrayList<Word> words = new ArrayList<>();
+        createFile(file);
+        ArrayList<Bookmark> bookmarks = new ArrayList<>();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(mContext.openFileInput(FILE_NAME)));
             String line = null;
             while ((line = reader.readLine()) != null) {
-                String[] allWords = line.split(";");
-                int count = 0;
-                try {
-                    count = Integer.parseInt(allWords[3]);
-                } catch (RuntimeException ex) {
-                }
-                words.add(new Word(allWords[1], allWords[2], count));
+                String[] bookmarkData = line.split(";");
+                bookmarks.add(new Bookmark(bookmarkData[1], bookmarkData[2], bookmarkData[3]));
             }
         } catch (IOException ex) {
             mainException = ex;
@@ -137,6 +123,6 @@ public class WordDataAccess {
                 } else new RuntimeException(ex.getMessage());
             }
         }
-        return words;
+        return bookmarks;
     }
 }

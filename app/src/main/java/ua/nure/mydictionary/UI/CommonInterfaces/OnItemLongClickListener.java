@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryInterfaces;
+package ua.nure.mydictionary.UI.CommonInterfaces;
 
 import android.view.View;
 

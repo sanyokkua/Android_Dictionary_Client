@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses;
+package ua.nure.mydictionary.UI.CommonClasses;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -201,7 +201,7 @@ public class OpenFileDialog extends AlertDialog.Builder {
 
     private List<File> getFiles(String directoryPath) {
         File directory = new File(directoryPath);
-        if (directory==null) return new ArrayList<File>();
+        if (directory == null) return new ArrayList<>();
         List<File> fileList = Arrays.asList(directory.listFiles(filenameFilter));
         Collections.sort(fileList, new Comparator<File>() {
             @Override

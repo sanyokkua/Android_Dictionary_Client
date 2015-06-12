@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses;
+package ua.nure.mydictionary.UI.CommonClasses;
 
 public class Word {
     private String mWord;

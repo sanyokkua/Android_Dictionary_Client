@@ -12,23 +12,23 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.ImageFinder;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
+import ua.nure.mydictionary.UI.CommonClasses.ImageFinder;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnResultListener;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private static ViewHolder sLastViewHolder = null;
     private ArrayList<Exercise> mExercises;
     private Context context;
-    private OnResultCallback<Exercise> mOnResultCallback;
+    private OnResultListener<Exercise> mOnResultListener;
     private OnItemClickListener mOnItemClickListener;
 
     public ExerciseAdapter(ArrayList<Exercise> exercises) {
         mExercises = exercises;
     }
 
-    public void setOnRemoveCallback(OnResultCallback callback) {
-        mOnResultCallback = callback;
+    public void setOnRemoveCallback(OnResultListener callback) {
+        mOnResultListener = callback;
     }
 
     public void setOnItemClickListener(OnItemClickListener callback) {

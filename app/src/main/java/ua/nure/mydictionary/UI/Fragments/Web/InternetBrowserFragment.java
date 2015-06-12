@@ -13,8 +13,8 @@ import android.widget.ImageButton;
 import java.util.LinkedList;
 
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonInterfaces.Identifier;
 
 public class InternetBrowserFragment extends Fragment implements Identifier {
     public static final String NAME = "BrowserFragment";
@@ -72,7 +72,6 @@ public class InternetBrowserFragment extends Fragment implements Identifier {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.replace(R.id.common_container, fragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         }
     }

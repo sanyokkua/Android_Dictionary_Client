@@ -1,4 +1,4 @@
-package ua.nure.mydictionary.UI.SecondaryClasses;
+package ua.nure.mydictionary.UI.CommonClasses;
 
 import android.app.Activity;
 import android.support.v7.widget.Toolbar;

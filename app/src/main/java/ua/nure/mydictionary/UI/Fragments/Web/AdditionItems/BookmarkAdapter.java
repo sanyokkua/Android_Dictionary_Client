@@ -12,16 +12,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.ImageFinder;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
+import ua.nure.mydictionary.UI.CommonClasses.ImageFinder;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnResultListener;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
-    private static ViewHolder sLastViewHolder = null;
     private ArrayList<Bookmark> mBookmarks;
     private Context context;
-    private OnResultCallback<Bookmark> mOnRemoveCallback;
+    private OnResultListener<Bookmark> mOnRemoveCallback;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -29,7 +28,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         mBookmarks = bookmarks;
     }
 
-    public void setOnRemoveCallback(OnResultCallback<Bookmark> callback) {
+    public void setOnRemoveListener(OnResultListener<Bookmark> callback) {
         mOnRemoveCallback = callback;
     }
 
@@ -43,7 +42,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
 
     public void removeItem(int position) {
         if (mOnRemoveCallback != null) {
-            mOnRemoveCallback.resultCallback(mBookmarks.get(position));
+            mOnRemoveCallback.onResult(mBookmarks.get(position));
         }
         mBookmarks.remove(position);
         notifyItemRemoved(position);
@@ -56,7 +55,6 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         context = parent.getContext();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.bookmark, parent, false);
         BookmarkAdapter.ViewHolder viewHolder = new BookmarkAdapter.ViewHolder(v);
-        sLastViewHolder = viewHolder;
         return viewHolder;
     }
 

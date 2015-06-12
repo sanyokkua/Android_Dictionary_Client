@@ -9,25 +9,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ua.nure.mydictionary.R;
-import ua.nure.mydictionary.UI.SecondaryClasses.Word;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnItemLongClickListener;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.OnResultCallback;
+import ua.nure.mydictionary.UI.CommonClasses.Word;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
+import ua.nure.mydictionary.UI.CommonInterfaces.OnResultListener;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private ArrayList<Word> mWords;
-    private OnResultCallback<Word> mOnRemoveCallback;
-    private OnResultCallback<Word> mOnItemClickCallback;
+    private OnResultListener<Word> mOnRemoveCallback;
+    private OnResultListener<Word> mOnItemClickCallback;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
-    private boolean isLastRepeated = false;
 
-    public RecyclerViewAdapter(ArrayList<Word> words, OnResultCallback callback) {
+    public RecyclerViewAdapter(ArrayList<Word> words, OnResultListener callback) {
         mWords = words;
         mOnRemoveCallback = callback;
     }
 
-    public RecyclerViewAdapter(ArrayList<Word> words, OnResultCallback<Word> onRemoveCallback, OnResultCallback<Word> onItemClickCallback) {
+    public RecyclerViewAdapter(ArrayList<Word> words, OnResultListener<Word> onRemoveCallback, OnResultListener<Word> onItemClickCallback) {
         mWords = words;
         mOnRemoveCallback = onRemoveCallback;
         mOnItemClickCallback = onItemClickCallback;
@@ -37,11 +36,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mWords = words;
     }
 
-    public void setOnRemoveCallback(OnResultCallback<Word> callback) {
+    public void setOnRemoveCallback(OnResultListener<Word> callback) {
         mOnRemoveCallback = callback;
     }
 
-    public void setOnOnItemClickCallback(OnResultCallback<Word> callback) {
+    public void setOnOnItemClickCallback(OnResultListener<Word> callback) {
         mOnItemClickCallback = callback;
     }
 
@@ -75,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void removeItem(int position) {
         if (position < mWords.size()) {
             if (mOnRemoveCallback != null) {
-                mOnRemoveCallback.resultCallback(mWords.get(position));
+                mOnRemoveCallback.onResult(mWords.get(position));
             }
             mWords.remove(position);
             notifyItemRemoved(position);
@@ -115,7 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if (mOnItemClickListener != null)
                 mOnItemClickListener.onItemClick(v, getAdapterPosition());
             if (mOnItemClickCallback != null)
-                mOnItemClickCallback.resultCallback(mWords.get(getAdapterPosition()));
+                mOnItemClickCallback.onResult(mWords.get(getAdapterPosition()));
         }
 
         @Override

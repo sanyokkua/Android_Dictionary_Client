@@ -38,15 +38,7 @@ public class BrutTextParser implements Parser {
                         }
                     }
                 }
-                Set<Map.Entry<String, Long>> entrys = wordsMap.entrySet();
-                for (Map.Entry<String, Long> entry : entrys) {
-                    try {
-                        Word word = new Word(entry.getKey(), entry.getValue());
-                        mWords.add(word);
-                    } catch (IllegalArgumentException ex) {
-                        continue;
-                    }
-                }
+                fillWordsMap(wordsMap);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 throw new RuntimeException(ex);
@@ -61,6 +53,18 @@ public class BrutTextParser implements Parser {
             } catch (IOException ex) {
                 ex.printStackTrace();
                 throw new RuntimeException(ex + mMainException.getMessage());
+            }
+        }
+    }
+
+    private void fillWordsMap(Map<String, Long> wordsMap) {
+        Set<Map.Entry<String, Long>> entrys = wordsMap.entrySet();
+        for (Map.Entry<String, Long> entry : entrys) {
+            try {
+                Word word = new Word(entry.getKey(), entry.getValue());
+                mWords.add(word);
+            } catch (IllegalArgumentException ex) {
+                continue;
             }
         }
     }

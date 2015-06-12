@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.Fragments.Exercises.AdditionItems.Exercise;
 import ua.nure.mydictionary.UI.Fragments.Exercises.AdditionItems.ExerciseAdapter;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
-import ua.nure.mydictionary.UI.SecondaryInterfaces.Identifier;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonInterfaces.Identifier;
 
 public class ExercisesFragment extends Fragment implements Identifier {
     public static final String NAME = "ExerciseFragment";
@@ -32,9 +32,6 @@ public class ExercisesFragment extends Fragment implements Identifier {
 
     public static ExercisesFragment newInstance() {
         ExercisesFragment fragment = new ExercisesFragment();
-        //Bundle args = new Bundle();
-        //args.putString(ARG_PARAM2, param2);
-        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -55,7 +52,7 @@ public class ExercisesFragment extends Fragment implements Identifier {
         return rootView;
     }
 
-    // TODO:delete before relize
+    // TODO:delete before release
     private ArrayList<Exercise> createItems() {
         ArrayList<Exercise> items = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

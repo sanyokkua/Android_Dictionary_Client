@@ -22,8 +22,8 @@ import java.net.URL;
 
 import ua.nure.mydictionary.R;
 import ua.nure.mydictionary.UI.Fragments.Web.AdditionItems.Bookmark;
-import ua.nure.mydictionary.UI.SecondaryClasses.DataAccess.BookmarkDataAccess;
-import ua.nure.mydictionary.UI.SecondaryClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonClasses.DataAccess.BookmarkDataAccess;
+import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
 
 public class WebViewFragment extends Fragment implements InternetBrowserFragment.OnPageRefresh, InternetBrowserFragment.GetHtml {
     private static final String ARG_ADDRESS_STRING = "ARG_ADDRESS_STRING";
@@ -68,6 +68,7 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
             public void onPageFinished(WebView view, String url) {
                 view.loadUrl("javascript:window.HTMLOUT.processHTML" +
                         "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                mAddressEditText.setText(mWebView.getUrl());
             }
         });
         Bundle args = getArguments();
@@ -80,20 +81,19 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
 
     private void saveBookmark() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.add_bookmark_dialog, null, false);
+        View dialogView = inflater.inflate(R.layout.dialog_add_bookmark, null, false);
         final EditText name = (EditText) dialogView.findViewById(R.id.dialog_add_bookmark_name_edit_text);
         final EditText url = (EditText) dialogView.findViewById(R.id.dialog_add_bookmark_url_edit_text);
-        url.setText(mWebView.getUrl());
+        url.setText(mWebView.getUrl().substring(6));
         new MaterialDialog.Builder(getActivity())
                 .customView(dialogView, false)
                 .positiveText(getActivity().getResources()
-                        .getString(R.string.dictionary_add))
+                        .getString(R.string.bookmark_add))
                 .negativeText(getActivity().getResources()
                         .getString(R.string.std_cancel))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
                         if (url.getText().length() > 0 && name.getText().length() > 0) {
                             BookmarkDataAccess saver = new BookmarkDataAccess(getActivity());
                             saver.addAndSave(new Bookmark(url.getText().toString(), name.getText().toString()));
@@ -114,20 +114,36 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
 
     private void openAddress(String address) {
         URI uri = URI.create(address);
+        uri = getUri(address, uri);
+        URL url = getUrl(uri);
+        openURL(url);
+    }
+
+    private URI getUri(String address, URI uri) {
         if ("".equals(uri.getSchemeSpecificPart())) {
             address = "http://" + address;
             uri = URI.create(address);
         }
+        return uri;
+    }
+
+    private URL getUrl(URI uri) {
         URL url = null;
         try {
             url = new URL("http", uri.getSchemeSpecificPart(), "");
         } catch (MalformedURLException ex) {
             Log.e("APP_URL_EXCEPTION", ex.getMessage());
         }
+        return url;
+    }
+
+    private void openURL(URL url) {
         if (url != null) {
             mWebView.loadUrl(url.toString());
             mAddressEditText.setText(url.toString());
-        } else mWebView.stopLoading();
+        } else {
+            mWebView.stopLoading();
+        }
     }
 
     @Override
@@ -143,7 +159,7 @@ public class WebViewFragment extends Fragment implements InternetBrowserFragment
     private class LoadListener {
         @android.webkit.JavascriptInterface
         public void processHTML(String html) {
-            //Log.d("result", html);
+            Log.d("result", html);
             mHtmlText = html;
         }
     }
