@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,16 +19,23 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 import ua.nure.mydictionary.AppLogic.BrutTextParser;
+import ua.nure.mydictionary.AppLogic.yandex.Language;
+import ua.nure.mydictionary.AppLogic.yandex.Translate;
 import ua.nure.mydictionary.R;
+import ua.nure.mydictionary.UI.Activities.MainActivity;
+import ua.nure.mydictionary.UI.CommonClasses.DataAccess.WordDataAccess;
 import ua.nure.mydictionary.UI.CommonClasses.OpenFileDialog;
 import ua.nure.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.nure.mydictionary.UI.CommonClasses.Word;
 import ua.nure.mydictionary.UI.CommonInterfaces.Identifier;
 
 public class ParserFragment extends Fragment implements Identifier, View.OnClickListener {
     public static final String NAME = "ParserFragment";
+    private static final String API_KEY = "trnsl.1.1.20150522T195930Z.010ab143cb4576f2.568a0965d1a708e331f7af72fc325e30861ff083";
     private Toolbar mToolbar;
     private Button mButtonOpenFile;
     private Button mButtonParse;
@@ -35,7 +44,9 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
     private TextView mFileSizeTextView;
     private MyListAdapter mAdapter;
     private String mFilePath;
+    private String result = null;
     private ArrayList<String> mParsedWords = new ArrayList<>();
+    private ArrayList<Word> mWords = new ArrayList<>();
 
     public ParserFragment() {
         // Required empty public constructor
@@ -58,7 +69,9 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Snackbar.make(view, mParsedWords.get(position), Snackbar.LENGTH_SHORT).show();
+                String word = mParsedWords.get(position);
+                Snackbar.make(view, word, Snackbar.LENGTH_SHORT).show();
+                openAddWordDialog(word);
             }
         });
         mToolbar = ToolbarHandler.getToolbar(getActivity());
@@ -70,6 +83,63 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
         mButtonParse.setOnClickListener(this);
         return rootView;
     }
+
+    private void openAddWordDialog(String word) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_word, null, false);
+        final EditText wordEditText = (EditText) dialogView.findViewById(R.id.foreign_word_edit_text);
+        final EditText translationEditText = (EditText) dialogView.findViewById(R.id.translation_edit_text);
+        final Button translateButton = (Button) dialogView.findViewById(R.id.dialog_add_translate_button);
+        translateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                translateWord(translationEditText, wordEditText.getText().toString());
+            }
+        });
+        wordEditText.setText(word);
+        new MaterialDialog.Builder(getActivity())
+                .customView(dialogView, false)
+                .positiveText(getActivity().getResources()
+                        .getString(R.string.dictionary_add))
+                .negativeText(getActivity().getResources()
+                        .getString(R.string.std_cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        mWords.add(new Word(wordEditText.getText().toString(), translationEditText.getText().toString(),
+                                new Random().nextInt(100)));
+                        mAdapter.notifyDataSetChanged();
+                        dialog.cancel();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                    }
+                }).show();
+    }
+
+    private void translateWord(final EditText translationEditText, final String word) {
+        Translate.setKey(API_KEY);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
+                } catch (Exception ex) {
+                    Log.e(MainActivity.LOG_TAG, ex.toString());
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        translationEditText.setText(result);
+                    }
+                });
+            }
+        }).start();
+    }
+
 
     @Override
     public String getIdentifier() {
@@ -140,6 +210,22 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
     }
 
     private void showWords() {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
+        wordDataAccess.save(mWords);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ToolbarHandler.setOnlyTitleMode(mToolbar);
+        WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
+        mWords.addAll(wordDataAccess.getSavedData());
         mAdapter.notifyDataSetChanged();
     }
 
