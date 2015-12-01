@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import ua.kostenko.mydictionary.AppLogic.BrutTextParser;
-import ua.kostenko.mydictionary.AppLogic.yandex.Language;
-import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.UI.Activities.MainActivity;
 import ua.kostenko.mydictionary.UI.CommonClasses.DataAccess.WordDataAccess;
@@ -32,6 +29,9 @@ import ua.kostenko.mydictionary.UI.CommonClasses.OpenFileDialog;
 import ua.kostenko.mydictionary.UI.CommonClasses.ToolbarHandler;
 import ua.kostenko.mydictionary.UI.CommonClasses.Word;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
+import ua.nure.mydictionary.AppLogic.BrutTextParser;
+import ua.nure.mydictionary.AppLogic.yandex.Language;
+import ua.nure.mydictionary.AppLogic.yandex.Translate;
 
 public class ParserFragment extends Fragment implements Identifier, View.OnClickListener {
     public static final String NAME = "ParserFragment";
@@ -191,8 +191,8 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
                         }
                     });
                     //TODO: need to save method
-                    Set<ua.kostenko.mydictionary.AppLogic.Word> wordSet = parser.getWordSet();
-                    for (ua.kostenko.mydictionary.AppLogic.Word word : wordSet) {
+                    Set<ua.nure.mydictionary.AppLogic.Word> wordSet = parser.getWordSet();
+                    for (ua.nure.mydictionary.AppLogic.Word word : wordSet) {
                         mParsedWords.add(word.getWord());
                     }
                 }

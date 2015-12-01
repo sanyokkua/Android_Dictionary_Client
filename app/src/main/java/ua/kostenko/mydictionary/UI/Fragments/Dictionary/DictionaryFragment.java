@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
-import ua.kostenko.mydictionary.AppLogic.Dictionary;
-import ua.kostenko.mydictionary.AppLogic.GeneralDictionary;
-import ua.kostenko.mydictionary.AppLogic.yandex.Language;
-import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.UI.Activities.MainActivity;
 import ua.kostenko.mydictionary.UI.CommonClasses.DataAccess.WordDataAccess;
@@ -33,6 +29,10 @@ import ua.kostenko.mydictionary.UI.CommonClasses.Word;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnResultListener;
+import ua.nure.mydictionary.AppLogic.Dictionary;
+import ua.nure.mydictionary.AppLogic.GeneralDictionary;
+import ua.nure.mydictionary.AppLogic.yandex.Language;
+import ua.nure.mydictionary.AppLogic.yandex.Translate;
 
 
 public class DictionaryFragment extends Fragment implements Identifier {

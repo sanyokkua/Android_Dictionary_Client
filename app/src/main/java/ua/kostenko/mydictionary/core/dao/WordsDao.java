@@ -2,7 +2,8 @@ package ua.kostenko.mydictionary.core.dao;
 
 import java.util.List;
 
-import ua.kostenko.mydictionary.AppLogic.Word;
+import ua.nure.mydictionary.AppLogic.Word;
+
 
 public interface WordsDao {
     boolean saveWord(Word word);
