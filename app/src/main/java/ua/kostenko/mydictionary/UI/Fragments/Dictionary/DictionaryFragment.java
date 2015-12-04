@@ -1,5 +1,7 @@
 package ua.kostenko.mydictionary.UI.Fragments.Dictionary;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,7 @@ import ua.kostenko.mydictionary.UI.CommonClasses.Word;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnResultListener;
+import ua.kostenko.mydictionary.UI.UnitsListWidget;
 import ua.nure.mydictionary.AppLogic.Dictionary;
 import ua.nure.mydictionary.AppLogic.GeneralDictionary;
 import ua.nure.mydictionary.AppLogic.yandex.Language;
@@ -221,6 +224,10 @@ public class DictionaryFragment extends Fragment implements Identifier {
         super.onPause();
         WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
         wordDataAccess.save(mWords);
+        mWords.clear();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity().getApplicationContext());
+        int[] appWidgets = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity().getApplicationContext(), UnitsListWidget.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgets, R.id.words);
     }
 
     @Override
@@ -228,6 +235,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
         super.onResume();
         ToolbarHandler.setOnlyTitleMode(mToolbar);
         WordDataAccess wordDataAccess = new WordDataAccess(getActivity());
+        //mWords.clear();
         mWords.addAll(wordDataAccess.getSavedData());
         mAdapter.notifyDataSetChanged();
     }

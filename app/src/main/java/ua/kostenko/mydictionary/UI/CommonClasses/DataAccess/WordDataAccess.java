@@ -24,6 +24,9 @@ public class WordDataAccess {
 
     public void save(ArrayList<Word> words) {
         File file = new File(mContext.getFilesDir(), FILE_NAME);
+
+        file.delete();
+
         createFile(file);
         BufferedWriter writer = null;
         try {

@@ -35,12 +35,15 @@ public class UnitWidgetFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onDataSetChanged() {
-
+        list.clear();
+        list = new ArrayList<>();
+        WordDataAccess wordDataAccess = new WordDataAccess(context);
+        list.addAll(wordDataAccess.getSavedData());
     }
 
     @Override
     public void onDestroy() {
-
+        list.clear();
     }
 
     @Override
