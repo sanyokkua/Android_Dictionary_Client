@@ -1,4 +1,4 @@
-.gradle
+/.gradle
 /local.properties
 /.idea
 .DS_Store
@@ -59,7 +59,6 @@ target
 .settings
 
 # IntelliJ files
-.idea
 *.iml
 
 # OSX files
