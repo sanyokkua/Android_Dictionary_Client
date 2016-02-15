@@ -10,23 +10,37 @@ public class Unit {
     @DatabaseField
     private String translations;
     @DatabaseField
-    private long count;
+    private String userTranslation;
+    @DatabaseField
+    private long counter;
 
     public Unit() {
+        this.counter = 0;
     }
 
-    public Unit(String unit, String translations, long count) {
+    public Unit(String unit, String translations) {
+        this();
         this.unit = unit;
         this.translations = translations;
-        this.count = count;
     }
 
-    public long getCount() {
-        return count;
+    public Unit(String unit, String translations, long counter) {
+        this.unit = unit;
+        this.translations = translations;
+        this.counter = counter;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    public Unit(String unit, String translations, String userTranslation, long counter) {
+        this(unit, translations, counter);
+        this.userTranslation = userTranslation;
+    }
+
+    public long getCounter() {
+        return counter;
+    }
+
+    public void setCounter(long counter) {
+        this.counter = counter;
     }
 
     public String getTranslations() {
@@ -35,6 +49,14 @@ public class Unit {
 
     public void setTranslations(String translations) {
         this.translations = translations;
+    }
+
+    public String getUserTranslation() {
+        return userTranslation;
+    }
+
+    public void setUserTranslation(String userTranslation) {
+        this.userTranslation = userTranslation;
     }
 
     public String getUnit() {

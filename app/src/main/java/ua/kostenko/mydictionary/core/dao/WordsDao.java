@@ -2,14 +2,14 @@ package ua.kostenko.mydictionary.core.dao;
 
 import java.util.List;
 
-import ua.kostenko.mydictionary.AppLogic.Word;
+import ua.kostenko.mydictionary.core.domain.Unit;
 
 public interface WordsDao {
-    boolean saveWord(Word word);
+    boolean saveWord(Unit unit);
 
-    boolean removeWord(Word word);
+    boolean removeWord(Unit unit);
 
-    Word findByTranslation(String translation);
+    Unit findByTranslation(String translation);
 
-    List<Word> findAll();
+    List<Unit> findAll();
 }
