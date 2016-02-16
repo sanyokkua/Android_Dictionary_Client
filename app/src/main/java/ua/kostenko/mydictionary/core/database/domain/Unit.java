@@ -1,17 +1,18 @@
-package ua.kostenko.mydictionary.core.domain;
+package ua.kostenko.mydictionary.core.database.domain;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "unit")
 public class Unit {
-    @DatabaseField(id = true)
+    @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING)
     private String unit;
-    @DatabaseField
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
     private String translations;
-    @DatabaseField
+    @DatabaseField(dataType = DataType.STRING)
     private String userTranslation;
-    @DatabaseField
+    @DatabaseField(dataType = DataType.LONG)
     private long counter;
 
     public Unit() {

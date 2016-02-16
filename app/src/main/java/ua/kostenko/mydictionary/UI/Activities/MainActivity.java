@@ -18,12 +18,13 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.UI.CommonClasses.ToolbarHandler;
+import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
 import ua.kostenko.mydictionary.UI.Fragments.Dictionary.DictionaryFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Exercises.ExercisesFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Parser.ParserFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Web.InternetBrowserFragment;
-import ua.kostenko.mydictionary.UI.CommonClasses.ToolbarHandler;
-import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
+import ua.kostenko.mydictionary.core.database.DbHelperFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         createToolbar();
         createNavigationDrawer();
         openLastFragment();
+
+        DbHelperFactory.setDatabaseHelper(getApplicationContext());
+    }
+
+    @Override
+    protected void onStop() {
+        DbHelperFactory.releaseHelper();
+        super.onStop();
     }
 
     private void createToolbar() {
