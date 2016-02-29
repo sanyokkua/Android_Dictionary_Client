@@ -6,23 +6,32 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "user")
 public class User {
-    @DatabaseField(id = true, canBeNull = false, dataType = DataType.LONG)
-    private Long id;
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
-    private String login;
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
-    private String email;
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
-    private String password;
-    @DatabaseField(canBeNull = true, dataType = DataType.STRING)
-    private String dictionaryId;
+    public static final String FIELD_LOGIN = "login";
+    public static final String FIELD_EMAIL = "email";
+    public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_DICTIONARY_ID = "dictionaryId";
+    public static final String FIELD_DICTIONARY_REVISION = "dictionaryRevision";
 
-    public Long getId() {
-        return id;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_LOGIN, id = true)
+    private String login;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_EMAIL)
+    private String email;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_PASSWORD)
+    private String password;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_DICTIONARY_ID)
+    private String dictionaryId;
+    @DatabaseField(canBeNull = false, dataType = DataType.LONG, columnName = FIELD_DICTIONARY_REVISION)
+    private Long dictionaryRevision;
+
+    public User() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public User(String login, String email, String password, String dictionaryId, Long dictionaryRevision) {
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.dictionaryId = dictionaryId;
+        this.dictionaryRevision = dictionaryRevision;
     }
 
     public String getLogin() {
@@ -55,5 +64,22 @@ public class User {
 
     public void setDictionaryId(String dictionaryId) {
         this.dictionaryId = dictionaryId;
+    }
+
+    public Long getDictionaryRevision() {
+        return dictionaryRevision;
+    }
+
+    public void setDictionaryRevision(Long dictionaryRevision) {
+        this.dictionaryRevision = dictionaryRevision;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", dictionaryRevision=" + dictionaryRevision +
+                '}';
     }
 }

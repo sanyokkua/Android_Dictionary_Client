@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +19,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
 
-import ua.kostenko.mydictionary.AppLogic.BrutTextParser;
-import ua.kostenko.mydictionary.AppLogic.yandex.Language;
-import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.Activities.MainActivity;
 import ua.kostenko.mydictionary.UI.CommonClasses.DataAccess.WordDataAccess;
 import ua.kostenko.mydictionary.UI.CommonClasses.OpenFileDialog;
 import ua.kostenko.mydictionary.UI.CommonClasses.ToolbarHandler;
 import ua.kostenko.mydictionary.UI.CommonClasses.Word;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
+
+//import ua.kostenko.mydictionary.AppLogic.BrutTextParser;
+//import ua.kostenko.mydictionary.AppLogic.yandex.Language;
+//import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 
 public class ParserFragment extends Fragment implements Identifier, View.OnClickListener {
     public static final String NAME = "ParserFragment";
@@ -121,23 +119,23 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
     }
 
     private void translateWord(final EditText translationEditText, final String word) {
-        Translate.setKey(API_KEY);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
-                } catch (Exception ex) {
-                    Log.e(MainActivity.LOG_TAG, ex.toString());
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        translationEditText.setText(result);
-                    }
-                });
-            }
-        }).start();
+//        Translate.setKey(API_KEY);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
+//                } catch (Exception ex) {
+//                    Log.e(MainActivity.LOG_TAG, ex.toString());
+//                }
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        translationEditText.setText(result);
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
 
@@ -172,31 +170,31 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
 
     private void startParsing() {
         if (mFilePath != null) {
-            final BrutTextParser parser = new BrutTextParser();
-            final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                    .title(R.string.dialog_indeterminate)
-                    .content(R.string.dialog_please_wait)
-                    .progress(true, 0).build();
-            dialog.show();
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    parser.parse(new File(mFilePath));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                            showWords();
-                        }
-                    });
-                    //TODO: need to save method
-                    Set<ua.kostenko.mydictionary.AppLogic.Word> wordSet = parser.getWordSet();
-                    for (ua.kostenko.mydictionary.AppLogic.Word word : wordSet) {
-                        mParsedWords.add(word.getWord());
-                    }
-                }
-            }).start();
+//            final BrutTextParser parser = new BrutTextParser();
+//            final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+//                    .title(R.string.dialog_indeterminate)
+//                    .content(R.string.dialog_please_wait)
+//                    .progress(true, 0).build();
+//            dialog.show();
+//
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    parser.parse(new File(mFilePath));
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            dialog.dismiss();
+//                            showWords();
+//                        }
+//                    });
+//                    //TODO: need to save method
+//                    Set<ua.kostenko.mydictionary.AppLogic.Word> wordSet = parser.getWordSet();
+//                    for (ua.kostenko.mydictionary.AppLogic.Word word : wordSet) {
+//                        mParsedWords.add(word.getWord());
+//                    }
+//                }
+//            }).start();
         } else new MaterialDialog.Builder(getActivity()).title("Error")
                 .content("File wasn't chosen").cancelable(true)
                 .negativeText(getActivity().getResources()

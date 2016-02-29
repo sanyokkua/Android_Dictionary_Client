@@ -10,15 +10,19 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import ua.kostenko.mydictionary.core.database.dao.BookmarkDao;
 import ua.kostenko.mydictionary.core.database.dao.UnitDao;
+import ua.kostenko.mydictionary.core.database.dao.UserDao;
 import ua.kostenko.mydictionary.core.database.domain.Unit;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-    private static final String DB_NAME = "units.db";
+    private static final String DB_NAME = "app.db";
     private static final int DB_VERSION = 1;
 
     private UnitDao unitDao;
+    private UserDao userDao;
+    private BookmarkDao bookmarkDao;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -49,6 +53,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void close() {
         super.close();
         unitDao = null;
+        userDao = null;
     }
 
     public UnitDao getUnitDao() {
@@ -57,5 +62,21 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             throw new RuntimeException("Not implemented");
         }
         return unitDao;
+    }
+
+    public UserDao getUserDao() {
+        if (userDao == null) {
+            //TODO: create dao
+            throw new RuntimeException("Not implemented");
+        }
+        return userDao;
+    }
+
+    public BookmarkDao getBookmarkDao() {
+        if (bookmarkDao == null) {
+            //TODO: create dao
+            throw new RuntimeException("Not implemented");
+        }
+        return bookmarkDao;
     }
 }

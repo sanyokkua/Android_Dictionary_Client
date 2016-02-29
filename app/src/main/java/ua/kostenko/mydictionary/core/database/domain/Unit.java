@@ -4,35 +4,39 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "unit")
+@DatabaseTable(tableName = "source")
 public class Unit {
-    @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING)
-    private String unit;
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
+    public static final String FIELD_SOURCE = "source";
+    public static final String FIELD_TRANSLATION = "translation";
+    public static final String FIELD_USER_TRANSLATION = "userTranslation";
+    public static final String FIELD_COUNTER = "counter";
+    @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING, columnName = FIELD_SOURCE)
+    private String source;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION)
     private String translations;
-    @DatabaseField(dataType = DataType.STRING)
+    @DatabaseField(dataType = DataType.STRING, columnName = FIELD_USER_TRANSLATION)
     private String userTranslation;
-    @DatabaseField(dataType = DataType.LONG)
+    @DatabaseField(dataType = DataType.LONG, columnName = FIELD_COUNTER)
     private long counter;
 
     public Unit() {
         this.counter = 0;
     }
 
-    public Unit(String unit, String translations) {
+    public Unit(String source, String translations) {
         this();
-        this.unit = unit;
+        this.source = source;
         this.translations = translations;
     }
 
-    public Unit(String unit, String translations, long counter) {
-        this.unit = unit;
+    public Unit(String source, String translations, long counter) {
+        this.source = source;
         this.translations = translations;
         this.counter = counter;
     }
 
-    public Unit(String unit, String translations, String userTranslation, long counter) {
-        this(unit, translations, counter);
+    public Unit(String source, String translations, String userTranslation, long counter) {
+        this(source, translations, counter);
         this.userTranslation = userTranslation;
     }
 
@@ -60,11 +64,21 @@ public class Unit {
         this.userTranslation = userTranslation;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getSource() {
+        return source;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "source='" + source + '\'' +
+                ", translations='" + translations + '\'' +
+                ", userTranslation='" + userTranslation + '\'' +
+                ", counter=" + counter +
+                '}';
     }
 }

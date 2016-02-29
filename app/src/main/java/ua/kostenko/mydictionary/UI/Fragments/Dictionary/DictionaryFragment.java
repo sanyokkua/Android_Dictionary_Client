@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
-import ua.kostenko.mydictionary.AppLogic.Dictionary;
-import ua.kostenko.mydictionary.AppLogic.GeneralDictionary;
-import ua.kostenko.mydictionary.AppLogic.yandex.Language;
-import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.UI.Activities.MainActivity;
 import ua.kostenko.mydictionary.UI.CommonClasses.DataAccess.WordDataAccess;
@@ -33,6 +29,11 @@ import ua.kostenko.mydictionary.UI.CommonClasses.Word;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.Identifier;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnItemLongClickListener;
 import ua.kostenko.mydictionary.UI.CommonInterfaces.OnResultListener;
+
+//import ua.kostenko.mydictionary.AppLogic.Dictionary;
+//import ua.kostenko.mydictionary.AppLogic.GeneralDictionary;
+//import ua.kostenko.mydictionary.AppLogic.yandex.Language;
+//import ua.kostenko.mydictionary.AppLogic.yandex.Translate;
 
 
 public class DictionaryFragment extends Fragment implements Identifier {
@@ -47,7 +48,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
     private ArrayList<Word> mWords = new ArrayList<>();
     private TextView mEmptyDataTextView;
     private String result = null;
-    private Dictionary mDictionary = new GeneralDictionary("english", "russian");
+//    private Dictionary mDictionary = new GeneralDictionary("english", "russian");
 
     public DictionaryFragment() {
         // Required empty public constructor
@@ -197,23 +198,23 @@ public class DictionaryFragment extends Fragment implements Identifier {
     }
 
     private void translateWord(final EditText translationEditText, final String word) {
-        Translate.setKey(API_KEY);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
-                } catch (Exception ex) {
-                    Log.e(MainActivity.LOG_TAG, ex.toString());
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        translationEditText.setText(result);
-                    }
-                });
-            }
-        }).start();
+//        Translate.setKey(API_KEY);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
+//                } catch (Exception ex) {
+//                    Log.e(MainActivity.LOG_TAG, ex.toString());
+//                }
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        translationEditText.setText(result);
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
     @Override
