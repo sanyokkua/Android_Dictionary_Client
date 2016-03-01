@@ -1,19 +1,20 @@
 package ua.kostenko.mydictionary.core.database.dao;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import ua.kostenko.mydictionary.core.database.domain.Unit;
 
 public interface UnitDao {
-    boolean saveWord(Unit unit);
+    boolean saveUnit(@NonNull final Unit unit);
 
-    boolean removeUnit(Unit unit);
+    boolean removeUnit(@NonNull final Unit unit);
 
-    Unit findBySource(String source);
+    Unit findBySource(@NonNull final String source);
 
-    Unit findByTranslation(String translation);
+    Unit findByTranslation(@NonNull final String translation);
 
     List<Unit> findAll();
 
-    boolean synchronize();
 }

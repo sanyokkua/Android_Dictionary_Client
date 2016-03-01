@@ -1,11 +1,13 @@
 package ua.kostenko.mydictionary.core.internet;
 
+import android.support.annotation.NonNull;
+
 public interface ConnectionHelper {
     String SERVER_ADDRESS = "http://localhost:8080";
 
-    String doGet(String address, String params);
+    String doGet(@NonNull final String address, final String params);
 
-    String doPost(String address, String params);
+    String doPost(@NonNull final String address, final String params);
 
-    String doPut(String address, String params);
+    String doPut(@NonNull final String address, final String params);
 }

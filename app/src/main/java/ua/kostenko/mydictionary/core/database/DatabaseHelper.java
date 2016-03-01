@@ -2,6 +2,7 @@ package ua.kostenko.mydictionary.core.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -29,7 +30,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
+    public void onCreate(@NonNull final SQLiteDatabase database, @NonNull final ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, Unit.class);
         } catch (SQLException e) {
@@ -39,7 +40,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+    public void onUpgrade(@NonNull final SQLiteDatabase database, @NonNull final ConnectionSource connectionSource,
+                          final int oldVersion, final int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, Unit.class, true);
             onCreate(database, connectionSource);
@@ -54,8 +56,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         unitDao = null;
         userDao = null;
+        bookmarkDao = null;
     }
 
+    @NonNull
     public UnitDao getUnitDao() {
         if (unitDao == null) {
             //TODO: create dao
@@ -64,6 +68,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return unitDao;
     }
 
+    @NonNull
     public UserDao getUserDao() {
         if (userDao == null) {
             //TODO: create dao
@@ -72,6 +77,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return userDao;
     }
 
+    @NonNull
     public BookmarkDao getBookmarkDao() {
         if (bookmarkDao == null) {
             //TODO: create dao

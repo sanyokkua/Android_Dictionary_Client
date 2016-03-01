@@ -1,5 +1,6 @@
 package ua.kostenko.mydictionary.core.database.dao.implementation;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
@@ -20,7 +21,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
     }
 
     @Override
-    public User loadUser(String login) {
+    public User loadUser(@NonNull final String login) {
         Preconditions.checkNotNull(login);
         QueryBuilder<User, Integer> queryBuilder = queryBuilder();
         User userFromDb = null;
@@ -34,7 +35,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public boolean saveUser(@NonNull final User user) {
         Preconditions.checkNotNull(user);
         Preconditions.checkNotNull(user.getLogin());
         User loadedUser = loadUser(user.getLogin());
@@ -46,7 +47,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
         return false;
     }
 
-    private boolean createUser(User user) {
+    private boolean createUser(@NonNull final User user) {
         boolean resultOfOperation = false;
         try {
             int numberOfUpdatedRows = create(user);
@@ -58,7 +59,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
     }
 
 
-    private boolean updateUser(User user) {
+    private boolean updateUser(@NonNull final User user) {
         boolean resultOfOperation = false;
         try {
             int numberOfUpdatedRows = update(user);
@@ -70,7 +71,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
     }
 
     @Override
-    public User login(String email, String password) { //TODO: implement method
+    public User login(@NonNull final String email, @NonNull final String password) { //TODO: implement method
         throw new RuntimeException("Not implemented yet");
     }
 }

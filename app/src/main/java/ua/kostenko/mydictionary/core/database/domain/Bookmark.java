@@ -1,5 +1,7 @@
 package ua.kostenko.mydictionary.core.database.domain;
 
+import android.support.annotation.NonNull;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -19,7 +21,7 @@ public class Bookmark {
     public Bookmark() {
     }
 
-    public Bookmark(String url, String name, String picture) {
+    public Bookmark(@NonNull final String url, @NonNull final String name, @NonNull final String picture) {
         this.url = url;
         this.name = name;
         this.picture = picture;
@@ -29,7 +31,7 @@ public class Bookmark {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(@NonNull final String url) {
         this.url = url;
     }
 
@@ -37,7 +39,7 @@ public class Bookmark {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull final String name) {
         this.name = name;
     }
 
@@ -45,7 +47,7 @@ public class Bookmark {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(@NonNull final String picture) {
         this.picture = picture;
     }
 

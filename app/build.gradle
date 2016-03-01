@@ -41,4 +41,5 @@ dependencies {
     compile files('libs/json_simple-1.1.jar')
     compile 'com.j256.ormlite:ormlite-android:4.45'
 
+    androidTestCompile 'junit:junit:4.12'
 }

@@ -1,5 +1,7 @@
 package ua.kostenko.mydictionary.core.database.domain;
 
+import android.support.annotation.NonNull;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -23,19 +25,19 @@ public class Unit {
         this.counter = 0;
     }
 
-    public Unit(String source, String translations) {
+    public Unit(@NonNull final String source, @NonNull final String translations) {
         this();
         this.source = source;
         this.translations = translations;
     }
 
-    public Unit(String source, String translations, long counter) {
+    public Unit(@NonNull final String source, @NonNull final String translations, final long counter) {
         this.source = source;
         this.translations = translations;
         this.counter = counter;
     }
 
-    public Unit(String source, String translations, String userTranslation, long counter) {
+    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
         this(source, translations, counter);
         this.userTranslation = userTranslation;
     }
@@ -44,7 +46,7 @@ public class Unit {
         return counter;
     }
 
-    public void setCounter(long counter) {
+    public void setCounter(final long counter) {
         this.counter = counter;
     }
 
@@ -52,7 +54,7 @@ public class Unit {
         return translations;
     }
 
-    public void setTranslations(String translations) {
+    public void setTranslations(@NonNull final String translations) {
         this.translations = translations;
     }
 
@@ -60,7 +62,7 @@ public class Unit {
         return userTranslation;
     }
 
-    public void setUserTranslation(String userTranslation) {
+    public void setUserTranslation(@NonNull final String userTranslation) {
         this.userTranslation = userTranslation;
     }
 
@@ -68,7 +70,7 @@ public class Unit {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(@NonNull final String source) {
         this.source = source;
     }
 

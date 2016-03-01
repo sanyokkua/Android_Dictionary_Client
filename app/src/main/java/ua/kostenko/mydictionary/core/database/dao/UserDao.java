@@ -1,11 +1,13 @@
 package ua.kostenko.mydictionary.core.database.dao;
 
+import android.support.annotation.NonNull;
+
 import ua.kostenko.mydictionary.core.database.domain.User;
 
 public interface UserDao {
-    User loadUser(String login);
+    User loadUser(@NonNull final String login);
 
-    boolean saveUser(User user);
+    boolean saveUser(@NonNull final User user);
 
-    User login(String email, String password);
+    User login(@NonNull final String email, @NonNull final String password);
 }

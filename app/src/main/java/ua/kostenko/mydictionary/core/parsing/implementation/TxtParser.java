@@ -1,90 +1,40 @@
 package ua.kostenko.mydictionary.core.parsing.implementation;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-import ua.kostenko.mydictionary.core.database.domain.Unit;
 import ua.kostenko.mydictionary.core.parsing.Parser;
 
-public class TxtParser implements Parser { //TODO: finish realization
-    private static final String TAG = TxtParser.class.getSimpleName();
-
-    private Set<Unit> unitsSet = new TreeSet<>();
-    private Throwable mMainException;
+public final class TxtParser implements Parser<Map<String, Long>> { //TODO: finish realization
 
     @Override
-    public String parse(String text) {
-        return null;
-    }
-
-    public void parse(File file) {
-        if (file == null)
-            throw new IllegalArgumentException("File is null");
-        if (!file.exists())
-            throw new IllegalArgumentException("File is not exist");
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            Map<String, Long> wordsMap = new HashMap<>();
-            try {
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] words = line.split("(\\d|\\s)");
-                    for (String tmpWord : words) {
-                        tmpWord = deleteSymbols(tmpWord);
-                        if (!wordsMap.containsKey(tmpWord))
-                            wordsMap.put(tmpWord, 1l);
-                        else {
-                            Long counter = wordsMap.get(tmpWord);
-                            wordsMap.put(tmpWord, (counter == null) ? 1 : counter + 1);
-                        }
-                    }
-                }
-                fillWordsMap(wordsMap);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                throw new RuntimeException(ex);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            mMainException = e;
-            throw new RuntimeException(e.getMessage() + "FILE not found!");
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                throw new RuntimeException(ex + mMainException.getMessage());
+    public Map<String, Long> parse(@NonNull final String text) {
+        String[] lines = text.split("(\n|\n\r)");
+        Map<String, Long> unitsMap = new HashMap<>();
+        for (String line : lines) {
+            line = deleteSymbols(line);
+            if (!unitsMap.containsKey(line)) {
+                unitsMap.put(line, 1l);
+            } else {
+                Long counter = unitsMap.get(line);
+                unitsMap.put(line, (counter == null) ? 1 : counter + 1);
             }
         }
+        return unitsMap;
     }
 
-    private void fillWordsMap(Map<String, Long> wordsMap) {
-        Set<Map.Entry<String, Long>> entrys = wordsMap.entrySet();
-        for (Map.Entry<String, Long> entry : entrys) {
-            try {
-                //Unit word = new Unit(entry.getKey(), entry.getValue());
-                //unitsSet.add(word);
-            } catch (IllegalArgumentException ex) {
-                continue;
-            }
-        }
-    }
-
-    private String deleteSymbols(String line) {
-        String symbols = "{}!@#$%^&*();:|_-+=*/?\"\',.~\\<> \t\n\r";
-        line = line.replaceAll("<.+/?>", "\t");
-        line = line.toLowerCase();
+    @NonNull
+    protected String deleteSymbols(@NonNull final String line) {
+        final String symbols = "{}!@#$%^&*();:|_-+=*/?\"\',.~\\<> \t\n\r";
+        String temp = line.replaceAll("<.+/?>", "\t");
+        temp = temp.toLowerCase();
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < line.length(); i++) {
-            if (symbols.indexOf(line.charAt(i)) < 0)
-                builder.append(line.charAt(i));
+        for (int i = 0; i < temp.length(); i++) {
+            if (symbols.indexOf(temp.charAt(i)) < 0) {
+                builder.append(temp.charAt(i));
+            }
         }
         return builder.toString();
     }

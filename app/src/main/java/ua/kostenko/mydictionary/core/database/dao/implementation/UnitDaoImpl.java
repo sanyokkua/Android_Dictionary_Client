@@ -1,5 +1,6 @@
 package ua.kostenko.mydictionary.core.database.dao.implementation;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
@@ -22,13 +23,13 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     }
 
     @Override
-    public boolean saveWord(final Unit unit) {
+    public boolean saveUnit(@NonNull final Unit unit) {
         Preconditions.checkNotNull(unit);
         Unit temporaryUnit = findBySource(unit.getSource());
         return temporaryUnit != null ? updateUnit(temporaryUnit) : createUnit(temporaryUnit);
     }
 
-    private boolean createUnit(final Unit newUnit) {
+    private boolean createUnit(@NonNull final Unit newUnit) {
         boolean resultOfOperation;
         try {
             int numbOfRowsUpdated = create(newUnit);
@@ -41,7 +42,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     }
 
 
-    private boolean updateUnit(final Unit existingUnit) {
+    private boolean updateUnit(@NonNull final Unit existingUnit) {
         boolean resultOfOperation;
         try {
             int numbOfRowsUpdated = update(existingUnit);
@@ -54,7 +55,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     }
 
     @Override
-    public boolean removeUnit(Unit unit) {
+    public boolean removeUnit(@NonNull final Unit unit) {
         Preconditions.checkNotNull(unit);
         boolean resultOfOperation;
         try {
@@ -68,12 +69,12 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     }
 
     @Override
-    public Unit findBySource(String source) {
+    public Unit findBySource(@NonNull final String source) {
         Preconditions.checkNotNull(source);
         return findByQuery(Unit.FIELD_SOURCE, source);
     }
 
-    private Unit findByQuery(String field, String value) {
+    private Unit findByQuery(@NonNull final String field, @NonNull final String value) {
         QueryBuilder<Unit, String> queryBuilder = queryBuilder();
         Unit resultOfQuery = null;
         try {
@@ -86,7 +87,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     }
 
     @Override
-    public Unit findByTranslation(String translation) {
+    public Unit findByTranslation(@NonNull final String translation) {
         Preconditions.checkNotNull(translation);
         return findByQuery(Unit.FIELD_TRANSLATION, translation);
     }
@@ -100,10 +101,5 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
             Log.e(TAG, "Error with queryForAll", e);
         }
         return unitList;
-    }
-
-    @Override
-    public boolean synchronize() { //TODO: add implementation
-        throw new RuntimeException("Not Implemented yet");
     }
 }

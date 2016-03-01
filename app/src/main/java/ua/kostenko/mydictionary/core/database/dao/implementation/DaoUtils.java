@@ -10,7 +10,8 @@ public class DaoUtils {
         boolean resultOfValidation = true;
         if (numbOfRowsUpdated != CORRECT_NUMBER_OF_UPDATED_ROWS) {
             resultOfValidation = false;
-            Log.w(TAG, "validation rows failed. Number of rows expected = " + CORRECT_NUMBER_OF_UPDATED_ROWS + " but given = " + numbOfRowsUpdated);
+            Log.w(TAG, "validation rows failed. Number of rows expected = " + CORRECT_NUMBER_OF_UPDATED_ROWS
+                    + " but given = " + numbOfRowsUpdated);
         }
         return resultOfValidation;
     }

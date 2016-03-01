@@ -1,6 +1,8 @@
 package ua.kostenko.mydictionary.core.dataaccess;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,18 +11,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
-public class FileUtils { //TODO: finish realization
+public final class FileUtils { //TODO: finish realization
     private static final String TAG = FileUtils.class.getSimpleName();
     private final DataAccessUtils dataAccessUtils;
     private final Context appContext;
 
-    public FileUtils(final Context context) {
+    public FileUtils(@NonNull final Context context) {
         appContext = context;
         dataAccessUtils = new DataAccessUtils(appContext);
     }
 
-    public String readFile(String filePath) {
-        final File currentFile = dataAccessUtils.openFileByPath(filePath);
+    public String readFile(@NonNull final String filePath) {
+        final File currentFile = dataAccessUtils.getFileByPath(filePath);
         BufferedReader bufferedReader = null;
         String textFromFile = null;
         try {
@@ -34,12 +36,16 @@ public class FileUtils { //TODO: finish realization
         return textFromFile;
     }
 
-    private String readText(Reader bufferedReader) {
-
-        return null;
+    private String readText(@NonNull final BufferedReader bufferedReader) throws IOException {
+        final StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        return stringBuilder.toString();
     }
 
-    public static void closeReader(final Reader reader) {
+    public static void closeReader(@Nullable final Reader reader) {
         if (reader != null) {
             try {
                 reader.close();

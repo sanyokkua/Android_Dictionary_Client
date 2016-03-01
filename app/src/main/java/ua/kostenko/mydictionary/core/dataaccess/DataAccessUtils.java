@@ -1,38 +1,32 @@
 package ua.kostenko.mydictionary.core.dataaccess;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.common.base.Strings;
 
 import java.io.File;
-import java.util.List;
 
-public class DataAccessUtils {
+public final class DataAccessUtils {
     private Context appContext;
 
-    public DataAccessUtils(Context appContext) {
+    public DataAccessUtils(@NonNull final Context appContext) {
         this.appContext = appContext;
     }
 
-    public File openFileByPath(String path) {
+    public File getFileByPath(@NonNull final String path) {
         validatePath(path);
-        throw new RuntimeException();//TODO
+        return new File(path);
     }
 
-    public void writeToFileByPath(String path, List<Strings> data) {
-        validatePath(path);
-
-        throw new RuntimeException();//TODO
-    }
-
-    private void validatePath(String path) {
+    private void validatePath(@NonNull final String path) {
         if (Strings.isNullOrEmpty(path)) {
             throw new IllegalArgumentException("Path can't be Null or Empty");
         }
-        checkExistanceOfFile(new File(path));
+        checkExistenceOfFile(new File(path));
     }
 
-    private void checkExistanceOfFile(File file) {
+    private void checkExistenceOfFile(@NonNull final File file) {
         if (!file.exists() || file.isDirectory()) {
             throw new IllegalArgumentException("Path: " + file.getAbsolutePath()
                     + " - is incorrect and this file isn't exists");

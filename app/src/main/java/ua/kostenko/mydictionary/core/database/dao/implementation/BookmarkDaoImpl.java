@@ -1,5 +1,6 @@
 package ua.kostenko.mydictionary.core.database.dao.implementation;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
@@ -31,13 +32,13 @@ public class BookmarkDaoImpl extends BaseDaoImpl<Bookmark, String> implements Bo
     }
 
     @Override
-    public boolean save(Bookmark bookmark) {
+    public boolean save(@NonNull final Bookmark bookmark) {
         Preconditions.checkNotNull(bookmark);
         Bookmark temporaryBookmark = findByQuery(Bookmark.FIELD_URL, bookmark.getUrl());
         return temporaryBookmark != null ? updateBookmark(temporaryBookmark) : createBookmark(temporaryBookmark);
     }
 
-    private Bookmark findByQuery(String field, String value) {
+    private Bookmark findByQuery(@NonNull final String field, @NonNull final String value) {
         QueryBuilder<Bookmark, String> queryBuilder = queryBuilder();
         Bookmark resultOfQuery = null;
         try {
@@ -49,7 +50,7 @@ public class BookmarkDaoImpl extends BaseDaoImpl<Bookmark, String> implements Bo
         return resultOfQuery;
     }
 
-    private boolean updateBookmark(final Bookmark existingBookmark) {
+    private boolean updateBookmark(@NonNull final Bookmark existingBookmark) {
         boolean resultOfOperation;
         try {
             int numbOfRowsUpdated = update(existingBookmark);
@@ -61,7 +62,7 @@ public class BookmarkDaoImpl extends BaseDaoImpl<Bookmark, String> implements Bo
         return resultOfOperation;
     }
 
-    private boolean createBookmark(final Bookmark newBookmark) {
+    private boolean createBookmark(@NonNull final Bookmark newBookmark) {
         boolean resultOfOperation;
         try {
             int numbOfRowsUpdated = create(newBookmark);
@@ -74,7 +75,7 @@ public class BookmarkDaoImpl extends BaseDaoImpl<Bookmark, String> implements Bo
     }
 
     @Override
-    public boolean remove(Bookmark bookmark) {
+    public boolean remove(@NonNull final Bookmark bookmark) {
         Preconditions.checkNotNull(bookmark);
         boolean resultOfOperation;
         try {

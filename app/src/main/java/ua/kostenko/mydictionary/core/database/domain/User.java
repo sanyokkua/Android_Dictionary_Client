@@ -1,5 +1,7 @@
 package ua.kostenko.mydictionary.core.database.domain;
 
+import android.support.annotation.NonNull;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -26,7 +28,8 @@ public class User {
     public User() {
     }
 
-    public User(String login, String email, String password, String dictionaryId, Long dictionaryRevision) {
+    public User(@NonNull final String login, @NonNull final String email, @NonNull final String password,
+                @NonNull final String dictionaryId, @NonNull final Long dictionaryRevision) {
         this.login = login;
         this.email = email;
         this.password = password;
@@ -38,7 +41,7 @@ public class User {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(@NonNull final String login) {
         this.login = login;
     }
 
@@ -46,7 +49,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NonNull final String email) {
         this.email = email;
     }
 
@@ -54,7 +57,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(@NonNull final String password) {
         this.password = password;
     }
 
@@ -62,7 +65,7 @@ public class User {
         return dictionaryId;
     }
 
-    public void setDictionaryId(String dictionaryId) {
+    public void setDictionaryId(@NonNull final String dictionaryId) {
         this.dictionaryId = dictionaryId;
     }
 
@@ -70,7 +73,7 @@ public class User {
         return dictionaryRevision;
     }
 
-    public void setDictionaryRevision(Long dictionaryRevision) {
+    public void setDictionaryRevision(@NonNull final Long dictionaryRevision) {
         this.dictionaryRevision = dictionaryRevision;
     }
 
