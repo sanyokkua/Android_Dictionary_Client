@@ -24,7 +24,7 @@ import ua.kostenko.mydictionary.UI.Fragments.Dictionary.DictionaryFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Exercises.ExercisesFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Parser.ParserFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Web.InternetBrowserFragment;
-import ua.kostenko.mydictionary.core.database.DbHelperFactory;
+import ua.kostenko.mydictionary.core.local.database.DbHelperFactory;
 
 
 public class MainActivity extends AppCompatActivity {
