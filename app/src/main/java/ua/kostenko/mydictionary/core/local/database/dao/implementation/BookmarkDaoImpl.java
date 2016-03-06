@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -34,8 +35,11 @@ public class BookmarkDaoImpl extends BaseDaoImpl<Bookmark, String> implements Bo
     @Override
     public boolean save(@NonNull final Bookmark bookmark) {
         Preconditions.checkNotNull(bookmark);
+        if (Strings.isNullOrEmpty(bookmark.getUrl())) {
+            throw new IllegalArgumentException("Url is empty");
+        }
         Bookmark temporaryBookmark = findByQuery(Bookmark.FIELD_URL, bookmark.getUrl());
-        return temporaryBookmark != null ? updateBookmark(temporaryBookmark) : createBookmark(temporaryBookmark);
+        return temporaryBookmark != null ? updateBookmark(bookmark) : createBookmark(bookmark);
     }
 
     private Bookmark findByQuery(@NonNull final String field, @NonNull final String value) {

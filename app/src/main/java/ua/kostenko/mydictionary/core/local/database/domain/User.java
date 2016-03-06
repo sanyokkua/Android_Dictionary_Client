@@ -95,13 +95,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        if (!login.equals(user.login)) {
-            return false;
-        }
-        if (!email.equals(user.email)) {
-            return false;
-        }
-        return dictionaryId.equals(user.dictionaryId);
+        return login.equals(user.login) && email.equals(user.email) && dictionaryId.equals(user.dictionaryId);
     }
 
     @Override

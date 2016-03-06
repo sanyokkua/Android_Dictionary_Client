@@ -130,7 +130,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
                             public void onPositive(MaterialDialog dialog) {
                                 super.onPositive(dialog);
                                 mAdapter.removeItem(position);
-                                Log.d(MainActivity.LOG_TAG, "mWords.Size: " + mWords.size());
+                                Log.d(MainActivity.TAG, "mWords.Size: " + mWords.size());
                                 if (mWords.isEmpty()) {
                                     mEmptyDataTextView.setVisibility(View.VISIBLE);
                                 } else {
@@ -205,7 +205,7 @@ public class DictionaryFragment extends Fragment implements Identifier {
 //                try {
 //                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
 //                } catch (Exception ex) {
-//                    Log.e(MainActivity.LOG_TAG, ex.toString());
+//                    Log.e(MainActivity.TAG, ex.toString());
 //                }
 //                getActivity().runOnUiThread(new Runnable() {
 //                    @Override

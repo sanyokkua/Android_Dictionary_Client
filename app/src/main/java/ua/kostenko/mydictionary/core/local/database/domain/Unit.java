@@ -93,10 +93,8 @@ public class Unit {
             return false;
         }
         Unit unit = (Unit) anotherObject;
-        if (!source.equals(unit.source)) {
-            return false;
-        }
-        return !(translations != null ? !translations.equals(unit.translations) : unit.translations != null);
+        return source.equals(unit.source) &&
+                !(translations != null ? !translations.equals(unit.translations) : unit.translations != null);
     }
 
     @Override

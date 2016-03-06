@@ -28,7 +28,7 @@ import ua.kostenko.mydictionary.core.local.database.DbHelperFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String LOG_TAG = "MY_DICTIONARY_LOG: ";
+    public static final String TAG = "MY_DICTIONARY_LOG: ";
     private static final String LAST_FRAGMENT_NAME = "LAST_FRAGMENT_NAME";
     private static final String LAST_DRAWER_SELECTION = "LAST_DRAWER_SELECTION";
     private String mLastFragmentName;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         if (fragment instanceof Identifier) {
             mLastFragmentName = ((Identifier) fragment).getIdentifier();
-            Log.d(LOG_TAG, "mLastFragmentName = " + mLastFragmentName);
+            Log.d(TAG, "mLastFragmentName = " + mLastFragmentName);
         }
     }
 

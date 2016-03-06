@@ -126,7 +126,7 @@ public class ParserFragment extends Fragment implements Identifier, View.OnClick
 //                try {
 //                    result = Translate.execute(word, Language.ENGLISH, Language.RUSSIAN);
 //                } catch (Exception ex) {
-//                    Log.e(MainActivity.LOG_TAG, ex.toString());
+//                    Log.e(MainActivity.TAG, ex.toString());
 //                }
 //                getActivity().runOnUiThread(new Runnable() {
 //                    @Override

@@ -7,8 +7,8 @@
     <string name="title_exercise_fragment">Exercises</string>
     <string name="title_settings">Settings</string>
 
-    <string name="navigation_drawer_open">Open drawer</string>
-    <string name="navigation_drawer_close">Close drawer</string>
+    <string name="new_navigation_drawer_open">Open drawer</string>
+    <string name="new_navigation_drawer_close">Close drawer</string>
 
     <string name="action_example">Example</string>
     <string name="action_settings">Settings</string>
@@ -55,6 +55,53 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dialog_indeterminate">Progress</string>
     <string name="dialog_please_wait">Please wait</string>
+    <string name="title_activity_dictionary">DictionaryActivity</string>
 
 
+    <!-- - - - - - - - Drawer - - - - - - - - - - - - - - -->
+    <string name="drawer_title_dictionary">Dictionary</string>
+    <string name="drawer_title_parser">Parser</string>
+    <string name="drawer_title_browser">Browser</string>
+    <string name="drawer_title_exercise">Exercise</string>
+    <string name="drawer_title_settings">Settings</string>
+
+    <!-- - - - - - - - Dictionary operations - - - - - - - - - - - - - - -->
+    <string name="dict_add">Add Word</string>
+    <string name="dict_del">Delete Word</string>
+    <string name="dict_del_dialog_title">Delete this word?</string>
+    <string name="dict_add_translation">Add translation</string>
+    <string name="dict_del_translation">Delete translation</string>
+    <string name="dict_reset">Reset vocabulary</string>
+    <string name="dict_add_word_hint">Foreign word</string>
+    <string name="dict_add_translation_hint">Translation</string>
+    <string name="dict_word">Word:</string>
+    <string name="dict_empty">Dictionary is empty</string>
+    <string name="dict_translation">Translation:</string>
+    <string name="dict_count">Count:</string>
+
+
+    <!-- - - - - - - - Standard dialog words - - - - - - - - - - - - - - -->
+    <string name="standard_open">Open</string>
+    <string name="standard_cancel">Cancel</string>
+    <string name="standard_close">Close</string>
+    <string name="standard_back">Back</string>
+    <string name="standard_ok">OK</string>
+    <string name="standard_remove">Remove</string>
+
+    <!-- - - - - - - - Browser - - - - - - - - - - - - - - -->
+    <string name="new_browser_reload">Reload</string>
+    <string name="new_browser_parse">Get all words from page</string>
+    <string name="new_browser_address">Address</string>
+    <string name="new_browser_bookmark_add">Add bookmark</string>
+    <string name="new_browser_bookmark_added">Bookmark added</string>
+    <string name="new_browser_bookmark_delete">Delete this bookmark?</string>
+    <string name="new_browser_bookmark_deleted">Bookmark deleted</string>
+
+    <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
+    <string name="new_parser_open_file">Choose file from storage</string>
+    <string name="new_parser_parse">Parse</string>
+    <string name="new_parser_description">Here you can open one of text files in your phone and get all words in that file</string>
+    <string name="new_parser_file_info">File info</string>
+    <string name="new_parser_file_name">Name:</string>
+    <string name="new_parser_file_size">Size:</string>
 </resources>

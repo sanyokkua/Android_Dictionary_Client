@@ -11,7 +11,7 @@ import ua.kostenko.mydictionary.R;
 
 public class ToolbarHandler {
     public static Toolbar getToolbar(Activity appActivity) {
-        Toolbar sToolbar = (Toolbar) appActivity.findViewById(R.id.toolbar);
+        Toolbar sToolbar = (Toolbar) appActivity.findViewById(R.id.new_toolbar);
         if (sToolbar == null)
             throw new NullPointerException("Toolbar is null");
         return sToolbar;
