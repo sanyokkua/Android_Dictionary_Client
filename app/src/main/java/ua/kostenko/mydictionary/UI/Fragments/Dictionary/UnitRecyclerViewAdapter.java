@@ -1,47 +1,47 @@
 package ua.kostenko.mydictionary.UI.Fragments.Dictionary;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.common.base.Preconditions;
+
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.Fragments.Dictionary.UnitsFragment.OnListFragmentInteractionListener;
+import ua.kostenko.mydictionary.UI.OnClickCustomListener;
+import ua.kostenko.mydictionary.UI.OnLongClickCustomListener;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 
 public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Unit> unitList;
-    private final OnListFragmentInteractionListener onListFragmentInteractionListener;
+    @NonNull private final List<Unit> unitList;
+    @NonNull private final OnClickCustomListener<Unit> onClickCustomListener;
+    @NonNull private final OnLongClickCustomListener<Unit> onLongClickCustomListener;
 
-    public UnitRecyclerViewAdapter(List<Unit> items, OnListFragmentInteractionListener listener) {
+    public UnitRecyclerViewAdapter(@NonNull final List<Unit> items, @NonNull final OnClickCustomListener<Unit> onClick,
+                                   @NonNull final OnLongClickCustomListener<Unit> onLonGClick) {
+        Preconditions.checkNotNull(onClick, "You try to set null in OnClickCustomListener");
+        Preconditions.checkNotNull(onLonGClick, "You try to set null in OnLongClickCustomListener");
+        onClickCustomListener = onClick;
+        onLongClickCustomListener = onLonGClick;
         unitList = items;
-        onListFragmentInteractionListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_fragment_item_unit, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.unit = unitList.get(position);
-        holder.setFields();
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != onListFragmentInteractionListener) {
-                    onListFragmentInteractionListener.onListFragmentInteraction(holder.unit);
-                }
-            }
-        });
+        holder.setFields(unitList.get(position));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
         return unitList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final View view;
         @Bind(R.id.new_unit_source)
         public TextView source;
@@ -63,12 +63,28 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
             super(view);
             this.view = view;
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
-        public void setFields() {
+        public void setFields(Unit unit) {
+            this.unit = unit;
             source.setText(unit.getSource());
             translation.setText(unit.getTranslations());
             counter.setText(String.valueOf(unit.getCounter()));
+        }
+
+        @Override
+        public void onClick(View v) {
+            Preconditions.checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
+            onClickCustomListener.onItemClick(unit);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Preconditions.checkNotNull(onLongClickCustomListener, "OnLongClickCustomListener is not set");
+            onLongClickCustomListener.onItemLongClick(unit);
+            return false;
         }
 
         @Override

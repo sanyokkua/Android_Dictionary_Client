@@ -43,6 +43,7 @@ public final class FileUtils { //TODO: finish realization
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             stringBuilder.append(line);
+            stringBuilder.append('\n');
         }
         return stringBuilder.toString();
     }

@@ -104,4 +104,15 @@
     <string name="new_parser_file_info">File info</string>
     <string name="new_parser_file_name">Name:</string>
     <string name="new_parser_file_size">Size:</string>
+
+    <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
+    <string name="source_field_hint">Source</string>
+    <string name="translation_field_hint">Translation</string>
+    <string name="user_translation_field_hint">User variant of translation</string>
+    <string name="translation_button">Translate</string>
+    <string name="new_parser_file_dialog_size">File size</string>
+    <string name="new_parser_file_dialog_location">File location</string>
+    <string name="new_parser_file_dialog_question">Do you want to parse this file?</string>
+
+
 </resources>

@@ -2,17 +2,21 @@ package ua.kostenko.mydictionary.core.local.parsing.implementation;
 
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import ua.kostenko.mydictionary.core.local.parsing.Parser;
 
-public final class TxtParser implements Parser<Map<String, Long>> { //TODO: finish realization
+public final class TxtParser implements Parser<List<Map.Entry<String, Long>>> { //TODO: finish realization
 
     @Override
-    public Map<String, Long> parse(@NonNull final String text) {
+    public List<Map.Entry<String, Long>> parse(@NonNull final String text) {
         String[] lines = text.split("(\n|\n\r)");
-        Map<String, Long> unitsMap = new HashMap<>();
+        LinkedHashMap<String, Long> unitsMap = new LinkedHashMap<>();
+        List<Map.Entry<String, Long>> list = new ArrayList<>();
         for (String line : lines) {
             line = deleteSymbols(line);
             if (!unitsMap.containsKey(line)) {
@@ -22,12 +26,16 @@ public final class TxtParser implements Parser<Map<String, Long>> { //TODO: fini
                 unitsMap.put(line, (counter == null) ? 1 : counter + 1);
             }
         }
-        return unitsMap;
+        Iterator<Map.Entry<String, Long>> iterator = unitsMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
+        return list;
     }
 
     @NonNull
     protected String deleteSymbols(@NonNull final String line) {
-        final String symbols = "{}!@#$%^&*();:|_-+=*/?\"\',.~\\<> \t\n\r";
+        final String symbols = "{}!@#$%^&*();:|_-+=*/?\"\',.~\\<>\t\n\r";
         String temp = line.replaceAll("<.+/?>", "\t");
         temp = temp.toLowerCase();
         StringBuilder builder = new StringBuilder();

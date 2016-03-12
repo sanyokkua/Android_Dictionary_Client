@@ -12,12 +12,11 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.Fragments.Dictionary.DictionaryFragment;
 import ua.kostenko.mydictionary.UI.Fragments.Dictionary.UnitsFragment;
-import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.UI.Fragments.Parser.UnitParserFragment;
 
 public class DictionaryActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, UnitsFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.new_toolbar)
     Toolbar toolbar;
@@ -66,7 +65,6 @@ public class DictionaryActivity extends BaseActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -76,9 +74,10 @@ public class DictionaryActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            replaceFragment(DictionaryFragment.newInstance());
+            replaceFragment(UnitsFragment.newInstance());
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            replaceFragment(UnitParserFragment.newInstance());
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -91,10 +90,5 @@ public class DictionaryActivity extends BaseActivity
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onListFragmentInteraction(Unit item) {
-
     }
 }
