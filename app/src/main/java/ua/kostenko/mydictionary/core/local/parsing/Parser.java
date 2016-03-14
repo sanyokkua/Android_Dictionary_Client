@@ -2,6 +2,8 @@ package ua.kostenko.mydictionary.core.local.parsing;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 public interface Parser<T> {
-    T parse(@NonNull final String text); // TODO: I think it's return type should be changed to list of words (strings)
+    List<T> parse(@NonNull final String text);
 }

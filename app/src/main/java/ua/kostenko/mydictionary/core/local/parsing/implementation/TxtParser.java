@@ -3,47 +3,43 @@ package ua.kostenko.mydictionary.core.local.parsing.implementation;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import ua.kostenko.mydictionary.core.local.parsing.Parser;
+import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 
-public final class TxtParser implements Parser<List<Map.Entry<String, Long>>> { //TODO: finish realization
+public final class TxtParser implements Parser<ParserUnit> {
 
     @Override
-    public List<Map.Entry<String, Long>> parse(@NonNull final String text) {
+    public List<ParserUnit> parse(@NonNull final String text) {
         String[] lines = text.split("(\n|\n\r)");
         LinkedHashMap<String, Long> unitsMap = new LinkedHashMap<>();
-        List<Map.Entry<String, Long>> list = new ArrayList<>();
+        List<ParserUnit> list = new ArrayList<>();
         for (String line : lines) {
             line = deleteSymbols(line);
-            if (!unitsMap.containsKey(line)) {
-                unitsMap.put(line, 1l);
-            } else {
-                Long counter = unitsMap.get(line);
-                unitsMap.put(line, (counter == null) ? 1 : counter + 1);
-            }
+            addUniqueUnitToMap(unitsMap, line);
         }
-        Iterator<Map.Entry<String, Long>> iterator = unitsMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            list.add(iterator.next());
+        for (Map.Entry<String, Long> entry : unitsMap.entrySet()) {
+            list.add(new ParserUnit(entry.getKey(), entry.getValue()));
         }
         return list;
     }
 
     @NonNull
     protected String deleteSymbols(@NonNull final String line) {
-        final String symbols = "{}!@#$%^&*();:|_-+=*/?\"\',.~\\<>\t\n\r";
+        String symbols = "\\{\\}!@#$%^&*\\(\\);:\\|_-\\+=\\*/\\?\"\',\\.~<>\t\n\r";
         String temp = line.replaceAll("<.+/?>", "\t");
-        temp = temp.toLowerCase();
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < temp.length(); i++) {
-            if (symbols.indexOf(temp.charAt(i)) < 0) {
-                builder.append(temp.charAt(i));
-            }
+        return temp.toLowerCase().replaceAll(symbols, "");
+    }
+
+    private void addUniqueUnitToMap(@NonNull final LinkedHashMap<String, Long> unitsMap, @NonNull final String line) {
+        if (!unitsMap.containsKey(line)) {
+            unitsMap.put(line, 1l);
+        } else {
+            Long counter = unitsMap.get(line);
+            unitsMap.put(line, (counter == null) ? 1 : counter + 1);
         }
-        return builder.toString();
     }
 }

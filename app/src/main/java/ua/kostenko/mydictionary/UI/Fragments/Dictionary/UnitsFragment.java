@@ -2,6 +2,7 @@ package ua.kostenko.mydictionary.UI.Fragments.Dictionary;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +27,8 @@ import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 
 public class UnitsFragment extends Fragment {
 
-    @Bind(R.id.units_list) RecyclerView recyclerViewUnitList;
+    @Bind(R.id.units_list)
+    protected RecyclerView recyclerViewUnitList;
 
     public UnitsFragment() {
     }
@@ -45,46 +49,52 @@ public class UnitsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_fragment_units_list, container, false);
         ButterKnife.bind(this, view);
-        // Set the adapter
+        setTheAdapterAndData(view);
+        return view;
+    }
+
+    private void setTheAdapterAndData(@NonNull final View view) {
         if (recyclerViewUnitList != null) {
             Context context = view.getContext();
             recyclerViewUnitList.setLayoutManager(new LinearLayoutManager(context));
-            //TODO: remove after
-            ArrayList<Unit> tempList = new ArrayList<>();
-            tempList.add(new Unit("Word", "Слово", 1));
-            for (int i = 0; i < 100; i++) {
-                tempList.add(new Unit("Word" + i, "Слово" + i, i));
-            }
-            UnitRecyclerViewAdapter adapter = new UnitRecyclerViewAdapter(tempList,
+            UnitRecyclerViewAdapter adapter = new UnitRecyclerViewAdapter(fillTestData(),
                     new OnClickCustomListener<Unit>() {
                         @Override
                         public void onItemClick(Unit item) {
-                            Toast.makeText(getActivity(), item.toString() + " Click", Toast.LENGTH_LONG).show();
+                            onClick(item);
                         }
                     },
                     new OnLongClickCustomListener<Unit>() {
                         @Override
                         public void onItemLongClick(Unit item) {
-                            Toast.makeText(getActivity(), item.toString() + " Long Click", Toast.LENGTH_LONG).show();
+                            onLongClick(item);
                         }
                     });
             recyclerViewUnitList.setAdapter(adapter);
         }
-        return view;
+    }
+
+    @NonNull
+    private List<Unit> fillTestData() {//TODO: remove after
+        final ArrayList<Unit> tempList = new ArrayList<>();
+        tempList.add(new Unit("Word", "Слово", 1));
+        for (int i = 0; i < 100; i++) {
+            tempList.add(new Unit("Word" + i, "Слово" + i, i));
+        }
+        return Collections.unmodifiableList(tempList);
+    }
+
+    private void onClick(@NonNull final Unit item) { //TODO: add realization
+        Toast.makeText(getActivity(), item.toString() + " Click", Toast.LENGTH_LONG).show();
+    }
+
+    private void onLongClick(@NonNull final Unit item) { //TODO: add realization
+        Toast.makeText(getActivity(), item.toString() + " Long Click", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.new_fab)
     public void fabOnClick(FloatingActionButton floatingActionButton) {
         openAddWordDialog();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//        } else {
-//            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -95,6 +105,6 @@ public class UnitsFragment extends Fragment {
     private void openAddWordDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), inflater);
-        unitCreateDialog.getDialog().show();
+        unitCreateDialog.show();
     }
 }

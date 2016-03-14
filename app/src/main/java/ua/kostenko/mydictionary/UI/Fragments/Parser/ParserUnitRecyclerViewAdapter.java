@@ -11,40 +11,40 @@ import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.UI.OnClickCustomListener;
+import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 
 
-public class MapRecyclerViewAdapter extends RecyclerView.Adapter<MapRecyclerViewAdapter.ViewHolder> {
+public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUnitRecyclerViewAdapter.ViewHolder> {
 
-    @NonNull private final List<Map.Entry<String, Long>> entriesList = new ArrayList<>();
-    @NonNull private final OnClickCustomListener<Map.Entry<String, Long>> onClickCustomListener;
+    @NonNull private final List<ParserUnit> parserUnitList = new ArrayList<>();
+    @NonNull private final OnClickCustomListener<ParserUnit> onClickCustomListener;
 
-    public MapRecyclerViewAdapter(@NonNull final List<Map.Entry<String, Long>> items,
-                                  @NonNull final OnClickCustomListener<Map.Entry<String, Long>> onClick) {
+    public ParserUnitRecyclerViewAdapter(@NonNull final List<ParserUnit> items,
+                                         @NonNull final OnClickCustomListener<ParserUnit> onClick) {
         Preconditions.checkNotNull(onClick, "You try to set null in OnClickCustomListener");
         onClickCustomListener = onClick;
-        entriesList.addAll(items);
+        parserUnitList.addAll(items);
     }
 
     @Override
-    public MapRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_parser_list_item, parent, false);
+    public ParserUnitRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_parser_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.setFields(entriesList.get(position));
+        holder.setFields(parserUnitList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return entriesList.size();
+        return parserUnitList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -53,7 +53,7 @@ public class MapRecyclerViewAdapter extends RecyclerView.Adapter<MapRecyclerView
         public TextView source;
         @Bind(R.id.counter)
         public TextView counter;
-        Map.Entry<String, Long> entry;
+        public ParserUnit parserUnit;
 
         public ViewHolder(View view) {
             super(view);
@@ -62,21 +62,21 @@ public class MapRecyclerViewAdapter extends RecyclerView.Adapter<MapRecyclerView
             view.setOnClickListener(this);
         }
 
-        public void setFields(Map.Entry<String, Long> entry) {
-            this.entry = entry;
-            source.setText(entry.getKey());
-            counter.setText(String.valueOf(entry.getValue()));
+        public void setFields(@NonNull final ParserUnit parserUnit) {
+            this.parserUnit = parserUnit;
+            source.setText(parserUnit.getSource());
+            counter.setText(String.valueOf(parserUnit.getCounter()));
         }
 
         @Override
         public void onClick(View v) {
             Preconditions.checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
-            onClickCustomListener.onItemClick(entry);
+            onClickCustomListener.onItemClick(parserUnit);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + entry + "'";
+            return super.toString() + " '" + parserUnit + "'";
         }
     }
 }

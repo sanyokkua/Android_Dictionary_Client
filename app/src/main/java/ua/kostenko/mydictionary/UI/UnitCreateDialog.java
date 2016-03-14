@@ -19,28 +19,35 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 
 public class UnitCreateDialog {
-    private MaterialDialog.Builder builder;
+    private final MaterialDialog.Builder builder;
     @NonNull
-    private View.OnClickListener onTranslateButtonClick;
+    private final View.OnClickListener onTranslateButtonClick;
     @NonNull
-    private MaterialDialog.SingleButtonCallback onNegativeButtonClick;
+    private final MaterialDialog.SingleButtonCallback onNegativeButtonClick;
     @NonNull
-    private MaterialDialog.SingleButtonCallback onPositiveButtonClick;
+    private final MaterialDialog.SingleButtonCallback onPositiveButtonClick;
     @Bind(R.id.source_text)
-    EditText sourceEditText;
+    protected EditText sourceEditText;
     @Bind(R.id.translation_text)
-    EditText translationEditText;
+    protected EditText translationEditText;
     @Bind(R.id.user_translation_text)
-    EditText userTranslationEditText;
+    protected EditText userTranslationEditText;
     @Bind(R.id.translate_button)
-    Button translateButton;
+    protected Button translateButton;
     @BindString(R.string.dictionary_add)
-    String positiveText;
+    protected String positiveText;
     @BindString(R.string.std_cancel)
-    String negativeText;
+    protected String negativeText;
 
-    public UnitCreateDialog(Context context, LayoutInflater inflater) {
-        View dialogView = inflater.inflate(R.layout.new_dialog_create, null, false);
+    public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit) {
+        this(context, inflater);
+        sourceEditText.setText(unit.getSource());
+        translationEditText.setText(unit.getTranslations());
+        userTranslationEditText.setText(unit.getUserTranslation());
+    }
+
+    public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater) {
+        final View dialogView = inflater.inflate(R.layout.new_dialog_create, null, false);
         ButterKnife.bind(this, dialogView);
         builder = new MaterialDialog.Builder(context);
         builder.customView(dialogView, false);
@@ -53,25 +60,30 @@ public class UnitCreateDialog {
         onPositiveButtonClick = new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(MaterialDialog dialog, DialogAction which) {
-                Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show();
+                save(dialog);
             }
         };
         onTranslateButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Translate", Toast.LENGTH_LONG).show();
+                translate(v);
             }
         };
     }
 
-    public UnitCreateDialog(Context context, LayoutInflater inflater, Unit unit) {
-        this(context, inflater);
-        sourceEditText.setText(unit.getSource());
-        translationEditText.setText(unit.getTranslations());
-        userTranslationEditText.setText(unit.getUserTranslation());
+    private void save(MaterialDialog dialog) {
+        Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show(); //TODO: Add realization
     }
 
-    public MaterialDialog getDialog() {
+    private void translate(View v) {
+        Toast.makeText(v.getContext(), "Translate", Toast.LENGTH_LONG).show(); //TODO: Add realization
+    }
+
+    public void show() {
+        getDialog().show();
+    }
+
+    private MaterialDialog getDialog() {
         Preconditions.checkNotNull(onNegativeButtonClick);
         Preconditions.checkNotNull(onPositiveButtonClick);
         Preconditions.checkNotNull(onTranslateButtonClick);

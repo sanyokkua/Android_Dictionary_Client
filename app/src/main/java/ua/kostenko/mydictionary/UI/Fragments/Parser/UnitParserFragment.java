@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,11 +27,12 @@ import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
 import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.parsing.Parser;
+import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.local.parsing.implementation.TxtParser;
 
 public class UnitParserFragment extends Fragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
-    public static final int PICK_FILE_CODE = 1;
+    private static final int PICK_FILE_CODE = 1;
 
     @Bind(R.id.open_file_button)
     protected Button openFileButton;
@@ -44,8 +44,7 @@ public class UnitParserFragment extends Fragment {
     }
 
     public static UnitParserFragment newInstance() {
-        UnitParserFragment fragment = new UnitParserFragment();
-        return fragment;
+        return new UnitParserFragment();
     }
 
     @Override
@@ -54,9 +53,7 @@ public class UnitParserFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_fragment_unit_parser, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -70,7 +67,7 @@ public class UnitParserFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == PICK_FILE_CODE) {
             final String filePath = data.getData().getPath();
@@ -81,7 +78,7 @@ public class UnitParserFragment extends Fragment {
     private void openDialog(@NonNull final String fileLocation) {
         final DataAccessUtils dataAccessUtils = new DataAccessUtils(getActivity().getApplicationContext());
         final long fileSizeInBytes = dataAccessUtils.getFileByPath(fileLocation).length();
-        FileInfoDialog fileInfoDialog = new FileInfoDialog(getActivity(), getLayoutInflater(null),
+        final FileInfoDialog fileInfoDialog = new FileInfoDialog(getActivity(), getLayoutInflater(null),
                 fileLocation, fileSizeInBytes, new OnClickCustomListener<String>() {
             @Override
             public void onItemClick(String item) {
@@ -91,15 +88,15 @@ public class UnitParserFragment extends Fragment {
         fileInfoDialog.getDialog().show();
     }
 
-    private void onListItemClick(@NonNull String filePath) {
+    private void onListItemClick(@NonNull final String filePath) {
         final FileUtils fileUtils = new FileUtils(getActivity().getApplicationContext());
-        final Parser<List<Map.Entry<String, Long>>> parser = new TxtParser();
-        final List<Map.Entry<String, Long>> result = parser.parse(fileUtils.readFile(filePath));
+        final Parser<ParserUnit> parser = new TxtParser();
+        final List<ParserUnit> result = parser.parse(fileUtils.readFile(filePath));
         if (parserListView != null) {
             parserListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            MapRecyclerViewAdapter adapter = new MapRecyclerViewAdapter(result, new OnClickCustomListener<Map.Entry<String, Long>>() {
+            ParserUnitRecyclerViewAdapter adapter = new ParserUnitRecyclerViewAdapter(result, new OnClickCustomListener<ParserUnit>() {
                 @Override
-                public void onItemClick(Map.Entry<String, Long> item) {
+                public void onItemClick(ParserUnit item) {
                     openAddDialog(item);
                 }
             });
@@ -109,9 +106,9 @@ public class UnitParserFragment extends Fragment {
         }
     }
 
-    private void openAddDialog(Map.Entry<String, Long> item) {
-        Unit unit = new Unit(item.getKey(), "", item.getValue());
-        UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), getLayoutInflater(null), unit);
-        unitCreateDialog.getDialog().show();
+    private void openAddDialog(@NonNull final ParserUnit item) {
+        final Unit unit = new Unit(item.getSource(), "", item.getCounter());
+        final UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), getLayoutInflater(null), unit);
+        unitCreateDialog.show();
     }
 }
