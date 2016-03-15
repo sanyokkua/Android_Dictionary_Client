@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,10 +27,13 @@ import ua.kostenko.mydictionary.UI.OnClickCustomListener;
 import ua.kostenko.mydictionary.UI.UnitCreateDialog;
 import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
 import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
+import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.parsing.Parser;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.local.parsing.implementation.TxtParser;
+import ua.kostenko.mydictionary.core.webpart.enums.Languages;
+import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
 public class UnitParserFragment extends Fragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
@@ -38,6 +43,9 @@ public class UnitParserFragment extends Fragment {
     protected Button openFileButton;
     @Bind(R.id.new_parser_list)
     protected RecyclerView parserListView;
+    private UnitDao unitDao; //TODO: inject dao
+    private List<ParserUnit> result;
+    private TranslateService translateService;
 
     public UnitParserFragment() {
         // Required empty public constructor
@@ -82,16 +90,16 @@ public class UnitParserFragment extends Fragment {
                 fileLocation, fileSizeInBytes, new OnClickCustomListener<String>() {
             @Override
             public void onItemClick(String item) {
-                onListItemClick(fileLocation);
+                onFilePickedAndParsingStart(fileLocation);
             }
         });
         fileInfoDialog.getDialog().show();
     }
 
-    private void onListItemClick(@NonNull final String filePath) {
+    private void onFilePickedAndParsingStart(@NonNull final String filePath) {
         final FileUtils fileUtils = new FileUtils(getActivity().getApplicationContext());
         final Parser<ParserUnit> parser = new TxtParser();
-        final List<ParserUnit> result = parser.parse(fileUtils.readFile(filePath));
+        result = parser.parse(fileUtils.readFile(filePath));
         if (parserListView != null) {
             parserListView.setLayoutManager(new LinearLayoutManager(getActivity()));
             ParserUnitRecyclerViewAdapter adapter = new ParserUnitRecyclerViewAdapter(result, new OnClickCustomListener<ParserUnit>() {
@@ -110,5 +118,38 @@ public class UnitParserFragment extends Fragment {
         final Unit unit = new Unit(item.getSource(), "", item.getCounter());
         final UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), getLayoutInflater(null), unit);
         unitCreateDialog.show();
+    }
+
+    @OnClick(R.id.new_fab)
+    public void fabOnClick(FloatingActionButton floatingActionButton) { //TODO: uncomment after
+        if (result != null && !result.isEmpty()) {
+            Snackbar.make(floatingActionButton, "Stub for add all", Snackbar.LENGTH_LONG).show();
+            //addAllUnitsWithDefaultTranslation(result);
+        } else {
+            Snackbar.make(floatingActionButton.getRootView(), R.string.new_parser_nothing_to_parse, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void addAllUnitsWithDefaultTranslation(@NonNull final List<ParserUnit> result) {
+        for (ParserUnit current : result) {
+            Unit unit = unitDao.findBySource(current.getSource());
+            if (unit != null) {
+                update(current, unit);
+            } else {
+                create(current);
+            }
+        }
+    }
+
+    private void update(@NonNull final ParserUnit current, Unit unit) {
+        long counter = unit.getCounter() + current.getCounter();
+        unit.setCounter(counter);
+        unitDao.saveUnit(unit);
+    }
+
+    private void create(@NonNull final ParserUnit current) {
+        String translation = translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
+        Unit newUnit = new Unit(current.getSource(), translation, current.getCounter());
+        unitDao.saveUnit(newUnit);
     }
 }

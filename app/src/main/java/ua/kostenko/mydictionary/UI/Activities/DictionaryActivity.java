@@ -19,11 +19,11 @@ public class DictionaryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.new_toolbar)
-    Toolbar toolbar;
+    protected Toolbar toolbar;
     @Bind(R.id.new_drawer_layout)
-    DrawerLayout drawer;
+    protected DrawerLayout drawer;
     @Bind(R.id.new_nav_view)
-    NavigationView navigationView;
+    protected NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,20 +72,16 @@ public class DictionaryActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_units_fragment) {
             replaceFragment(UnitsFragment.newInstance());
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_parser_fragment) {
             replaceFragment(UnitParserFragment.newInstance());
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_browser_fragment) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_drilling_fragment) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings_fragment) {
 
         }
         drawer.closeDrawer(GravityCompat.START);

@@ -113,6 +113,13 @@
     <string name="new_parser_file_dialog_size">File size</string>
     <string name="new_parser_file_dialog_location">File location</string>
     <string name="new_parser_file_dialog_question">Do you want to parse this file?</string>
+    <string name="new_parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
+    <string name="new_nav_units_fragment">Units list</string>
+    <string name="new_nav_parser_fragment">Text File parser</string>
+    <string name="new_nav_browser_fragment">Browser</string>
+    <string name="new_nav_drilling_fragment">Drilling</string>
+    <string name="new_nav_option_divider">Other</string>
+    <string name="new_nav_settings_fragment">Settings</string>
 
 
 </resources>
