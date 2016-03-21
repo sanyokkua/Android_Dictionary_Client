@@ -4,28 +4,24 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_units_fragment"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/new_nav_units_fragment"/>
+            android:icon="@drawable/ic_action_icon_book_dark"
+            android:title="@string/navigation_drawer_fragment_units"/>
         <item
             android:id="@+id/nav_parser_fragment"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/new_nav_parser_fragment"/>
-        <item
-            android:id="@+id/nav_browser_fragment"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/new_nav_browser_fragment"/>
+            android:icon="@drawable/ic_action_icon_parser_dark"
+            android:title="@string/navigation_drawer_fragment_parser"/>
         <item
             android:id="@+id/nav_drilling_fragment"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/new_nav_drilling_fragment"/>
+            android:icon="@drawable/ic_action_icon_exercise_dark"
+            android:title="@string/navigation_drawer_fragment_drilling"/>
     </group>
 
-    <item android:title="@string/new_nav_option_divider">
+    <item android:title="@string/navigation_drawer_option_divider">
         <menu>
             <item
                 android:id="@+id/nav_settings_fragment"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/new_nav_settings_fragment"/>
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/navigation_drawer_fragment_settings"/>
         </menu>
     </item>
 

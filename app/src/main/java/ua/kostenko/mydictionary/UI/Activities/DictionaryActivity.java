@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Activities;
+package ua.kostenko.mydictionary.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.Fragments.Dictionary.UnitsFragment;
-import ua.kostenko.mydictionary.UI.Fragments.Parser.UnitParserFragment;
+import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitsFragment;
+import ua.kostenko.mydictionary.ui.fragments.parser.UnitParserFragment;
 
 public class DictionaryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,10 +28,10 @@ public class DictionaryActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_activity_dictionary);
+        setContentView(R.layout.navigation_drawer);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.new_navigation_drawer_open, R.string.new_navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -76,9 +76,6 @@ public class DictionaryActivity extends BaseActivity
             replaceFragment(UnitsFragment.newInstance());
         } else if (id == R.id.nav_parser_fragment) {
             replaceFragment(UnitParserFragment.newInstance());
-
-        } else if (id == R.id.nav_browser_fragment) {
-
         } else if (id == R.id.nav_drilling_fragment) {
 
         } else if (id == R.id.nav_settings_fragment) {

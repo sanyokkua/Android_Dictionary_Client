@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Fragments.Dictionary;
+package ua.kostenko.mydictionary.ui.fragments.dictionary;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +14,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.OnClickCustomListener;
-import ua.kostenko.mydictionary.UI.OnLongClickCustomListener;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
 
 public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> {
 
@@ -35,7 +35,7 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_fragment_item_unit, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dictionary_unit, parent, false);
         return new ViewHolder(view);
     }
 

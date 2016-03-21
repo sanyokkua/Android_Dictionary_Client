@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Fragments.Dictionary;
+package ua.kostenko.mydictionary.ui.fragments.dictionary;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,10 +20,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.OnClickCustomListener;
-import ua.kostenko.mydictionary.UI.OnLongClickCustomListener;
-import ua.kostenko.mydictionary.UI.UnitCreateDialog;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
+import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 
 public class UnitsFragment extends Fragment {
 
@@ -47,7 +47,7 @@ public class UnitsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.new_fragment_units_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_list_view, container, false);
         ButterKnife.bind(this, view);
         setTheAdapterAndData(view);
         return view;

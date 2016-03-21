@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Fragments.Parser;
+package ua.kostenko.mydictionary.ui.fragments.parser;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +15,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.OnClickCustomListener;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
+import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 
 
 public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUnitRecyclerViewAdapter.ViewHolder> {
@@ -33,7 +33,7 @@ public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUn
 
     @Override
     public ParserUnitRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_parser_list_item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parser_unit, parent, false);
         return new ViewHolder(view);
     }
 

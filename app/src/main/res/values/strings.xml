@@ -1,84 +1,17 @@
 <resources>
     <string name="app_name">MyDictionary</string>
 
-    <string name="title_dictionary_fragment">Dictionary</string>
-    <string name="title_parser_fragment">Parser</string>
-    <string name="title_browser_fragment">Browser</string>
-    <string name="title_exercise_fragment">Exercises</string>
-    <string name="title_settings">Settings</string>
-
-    <string name="new_navigation_drawer_open">Open drawer</string>
-    <string name="new_navigation_drawer_close">Close drawer</string>
-
-    <string name="action_example">Example</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="dictionary_add">Add Word</string>
-    <string name="dictionary_del">Delete Word</string>
-    <string name="dictionary_del_dialog_title">Delete this word?</string>
-    <string name="dictionary_add_translation">Add translation</string>
-    <string name="dictionary_del_translation">Delete translation</string>
-    <string name="dictionary_reset">Reset vocabulary</string>
-    <string name="dictionary_add_word_hint">Foreign word</string>
-    <string name="dictionary_add_translation_hint">Translation</string>
-    <string name="dictionary_word">Word:</string>
-    <string name="dictionary_empty">Dictionary is empty...</string>
-    <string name="dictionary_translation">Translation:</string>
-    <string name="dictionary_count">Count:</string>
-
-    <string name="std_open">Open</string>
-    <string name="std_cancel">Cancel</string>
-    <string name="std_close">Close</string>
-    <string name="std_back">Back</string>
-    <string name="std_ok">Ok</string>
-    <string name="std_removed">Removed</string>
-
-    <string name="empty_view">Empty...</string>
-
-    <string name="browser_reload">Reload</string>
-    <string name="browser_parse">Get all words</string>
-    <string name="browser_create_bookmark">Create Bookmark</string>
-    <string name="browser_address">address</string>
-    <string name="browser_bookmark_added">Bookmark created</string>
-    <string name="bookmark_add">Create bookmark</string>
-    <string name="browser_delete_bookmark">Delete this bookmark?</string>
-    <string name="parser_open_file">Open File</string>
-    <string name="parser_parse">Parse</string>
-    <string name="parser_description">Here you can open one of text files in your phone and get all words in that file</string>
-    <string name="parser_file_info">File info</string>
-    <string name="parser_file_name">Name:</string>
-    <string name="parser_file_size">Size:</string>
-
-    <string name="hello_world">Hello world!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dialog_indeterminate">Progress</string>
-    <string name="dialog_please_wait">Please wait</string>
-    <string name="title_activity_dictionary">DictionaryActivity</string>
-
-
     <!-- - - - - - - - Drawer - - - - - - - - - - - - - - -->
-    <string name="drawer_title_dictionary">Dictionary</string>
-    <string name="drawer_title_parser">Parser</string>
-    <string name="drawer_title_browser">Browser</string>
-    <string name="drawer_title_exercise">Exercise</string>
-    <string name="drawer_title_settings">Settings</string>
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
+    <string name="navigation_drawer_fragment_units">Units list</string>
+    <string name="navigation_drawer_fragment_parser">Text File parser</string>
+    <string name="navigation_drawer_fragment_drilling">Drilling</string>
+    <string name="navigation_drawer_fragment_settings">Settings</string>
+    <string name="navigation_drawer_option_divider">Other</string>
 
     <!-- - - - - - - - Dictionary operations - - - - - - - - - - - - - - -->
-    <string name="dict_add">Add Word</string>
-    <string name="dict_del">Delete Word</string>
-    <string name="dict_del_dialog_title">Delete this word?</string>
-    <string name="dict_add_translation">Add translation</string>
-    <string name="dict_del_translation">Delete translation</string>
-    <string name="dict_reset">Reset vocabulary</string>
-    <string name="dict_add_word_hint">Foreign word</string>
-    <string name="dict_add_translation_hint">Translation</string>
-    <string name="dict_word">Word:</string>
-    <string name="dict_empty">Dictionary is empty</string>
-    <string name="dict_translation">Translation:</string>
-    <string name="dict_count">Count:</string>
-
+    <string name="dictionary_add_unit">Add Unit</string>
 
     <!-- - - - - - - - Standard dialog words - - - - - - - - - - - - - - -->
     <string name="standard_open">Open</string>
@@ -88,38 +21,18 @@
     <string name="standard_ok">OK</string>
     <string name="standard_remove">Remove</string>
 
-    <!-- - - - - - - - Browser - - - - - - - - - - - - - - -->
-    <string name="new_browser_reload">Reload</string>
-    <string name="new_browser_parse">Get all words from page</string>
-    <string name="new_browser_address">Address</string>
-    <string name="new_browser_bookmark_add">Add bookmark</string>
-    <string name="new_browser_bookmark_added">Bookmark added</string>
-    <string name="new_browser_bookmark_delete">Delete this bookmark?</string>
-    <string name="new_browser_bookmark_deleted">Bookmark deleted</string>
-
     <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
-    <string name="new_parser_open_file">Choose file from storage</string>
-    <string name="new_parser_parse">Parse</string>
-    <string name="new_parser_description">Here you can open one of text files in your phone and get all words in that file</string>
-    <string name="new_parser_file_info">File info</string>
-    <string name="new_parser_file_name">Name:</string>
-    <string name="new_parser_file_size">Size:</string>
+    <string name="parser_open_file_button">Choose file from storage</string>
+    <string name="parser_description">Here you can open one of text files in your phone and get all words in that file</string>
+    <string name="parser_file_size">File size</string>
+    <string name="parser_file_location">File location</string>
+    <string name="parser_confirm_question">Do you want to parse this file?</string>
+    <string name="parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
 
     <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
-    <string name="source_field_hint">Source</string>
-    <string name="translation_field_hint">Translation</string>
-    <string name="user_translation_field_hint">User variant of translation</string>
-    <string name="translation_button">Translate</string>
-    <string name="new_parser_file_dialog_size">File size</string>
-    <string name="new_parser_file_dialog_location">File location</string>
-    <string name="new_parser_file_dialog_question">Do you want to parse this file?</string>
-    <string name="new_parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
-    <string name="new_nav_units_fragment">Units list</string>
-    <string name="new_nav_parser_fragment">Text File parser</string>
-    <string name="new_nav_browser_fragment">Browser</string>
-    <string name="new_nav_drilling_fragment">Drilling</string>
-    <string name="new_nav_option_divider">Other</string>
-    <string name="new_nav_settings_fragment">Settings</string>
-
+    <string name="field_hint_source">Source</string>
+    <string name="field_hint_translation">Translation</string>
+    <string name="field_hint_user_translation">User variant of translation</string>
+    <string name="button_translation">Translate</string>
 
 </resources>

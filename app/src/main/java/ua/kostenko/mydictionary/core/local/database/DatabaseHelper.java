@@ -11,7 +11,6 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import ua.kostenko.mydictionary.core.local.database.dao.BookmarkDao;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.dao.UserDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
@@ -23,7 +22,6 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private UnitDao unitDao;
     private UserDao userDao;
-    private BookmarkDao bookmarkDao;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -56,7 +54,6 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         unitDao = null;
         userDao = null;
-        bookmarkDao = null;
     }
 
     @NonNull
@@ -75,14 +72,5 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             throw new RuntimeException("Not implemented");
         }
         return userDao;
-    }
-
-    @NonNull
-    public BookmarkDao getBookmarkDao() {
-        if (bookmarkDao == null) {
-            //TODO: create dao
-            throw new RuntimeException("Not implemented");
-        }
-        return bookmarkDao;
     }
 }

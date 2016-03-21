@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Activities;
+package ua.kostenko.mydictionary.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

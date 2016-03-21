@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.UI.Fragments.Parser;
+package ua.kostenko.mydictionary.ui.fragments.parser;
 
 
 import android.app.Activity;
@@ -22,9 +22,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.UI.FileInfoDialog;
-import ua.kostenko.mydictionary.UI.OnClickCustomListener;
-import ua.kostenko.mydictionary.UI.UnitCreateDialog;
 import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
 import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
@@ -34,6 +31,9 @@ import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.local.parsing.implementation.TxtParser;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
+import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.dialogs.FileInfoDialog;
+import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 
 public class UnitParserFragment extends Fragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
@@ -62,7 +62,7 @@ public class UnitParserFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.new_fragment_unit_parser, container, false);
+        View view = inflater.inflate(R.layout.fragment_parser_view, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -126,7 +126,7 @@ public class UnitParserFragment extends Fragment {
             Snackbar.make(floatingActionButton, "Stub for add all", Snackbar.LENGTH_LONG).show();
             //addAllUnitsWithDefaultTranslation(result);
         } else {
-            Snackbar.make(floatingActionButton.getRootView(), R.string.new_parser_nothing_to_parse, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(floatingActionButton.getRootView(), R.string.parser_nothing_to_parse, Snackbar.LENGTH_LONG).show();
         }
     }
 
