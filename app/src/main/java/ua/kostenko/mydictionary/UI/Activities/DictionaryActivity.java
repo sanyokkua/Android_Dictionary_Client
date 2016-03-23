@@ -18,11 +18,11 @@ import ua.kostenko.mydictionary.ui.fragments.parser.UnitParserFragment;
 public class DictionaryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.new_toolbar)
+    @Bind(R.id.toolbar)
     protected Toolbar toolbar;
-    @Bind(R.id.new_drawer_layout)
+    @Bind(R.id.drawer_layout)
     protected DrawerLayout drawer;
-    @Bind(R.id.new_nav_view)
+    @Bind(R.id.navigation_view)
     protected NavigationView navigationView;
 
     @Override

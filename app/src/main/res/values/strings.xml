@@ -35,4 +35,15 @@
     <string name="field_hint_user_translation">User variant of translation</string>
     <string name="button_translation">Translate</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_application_name">Name of application hardcode</string>
+    <string name="drawer_application_secondary_text">android.studio@android.com</string>
+    <string name="parser_progress_dialog">Loading</string>
+    <string name="parser_progress_dialog_content">Please wait until file will be parsed</string>
+    <string name="parser_dialog_add_all_warning">Warning</string>
+    <string name="parser_dialog_add_all_question">Are you sure to add all units to your dictionary?</string>
+    <string name="parser_dialog_add_all_title">Processing</string>
+    <string name="parser_dialog_add_all_content">Please wait until all units will be added to the dictionary</string>
+
 </resources>

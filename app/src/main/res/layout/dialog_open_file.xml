@@ -18,7 +18,7 @@
             android:textSize="22sp"/>
 
         <TextView
-            android:id="@+id/new_file_size"
+            android:id="@+id/file_size_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
@@ -38,7 +38,7 @@
             android:textSize="22sp"/>
 
         <TextView
-            android:id="@+id/new_file_location"
+            android:id="@+id/file_location_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"

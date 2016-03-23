@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,32 +26,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
-import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
-import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
-import ua.kostenko.mydictionary.core.local.parsing.Parser;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
-import ua.kostenko.mydictionary.core.local.parsing.implementation.TxtParser;
-import ua.kostenko.mydictionary.core.webpart.enums.Languages;
-import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 import ua.kostenko.mydictionary.ui.dialogs.FileInfoDialog;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
+import ua.kostenko.mydictionary.ui.fragments.parser.tasks.AddAllTask;
+import ua.kostenko.mydictionary.ui.fragments.parser.tasks.ParseTask;
 
 public class UnitParserFragment extends Fragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
     private static final int PICK_FILE_CODE = 1;
-
     @Bind(R.id.open_file_button)
     protected Button openFileButton;
-    @Bind(R.id.new_parser_list)
+    @Bind(R.id.parser_list)
     protected RecyclerView parserListView;
-    private UnitDao unitDao; //TODO: inject dao
     private List<ParserUnit> result;
-    private TranslateService translateService;
 
     public UnitParserFragment() {
-        // Required empty public constructor
     }
 
     public static UnitParserFragment newInstance() {
@@ -90,16 +85,24 @@ public class UnitParserFragment extends Fragment {
                 fileLocation, fileSizeInBytes, new OnClickCustomListener<String>() {
             @Override
             public void onItemClick(String item) {
-                onFilePickedAndParsingStart(fileLocation);
+                parse(fileLocation);
             }
         });
         fileInfoDialog.getDialog().show();
     }
 
-    private void onFilePickedAndParsingStart(@NonNull final String filePath) {
-        final FileUtils fileUtils = new FileUtils(getActivity().getApplicationContext());
-        final Parser<ParserUnit> parser = new TxtParser();
-        result = parser.parse(fileUtils.readFile(filePath));
+    private void parse(@NonNull final String filePath) {
+        ParseTask task = new ParseTask(getContext(), new ParseTask.OnFinish() {
+            @Override
+            public void onFinish(List<ParserUnit> unitsList) {
+                result = unitsList;
+                setAdapterWithData();
+            }
+        });
+        task.execute(filePath);
+    }
+
+    private void setAdapterWithData() {
         if (parserListView != null) {
             parserListView.setLayoutManager(new LinearLayoutManager(getActivity()));
             ParserUnitRecyclerViewAdapter adapter = new ParserUnitRecyclerViewAdapter(result, new OnClickCustomListener<ParserUnit>() {
@@ -120,36 +123,35 @@ public class UnitParserFragment extends Fragment {
         unitCreateDialog.show();
     }
 
-    @OnClick(R.id.new_fab)
-    public void fabOnClick(FloatingActionButton floatingActionButton) { //TODO: uncomment after
+    @OnClick(R.id.fab)
+    public void fabOnClick(FloatingActionButton floatingActionButton) {
         if (result != null && !result.isEmpty()) {
-            Snackbar.make(floatingActionButton, "Stub for add all", Snackbar.LENGTH_LONG).show();
-            //addAllUnitsWithDefaultTranslation(result);
+            addAllUnitsWithDefaultTranslation(result);
         } else {
             Snackbar.make(floatingActionButton.getRootView(), R.string.parser_nothing_to_parse, Snackbar.LENGTH_LONG).show();
         }
     }
 
     private void addAllUnitsWithDefaultTranslation(@NonNull final List<ParserUnit> result) {
-        for (ParserUnit current : result) {
-            Unit unit = unitDao.findBySource(current.getSource());
-            if (unit != null) {
-                update(current, unit);
-            } else {
-                create(current);
-            }
-        }
-    }
-
-    private void update(@NonNull final ParserUnit current, Unit unit) {
-        long counter = unit.getCounter() + current.getCounter();
-        unit.setCounter(counter);
-        unitDao.saveUnit(unit);
-    }
-
-    private void create(@NonNull final ParserUnit current) {
-        String translation = translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
-        Unit newUnit = new Unit(current.getSource(), translation, current.getCounter());
-        unitDao.saveUnit(newUnit);
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.parser_dialog_add_all_warning)
+                .content(R.string.parser_dialog_add_all_question)
+                .negativeText(R.string.standard_cancel)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .positiveText(R.string.standard_ok)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        AddAllTask addAllTask = new AddAllTask(getContext());
+                        addAllTask.execute(result);
+                    }
+                })
+                .canceledOnTouchOutside(false)
+                .show();
     }
 }

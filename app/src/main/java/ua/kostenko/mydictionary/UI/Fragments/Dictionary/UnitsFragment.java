@@ -92,7 +92,7 @@ public class UnitsFragment extends Fragment {
         Snackbar.make(recyclerViewUnitList, item.toString() + " Long Click", Snackbar.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.new_fab)
+    @OnClick(R.id.fab)
     public void fabOnClick(FloatingActionButton floatingActionButton) {
         openAddWordDialog();
     }

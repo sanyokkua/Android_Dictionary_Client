@@ -51,11 +51,11 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final View view;
-        @Bind(R.id.new_unit_source)
+        @Bind(R.id.unit_source_text)
         public TextView source;
-        @Bind(R.id.new_unit_translation)
+        @Bind(R.id.unit_translation_text)
         public TextView translation;
-        @Bind(R.id.new_unit_counter)
+        @Bind(R.id.unit_counter_text)
         public TextView counter;
         public Unit unit;
 

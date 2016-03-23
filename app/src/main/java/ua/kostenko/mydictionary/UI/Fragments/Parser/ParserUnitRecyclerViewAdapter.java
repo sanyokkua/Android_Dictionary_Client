@@ -51,7 +51,7 @@ public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUn
         public final View view;
         @Bind(R.id.source_text)
         public TextView source;
-        @Bind(R.id.counter)
+        @Bind(R.id.counter_text)
         public TextView counter;
         public ParserUnit parserUnit;
 

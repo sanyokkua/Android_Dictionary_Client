@@ -18,9 +18,9 @@ import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 
 
 public class FileInfoDialog {
-    @Bind(R.id.new_file_size)
+    @Bind(R.id.file_size_text)
     protected TextView sizeEditText;
-    @Bind(R.id.new_file_location)
+    @Bind(R.id.file_location_text)
     protected TextView locationEditText;
     @BindString(R.string.dictionary_add_unit)
     protected String positiveText;

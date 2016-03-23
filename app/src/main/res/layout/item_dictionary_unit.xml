@@ -17,14 +17,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/new_unit_source"
+                android:id="@+id/unit_source_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Some Word"
                 android:textSize="@dimen/text_size_header"/>
 
             <TextView
-                android:id="@+id/new_unit_translation"
+                android:id="@+id/unit_translation_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="translation"
@@ -37,7 +37,7 @@
             android:layout_weight="0.1">
 
             <TextView
-                android:id="@+id/new_unit_counter"
+                android:id="@+id/unit_counter_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
