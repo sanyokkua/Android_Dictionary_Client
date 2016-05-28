@@ -5,9 +5,10 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.common.base.Preconditions;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
@@ -16,15 +17,17 @@ import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+
 public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
-    private final Context context;
+    private static final String TAG = AddAllTask.class.getSimpleName();
     private final MaterialDialog progressDialog;
-    private UnitDao unitDao; //TODO: inject dao
-    private TranslateService translateService;
+    @Inject Context context;
+    @Inject UnitDao unitDao;
+    @Inject TranslateService translateService;
 
     public AddAllTask(@NonNull final Context context) {
-        Preconditions.checkNotNull(context);
-        this.context = context;
+        checkNotNull(context);
         progressDialog = new MaterialDialog.Builder(context)
                 .title(R.string.parser_dialog_add_all_title)
                 .content(R.string.parser_dialog_add_all_content)

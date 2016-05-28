@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import ua.kostenko.mydictionary.R;
 
 public class DrillingFragment extends Fragment {
+    private static final String TAG = DrillingFragment.class.getSimpleName();
 
     public DrillingFragment() {
         // Required empty public constructor

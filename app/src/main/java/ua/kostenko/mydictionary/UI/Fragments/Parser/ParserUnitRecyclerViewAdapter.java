@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.common.base.Preconditions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +16,17 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+
 
 public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUnitRecyclerViewAdapter.ViewHolder> {
-
+    private static final String TAG = ParserUnitRecyclerViewAdapter.class.getSimpleName();
     @NonNull private final List<ParserUnit> parserUnitList = new ArrayList<>();
     @NonNull private final OnClickCustomListener<ParserUnit> onClickCustomListener;
 
     public ParserUnitRecyclerViewAdapter(@NonNull final List<ParserUnit> items,
                                          @NonNull final OnClickCustomListener<ParserUnit> onClick) {
-        Preconditions.checkNotNull(onClick, "You try to set null in OnClickCustomListener");
+        checkNotNull(onClick, "You try to set null in OnClickCustomListener");
         onClickCustomListener = onClick;
         parserUnitList.addAll(items);
     }
@@ -70,7 +70,7 @@ public class ParserUnitRecyclerViewAdapter extends RecyclerView.Adapter<ParserUn
 
         @Override
         public void onClick(View v) {
-            Preconditions.checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
+            checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
             onClickCustomListener.onItemClick(parserUnit);
         }
 

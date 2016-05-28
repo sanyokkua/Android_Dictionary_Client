@@ -8,13 +8,14 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.common.base.Preconditions;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
 
 public class FileInfoDialog {
@@ -56,15 +57,15 @@ public class FileInfoDialog {
                           @NonNull final String fileLocation, final long fileSize,
                           @NonNull final OnClickCustomListener<String> okCallback) {
         this(context, inflater);
-        Preconditions.checkNotNull(okCallback);
+        checkNotNull(okCallback);
         sizeEditText.setText(String.valueOf(fileSize));
         locationEditText.setText(fileLocation);
         this.okCallback = okCallback;
     }
 
     public MaterialDialog getDialog() {
-        Preconditions.checkNotNull(onNegativeButtonClick);
-        Preconditions.checkNotNull(onPositiveButtonClick);
+        checkNotNull(onNegativeButtonClick);
+        checkNotNull(onPositiveButtonClick);
         builder.positiveText(positiveText);
         builder.negativeText(negativeText);
         builder.onPositive(onPositiveButtonClick);

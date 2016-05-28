@@ -12,23 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 
 public class UnitsFragment extends Fragment {
-
-    @Bind(R.id.units_list)
-    protected RecyclerView recyclerViewUnitList;
+    private static final String TAG = UnitsFragment.class.getSimpleName();
+    @Bind(R.id.units_list) RecyclerView recyclerViewUnitList;
+    @Inject UnitDao unitDao;
 
     public UnitsFragment() {
     }
@@ -43,6 +46,7 @@ public class UnitsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getAppComponent().inject(this);
     }
 
     @Override
@@ -57,7 +61,7 @@ public class UnitsFragment extends Fragment {
         if (recyclerViewUnitList != null) {
             Context context = view.getContext();
             recyclerViewUnitList.setLayoutManager(new LinearLayoutManager(context));
-            UnitRecyclerViewAdapter adapter = new UnitRecyclerViewAdapter(fillTestData(),
+            UnitRecyclerViewAdapter adapter = new UnitRecyclerViewAdapter(loadData(),
                     new OnClickCustomListener<Unit>() {
                         @Override
                         public void onItemClick(Unit item) {
@@ -75,12 +79,8 @@ public class UnitsFragment extends Fragment {
     }
 
     @NonNull
-    private List<Unit> fillTestData() {//TODO: remove after
-        final ArrayList<Unit> tempList = new ArrayList<>();
-        tempList.add(new Unit("Word", "Слово", 1));
-        for (int i = 0; i < 100; i++) {
-            tempList.add(new Unit("Word" + i, "Слово" + i, i));
-        }
+    private List<Unit> loadData() {
+        final List<Unit> tempList = unitDao.findAll();
         return Collections.unmodifiableList(tempList);
     }
 

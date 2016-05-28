@@ -21,9 +21,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
@@ -34,13 +37,15 @@ import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 import ua.kostenko.mydictionary.ui.fragments.parser.tasks.AddAllTask;
 import ua.kostenko.mydictionary.ui.fragments.parser.tasks.ParseTask;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotEmpty;
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
+
 public class UnitParserFragment extends Fragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
     private static final int PICK_FILE_CODE = 1;
-    @Bind(R.id.open_file_button)
-    protected Button openFileButton;
-    @Bind(R.id.parser_list)
-    protected RecyclerView parserListView;
+    @Bind(R.id.open_file_button) Button openFileButton;
+    @Bind(R.id.parser_list) RecyclerView parserListView;
+    @Inject DataAccessUtils dataAccessUtils;
     private List<ParserUnit> result;
 
     public UnitParserFragment() {
@@ -53,6 +58,7 @@ public class UnitParserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getAppComponent().inject(this);
     }
 
     @Override
@@ -79,7 +85,6 @@ public class UnitParserFragment extends Fragment {
     }
 
     private void openDialog(@NonNull final String fileLocation) {
-        final DataAccessUtils dataAccessUtils = new DataAccessUtils(getActivity().getApplicationContext());
         final long fileSizeInBytes = dataAccessUtils.getFileByPath(fileLocation).length();
         final FileInfoDialog fileInfoDialog = new FileInfoDialog(getActivity(), getLayoutInflater(null),
                 fileLocation, fileSizeInBytes, new OnClickCustomListener<String>() {
@@ -103,7 +108,7 @@ public class UnitParserFragment extends Fragment {
     }
 
     private void setAdapterWithData() {
-        if (parserListView != null) {
+        if (isNotNull(parserListView)) {
             parserListView.setLayoutManager(new LinearLayoutManager(getActivity()));
             ParserUnitRecyclerViewAdapter adapter = new ParserUnitRecyclerViewAdapter(result, new OnClickCustomListener<ParserUnit>() {
                 @Override
@@ -125,7 +130,7 @@ public class UnitParserFragment extends Fragment {
 
     @OnClick(R.id.fab)
     public void fabOnClick(FloatingActionButton floatingActionButton) {
-        if (result != null && !result.isEmpty()) {
+        if (isNotEmpty(result)) {
             addAllUnitsWithDefaultTranslation(result);
         } else {
             Snackbar.make(floatingActionButton.getRootView(), R.string.parser_nothing_to_parse, Snackbar.LENGTH_LONG).show();

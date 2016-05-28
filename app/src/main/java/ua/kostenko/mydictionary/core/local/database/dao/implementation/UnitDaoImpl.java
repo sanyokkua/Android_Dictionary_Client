@@ -3,7 +3,6 @@ package ua.kostenko.mydictionary.core.local.database.dao.implementation;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.common.base.Preconditions;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -15,18 +14,20 @@ import java.util.List;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+
 public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     private static final String TAG = UnitDaoImpl.class.getSimpleName();
 
-    protected UnitDaoImpl(ConnectionSource connectionSource, Class<Unit> dataClass) throws SQLException {
+    public UnitDaoImpl(ConnectionSource connectionSource, Class<Unit> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
     @Override
     public boolean saveUnit(@NonNull final Unit unit) {
-        Preconditions.checkNotNull(unit);
+        checkNotNull(unit);
         Unit temporaryUnit = findBySource(unit.getSource());
-        return temporaryUnit != null ? updateUnit(temporaryUnit) : createUnit(temporaryUnit);
+        return temporaryUnit != null ? updateUnit(temporaryUnit) : createUnit(unit);
     }
 
     private boolean createUnit(@NonNull final Unit newUnit) {
@@ -56,7 +57,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
 
     @Override
     public boolean removeUnit(@NonNull final Unit unit) {
-        Preconditions.checkNotNull(unit);
+        checkNotNull(unit);
         boolean resultOfOperation;
         try {
             final int numbOfRowsUpdated = delete(unit);
@@ -70,7 +71,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
 
     @Override
     public Unit findBySource(@NonNull final String source) {
-        Preconditions.checkNotNull(source);
+        checkNotNull(source);
         return findByQuery(Unit.FIELD_SOURCE, source);
     }
 
@@ -88,7 +89,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
 
     @Override
     public Unit findByTranslation(@NonNull final String translation) {
-        Preconditions.checkNotNull(translation);
+        checkNotNull(translation);
         return findByQuery(Unit.FIELD_TRANSLATION, translation);
     }
 

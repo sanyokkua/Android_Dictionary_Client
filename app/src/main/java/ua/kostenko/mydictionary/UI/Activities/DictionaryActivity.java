@@ -15,15 +15,11 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitsFragment;
 import ua.kostenko.mydictionary.ui.fragments.parser.UnitParserFragment;
 
-public class DictionaryActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    @Bind(R.id.toolbar)
-    protected Toolbar toolbar;
-    @Bind(R.id.drawer_layout)
-    protected DrawerLayout drawer;
-    @Bind(R.id.navigation_view)
-    protected NavigationView navigationView;
+public class DictionaryActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = DictionaryActivity.class.getSimpleName();
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawer_layout) DrawerLayout drawer;
+    @Bind(R.id.navigation_view) NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

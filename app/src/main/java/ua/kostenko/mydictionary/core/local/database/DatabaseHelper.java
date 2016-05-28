@@ -13,13 +13,15 @@ import java.sql.SQLException;
 
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.dao.UserDao;
+import ua.kostenko.mydictionary.core.local.database.dao.implementation.UnitDaoImpl;
+import ua.kostenko.mydictionary.core.local.database.dao.implementation.UserDaoImpl;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.core.local.database.domain.User;
 
 public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DB_NAME = "app.db";
     private static final int DB_VERSION = 1;
-
     private UnitDao unitDao;
     private UserDao userDao;
 
@@ -57,19 +59,17 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @NonNull
-    public UnitDao getUnitDao() {
+    public UnitDao getUnitDao() throws SQLException {
         if (unitDao == null) {
-            //TODO: create dao
-            throw new RuntimeException("Not implemented");
+            unitDao = new UnitDaoImpl(getConnectionSource(), Unit.class);
         }
         return unitDao;
     }
 
     @NonNull
-    public UserDao getUserDao() {
+    public UserDao getUserDao() throws SQLException {
         if (userDao == null) {
-            //TODO: create dao
-            throw new RuntimeException("Not implemented");
+            userDao = new UserDaoImpl(getConnectionSource(), User.class);
         }
         return userDao;
     }

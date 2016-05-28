@@ -3,7 +3,6 @@ package ua.kostenko.mydictionary.core.local.database.dao.implementation;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.common.base.Preconditions;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -13,16 +12,18 @@ import java.sql.SQLException;
 import ua.kostenko.mydictionary.core.local.database.dao.UserDao;
 import ua.kostenko.mydictionary.core.local.database.domain.User;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+
 public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
     private static final String TAG = UserDaoImpl.class.getSimpleName();
 
-    protected UserDaoImpl(ConnectionSource connectionSource, Class<User> dataClass) throws SQLException {
+    public UserDaoImpl(ConnectionSource connectionSource, Class<User> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
     @Override
     public User loadUser(@NonNull final String login) {
-        Preconditions.checkNotNull(login);
+        checkNotNull(login);
         QueryBuilder<User, Integer> queryBuilder = queryBuilder();
         User userFromDb = null;
         try {
@@ -36,8 +37,8 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements UserDao {
 
     @Override
     public boolean saveUser(@NonNull final User user) {
-        Preconditions.checkNotNull(user);
-        Preconditions.checkNotNull(user.getLogin());
+        checkNotNull(user);
+        checkNotNull(user.getLogin());
         User loadedUser = loadUser(user.getLogin());
         if (loadedUser == null) {
             createUser(user);

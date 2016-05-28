@@ -11,6 +11,10 @@ import ua.kostenko.mydictionary.core.local.parsing.Parser;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 
 public final class TxtParser implements Parser<ParserUnit> {
+    private static final String TAG = TxtParser.class.getSimpleName();
+
+    public TxtParser() {
+    }
 
     @Override
     public List<ParserUnit> parse(@NonNull final String text) {
@@ -36,7 +40,7 @@ public final class TxtParser implements Parser<ParserUnit> {
 
     private void addUniqueUnitToMap(@NonNull final LinkedHashMap<String, Long> unitsMap, @NonNull final String line) {
         if (!unitsMap.containsKey(line)) {
-            unitsMap.put(line, 1l);
+            unitsMap.put(line, 1L);
         } else {
             Long counter = unitsMap.get(line);
             unitsMap.put(line, (counter == null) ? 1 : counter + 1);

@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.common.base.Preconditions;
-
 import java.util.List;
 
 import butterknife.Bind;
@@ -18,16 +16,18 @@ import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
 
-public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> {
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
+public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = UnitRecyclerViewAdapter.class.getSimpleName();
     @NonNull private final List<Unit> unitList;
     @NonNull private final OnClickCustomListener<Unit> onClickCustomListener;
     @NonNull private final OnLongClickCustomListener<Unit> onLongClickCustomListener;
 
     public UnitRecyclerViewAdapter(@NonNull final List<Unit> items, @NonNull final OnClickCustomListener<Unit> onClick,
                                    @NonNull final OnLongClickCustomListener<Unit> onLonGClick) {
-        Preconditions.checkNotNull(onClick, "You try to set null in OnClickCustomListener");
-        Preconditions.checkNotNull(onLonGClick, "You try to set null in OnLongClickCustomListener");
+        checkNotNull(onClick, "You try to set null in OnClickCustomListener");
+        checkNotNull(onLonGClick, "You try to set null in OnLongClickCustomListener");
         onClickCustomListener = onClick;
         onLongClickCustomListener = onLonGClick;
         unitList = items;
@@ -76,15 +76,15 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
 
         @Override
         public void onClick(View v) {
-            Preconditions.checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
+            checkNotNull(onClickCustomListener, "OnClickCustomListener is not set");
             onClickCustomListener.onItemClick(unit);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            Preconditions.checkNotNull(onLongClickCustomListener, "OnLongClickCustomListener is not set");
+            checkNotNull(onLongClickCustomListener, "OnLongClickCustomListener is not set");
             onLongClickCustomListener.onItemLongClick(unit);
-            return false;
+            return true;
         }
 
         @Override
