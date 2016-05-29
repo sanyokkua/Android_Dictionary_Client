@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 import ua.kostenko.mydictionary.core.webpart.services.implementation.TranslateServiceImpl;
 
@@ -15,6 +17,15 @@ public class DaggerServicesModule {
     @Singleton
     public OkHttpClient provideOkHttpClient() {
         return new OkHttpClient();
+    }
+
+    @Provides
+    @Singleton
+    public Retrofit provideRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl("http://webdictionary-kostenko.rhcloud.com")
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
     }
 
     @Provides

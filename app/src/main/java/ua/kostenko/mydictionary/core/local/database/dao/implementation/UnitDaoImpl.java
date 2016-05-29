@@ -15,6 +15,7 @@ import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
 public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     private static final String TAG = UnitDaoImpl.class.getSimpleName();
@@ -27,8 +28,22 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     public boolean saveUnit(@NonNull final Unit unit) {
         checkNotNull(unit);
         Unit temporaryUnit = findBySource(unit.getSource());
-        return temporaryUnit != null ? updateUnit(temporaryUnit) : createUnit(unit);
+        return isNotNull(temporaryUnit) ? updateUnit(temporaryUnit) : createUnit(unit);
     }
+
+    private boolean updateUnit(@NonNull final Unit existingUnit) {
+        boolean resultOfOperation;
+        try {
+            existingUnit.incrementCounter();
+            int numbOfRowsUpdated = update(existingUnit);
+            resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
+        } catch (SQLException e) {
+            Log.e(TAG, "Error while updating unit", e);
+            resultOfOperation = false;
+        }
+        return resultOfOperation;
+    }
+
 
     private boolean createUnit(@NonNull final Unit newUnit) {
         boolean resultOfOperation;
@@ -37,19 +52,6 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
         } catch (SQLException e) {
             Log.e(TAG, "Error while creating unit", e);
-            resultOfOperation = false;
-        }
-        return resultOfOperation;
-    }
-
-
-    private boolean updateUnit(@NonNull final Unit existingUnit) {
-        boolean resultOfOperation;
-        try {
-            int numbOfRowsUpdated = update(existingUnit);
-            resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
-        } catch (SQLException e) {
-            Log.e(TAG, "Error while updating unit", e);
             resultOfOperation = false;
         }
         return resultOfOperation;

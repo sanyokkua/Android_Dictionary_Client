@@ -17,16 +17,11 @@ import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
-
 public class FileInfoDialog {
-    @Bind(R.id.file_size_text)
-    protected TextView sizeEditText;
-    @Bind(R.id.file_location_text)
-    protected TextView locationEditText;
-    @BindString(R.string.dictionary_add_unit)
-    protected String positiveText;
-    @BindString(R.string.standard_cancel)
-    protected String negativeText;
+    @Bind(R.id.file_size_text) TextView sizeEditText;
+    @Bind(R.id.file_location_text) TextView locationEditText;
+    @BindString(R.string.dictionary_add_unit) String positiveText;
+    @BindString(R.string.standard_cancel) String negativeText;
     private MaterialDialog.Builder builder;
     @NonNull
     private MaterialDialog.SingleButtonCallback onNegativeButtonClick;

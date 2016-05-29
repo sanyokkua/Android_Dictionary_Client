@@ -10,12 +10,15 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Unit {
     public static final String FIELD_SOURCE = "source";
     public static final String FIELD_TRANSLATION = "translation";
+    public static final String FIELD_TRANSLATION_ADDITIONAL = "translationAdditional";
     public static final String FIELD_USER_TRANSLATION = "userTranslation";
     public static final String FIELD_COUNTER = "counter";
     @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING, columnName = FIELD_SOURCE)
     private String source;
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION)
     private String translations;
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION_ADDITIONAL)
+    private String translationsAdditional;
     @DatabaseField(dataType = DataType.STRING, columnName = FIELD_USER_TRANSLATION)
     private String userTranslation;
     @DatabaseField(dataType = DataType.LONG, columnName = FIELD_COUNTER)
@@ -23,6 +26,10 @@ public class Unit {
 
     public Unit() {
         this.counter = 0;
+    }
+
+    public void incrementCounter(){
+        counter++;
     }
 
     public Unit(@NonNull final String source, @NonNull final String translations) {
@@ -40,6 +47,12 @@ public class Unit {
     public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
         this(source, translations, counter);
         this.userTranslation = userTranslation;
+    }
+
+    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String translationsAdditional,
+                @NonNull final String userTranslation, final long counter) {
+        this(source, translations, userTranslation, counter);
+        this.translationsAdditional = translationsAdditional;
     }
 
     public long getCounter() {
@@ -66,6 +79,14 @@ public class Unit {
         this.userTranslation = userTranslation;
     }
 
+    public String getTranslationsAdditional() {
+        return translationsAdditional;
+    }
+
+    public void setTranslationsAdditional(String translationsAdditional) {
+        this.translationsAdditional = translationsAdditional;
+    }
+
     public String getSource() {
         return source;
     }
@@ -79,6 +100,7 @@ public class Unit {
         return "Unit{" +
                 "source='" + source + '\'' +
                 ", translations='" + translations + '\'' +
+                ", translationsAdditional='" + translationsAdditional + '\'' +
                 ", userTranslation='" + userTranslation + '\'' +
                 ", counter=" + counter +
                 '}';

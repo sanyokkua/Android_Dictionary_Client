@@ -21,6 +21,7 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
+import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
@@ -37,7 +38,7 @@ public class UnitCreateDialog {
     @BindString(R.string.dictionary_add_unit) String positiveText;
     @BindString(R.string.standard_cancel) String negativeText;
     @Inject UnitDao unitDao;
-    @Inject TranslateService translateService;
+    @Inject TranslateService<Unit> translateService;
 
     public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater) {
         final View dialogView = inflater.inflate(R.layout.dialog_create_unit, null, false);
@@ -73,13 +74,18 @@ public class UnitCreateDialog {
     }
 
     private void save(MaterialDialog dialog) {
-        Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show(); //TODO: Add realization
         unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(), getUserTranslationText(), 0));
+        Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show();
     }
 
     private void translate(View v) {
-        Toast.makeText(v.getContext(), "Translate2", Toast.LENGTH_LONG).show(); //TODO: Add realization
-        translationEditText.setText(translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, getSourceText()));
+        translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, getSourceText(), new OnResultCallback<Unit>() {
+            @Override
+            public void onResult(Unit result) {
+                translationEditText.setText(result.getTranslations());
+            }
+        });
+        Toast.makeText(v.getContext(), "Wait a while. Application doing request", Toast.LENGTH_LONG).show();
     }
 
     public void show() {

@@ -4,6 +4,6 @@ import android.support.annotation.NonNull;
 
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 
-public interface TranslateService {
-    String translate(@NonNull final Languages from, @NonNull final Languages to, @NonNull final String unit);
+public interface TranslateService<T> {
+    void translate(@NonNull final Languages from, @NonNull final Languages to, @NonNull final String text, OnResultCallback<T> onResultCallback);
 }
