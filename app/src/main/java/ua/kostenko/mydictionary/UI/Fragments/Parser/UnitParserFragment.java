@@ -152,11 +152,15 @@ public class UnitParserFragment extends Fragment {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        AddAllTask addAllTask = new AddAllTask(getContext());
-                        addAllTask.execute(result);
+                        addAllUnits(result);
                     }
                 })
                 .canceledOnTouchOutside(false)
                 .show();
+    }
+
+    private void addAllUnits(@NonNull List<ParserUnit> result) {
+        AddAllTask addAllTask = new AddAllTask(getContext());
+        addAllTask.execute(result);
     }
 }

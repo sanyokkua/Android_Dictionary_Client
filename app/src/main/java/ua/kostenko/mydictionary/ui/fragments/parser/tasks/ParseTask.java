@@ -22,8 +22,8 @@ import ua.kostenko.mydictionary.core.local.parsing.implementation.TxtParser;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
 public class ParseTask extends AsyncTask<String, Void, List<ParserUnit>> {
-    private final MaterialDialog progressDialog;
     private final OnFinish onFinish;
+    private MaterialDialog progressDialog;
     @Inject FileUtils fileUtils;
 
     public ParseTask(@NonNull final Context context, @NonNull final OnFinish onFinish) {
@@ -66,6 +66,7 @@ public class ParseTask extends AsyncTask<String, Void, List<ParserUnit>> {
     protected void onPostExecute(List<ParserUnit> parserUnits) {
         super.onPostExecute(parserUnits);
         progressDialog.hide();
+        progressDialog = null;
         onFinish.onFinish(parserUnits);
     }
 

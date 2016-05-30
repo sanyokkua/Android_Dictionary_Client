@@ -48,7 +48,7 @@ public class Unit {
         this.counter = counter;
     }
 
-    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
+    private Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
         this(source, translations, counter);
         this.userTranslation = userTranslation;
     }

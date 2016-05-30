@@ -3,6 +3,7 @@ package ua.kostenko.mydictionary.ui.fragments.parser.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
@@ -19,16 +21,18 @@ import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNull;
 
 public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
     private static final String TAG = AddAllTask.class.getSimpleName();
-    private final MaterialDialog progressDialog;
+    private MaterialDialog progressDialog;
     @Inject Context context;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
 
     public AddAllTask(@NonNull final Context context) {
         checkNotNull(context);
+        App.getAppComponent().inject(this);
         progressDialog = new MaterialDialog.Builder(context)
                 .title(R.string.parser_dialog_add_all_title)
                 .content(R.string.parser_dialog_add_all_content)
@@ -45,43 +49,26 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(List<ParserUnit>... params) {
-        //TODO: testing
-        try {
-            Thread.sleep(5 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        /*for (ParserUnit current : params[0]) {
+        for (ParserUnit current : params[0]) {
+            Log.d(TAG, "UnitDao: " + unitDao);
             Unit unit = unitDao.findBySource(current.getSource());
-            if (unit != null) {
-                update(current, unit);
-            } else {
-                create(current);
+            Log.d(TAG, "Unit: " + unit);
+            if (isNull(unit)){
+                translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource(), new OnResultCallback<Unit>() {
+                    @Override
+                    public void onResult(Unit result) {
+                        unitDao.saveUnit(result);
+                    }
+                });
             }
-        }*/
+        }
         return true;
-    }
-
-
-    private void update(@NonNull final ParserUnit current, Unit unit) {
-        long counter = unit.getCounter() + current.getCounter();
-        unit.setCounter(counter);
-        unitDao.saveUnit(unit);
-    }
-
-    private void create(@NonNull final ParserUnit current) {
-        translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource(), new OnResultCallback<Unit>() {
-            @Override
-            public void onResult(Unit result) {
-                Unit newUnit = new Unit(current.getSource(), result.getTranslations(), result.getTranslationsAdditional(), current.getCounter());
-                unitDao.saveUnit(newUnit);
-            }
-        });
     }
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
         progressDialog.dismiss();
+        progressDialog = null;
     }
 }

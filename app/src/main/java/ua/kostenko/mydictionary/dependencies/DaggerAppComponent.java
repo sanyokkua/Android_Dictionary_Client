@@ -8,9 +8,11 @@ import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
 import ua.kostenko.mydictionary.core.webpart.services.implementation.TranslateServiceImpl;
 import ua.kostenko.mydictionary.ui.activities.DictionaryActivity;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
+import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitInfoFragment;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitRecyclerViewAdapter;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitsFragment;
 import ua.kostenko.mydictionary.ui.fragments.parser.UnitParserFragment;
+import ua.kostenko.mydictionary.ui.fragments.parser.tasks.AddAllTask;
 import ua.kostenko.mydictionary.ui.fragments.parser.tasks.ParseTask;
 
 @Component(modules = {DaggerAppModule.class, DaggerDaoModule.class, DaggerUtilsModule.class, DaggerServicesModule.class})
@@ -33,4 +35,8 @@ public interface DaggerAppComponent {
     void inject(TranslateServiceImpl translateService);
 
     void inject(UnitRecyclerViewAdapter unitRecyclerViewAdapter);
+
+    void inject(UnitInfoFragment unitInfoFragment);
+
+    void inject(AddAllTask addAllTask);
 }

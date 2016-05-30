@@ -80,7 +80,8 @@ public class UnitCreateDialog {
     }
 
     private void save(MaterialDialog dialog) {
-        unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(), getUserTranslationText(),
+        unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(),
+                isNotNull(current) ? current.getTranslationsAdditional() : "", getUserTranslationText(),
                 isNotNull(current) ? current.getCounter() : 0));
         if (isNotNull(onUpdateAdapter)) {
             onUpdateAdapter.update();
@@ -92,6 +93,7 @@ public class UnitCreateDialog {
         translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, getSourceText(), new OnResultCallback<Unit>() {
             @Override
             public void onResult(Unit result) {
+                current = result;
                 translationEditText.setText(result.getTranslations());
             }
         });

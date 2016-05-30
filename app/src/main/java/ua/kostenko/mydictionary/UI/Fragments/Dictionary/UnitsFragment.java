@@ -4,16 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,10 +20,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
-import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 
 public class UnitsFragment extends Fragment {
@@ -62,28 +60,25 @@ public class UnitsFragment extends Fragment {
         if (recyclerViewUnitList != null) {
             Context context = view.getContext();
             recyclerViewUnitList.setLayoutManager(new LinearLayoutManager(context));
-            adapter =  new UnitRecyclerViewAdapter(new OnClickCustomListener<Unit>() {
-                        @Override
-                        public void onItemClick(Unit item) {
-                            onClick(item);
-                        }
-                    },
-                    new OnLongClickCustomListener<Unit>() {
-                        @Override
-                        public void onItemLongClick(Unit item) {
-                            onLongClick(item);
-                        }
-                    });
+            adapter = new UnitRecyclerViewAdapter(new OnClickCustomListener<Unit>() {
+                @Override
+                public void onItemClick(Unit item) {
+                    onClick(item);
+                }
+            });
             recyclerViewUnitList.setAdapter(adapter);
         }
     }
 
     private void onClick(@NonNull final Unit item) { //TODO: add realization
-        Snackbar.make(recyclerViewUnitList, item.toString() + " Click", Snackbar.LENGTH_LONG).show();
-    }
-
-    private void onLongClick(@NonNull final Unit item) { //TODO: add realization
-        Snackbar.make(recyclerViewUnitList, item.toString() + " Long Click", Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(recyclerViewUnitList, item.toString() + " Click", Snackbar.LENGTH_LONG).show();
+        Fragment fragment = UnitInfoFragment.newInstance(item.getSource());
+        Utils.checkNotNull(fragment, "Fragment can't be null!");
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.replace(R.id.main_activity_content_holder, fragment);
+        transaction.commit();
+        Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
     }
 
     @OnClick(R.id.fab)

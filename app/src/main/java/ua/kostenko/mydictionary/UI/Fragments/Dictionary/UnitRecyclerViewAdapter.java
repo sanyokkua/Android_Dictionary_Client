@@ -1,11 +1,20 @@
 package ua.kostenko.mydictionary.ui.fragments.dictionary;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
@@ -15,6 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
@@ -29,15 +39,71 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
     @NonNull private List<Unit> unitList;
     @Inject UnitDao unitDao;
 
-    public UnitRecyclerViewAdapter(@NonNull final OnClickCustomListener<Unit> onClick,
-                                   @NonNull final OnLongClickCustomListener<Unit> onLonGClick) {
+    public UnitRecyclerViewAdapter(@NonNull final OnClickCustomListener<Unit> onClick) {
         checkNotNull(onClick, "You try to set null in OnClickCustomListener");
-        checkNotNull(onLonGClick, "You try to set null in OnLongClickCustomListener");
         App.getAppComponent().inject(this);
         onClickCustomListener = onClick;
-        onLongClickCustomListener = onLonGClick;
+        onLongClickCustomListener = new OnLongClickCustomListener<Unit>() {
+            @Override
+            public void onItemLongClick(Unit item, View view) {
+                onLongClick(item, view);
+            }
+        };
         unitList = unitDao.findAll();
     }
+
+    private void onLongClick(final Unit item, final View view) {
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view, Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        popupMenu.inflate(R.menu.unit_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_show:
+                        show(item, view);
+                        break;
+                    case R.id.action_remove:
+                        remove(item, view);
+                        break;
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void show(Unit item, View view) {
+//        Fragment fragment = UnitInfoFragment.newInstance(item.getSource());
+//        Utils.checkNotNull(fragment, "Fragment can't be null!");
+//        FragmentTransaction transaction = .getActivity().getSupportFragmentManager().beginTransaction();
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        transaction.replace(R.id.main_activity_content_holder, fragment);
+//        transaction.commit();
+//        Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
+    }
+
+    private void remove(final Unit item, View view) {
+        MaterialDialog dialog = new MaterialDialog.Builder(view.getContext())
+                .title("Remove unit?")
+                .positiveText("Remove")
+                .negativeText("Cancel")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        unitDao.removeUnit(item);
+                        update();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        dialog.show();
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
@@ -95,7 +161,7 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
         @Override
         public boolean onLongClick(View v) {
             checkNotNull(onLongClickCustomListener, "OnLongClickCustomListener is not set");
-            onLongClickCustomListener.onItemLongClick(unit);
+            onLongClickCustomListener.onItemLongClick(unit, v);
             return true;
         }
 

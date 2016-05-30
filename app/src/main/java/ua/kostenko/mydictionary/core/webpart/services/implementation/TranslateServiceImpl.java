@@ -32,7 +32,7 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
             @Override
             public void onResponse(Call<TranslateServiceResponse> call, Response<TranslateServiceResponse> response) {
                 TranslateServiceResponse body = response.body();
-                Unit unit = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), 0);
+                Unit unit = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "", 0);
                 onResultCallback.onResult(unit);
             }
 

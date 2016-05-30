@@ -11,7 +11,7 @@ public class TranslateServiceResponse {
     private String lang;
     @JsonProperty("translation")
     private String translation;
-    @JsonProperty("additionalTranslations")
+    @JsonProperty("translationAdditional")
     private String additionalTranslations;
     @JsonProperty("errorCode")
     private String errorCode;
