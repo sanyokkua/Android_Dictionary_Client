@@ -23,11 +23,14 @@ import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
+import ua.kostenko.mydictionary.ui.fragments.dictionary.OnUpdate;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
 public class UnitCreateDialog {
     private final MaterialDialog.Builder builder;
+    private final OnUpdate onUpdateAdapter;
     @NonNull private final View.OnClickListener onTranslateButtonClick;
     @NonNull private final MaterialDialog.SingleButtonCallback onNegativeButtonClick;
     @NonNull private final MaterialDialog.SingleButtonCallback onPositiveButtonClick;
@@ -39,8 +42,9 @@ public class UnitCreateDialog {
     @BindString(R.string.standard_cancel) String negativeText;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
+    private Unit current;
 
-    public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater) {
+    public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater, final OnUpdate onUpdate) {
         final View dialogView = inflater.inflate(R.layout.dialog_create_unit, null, false);
         ButterKnife.bind(this, dialogView);
         App.getAppComponent().inject(this);
@@ -64,17 +68,23 @@ public class UnitCreateDialog {
                 translate(v);
             }
         };
+        onUpdateAdapter = onUpdate;
     }
 
-    public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit) {
-        this(context, inflater);
+    public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit, final OnUpdate onUpdate) {
+        this(context, inflater, onUpdate);
         sourceEditText.setText(unit.getSource());
         translationEditText.setText(unit.getTranslations());
         userTranslationEditText.setText(unit.getUserTranslation());
+        current = unit;
     }
 
     private void save(MaterialDialog dialog) {
-        unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(), getUserTranslationText(), 0));
+        unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(), getUserTranslationText(),
+                isNotNull(current) ? current.getCounter() : 0));
+        if (isNotNull(onUpdateAdapter)) {
+            onUpdateAdapter.update();
+        }
         Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show();
     }
 

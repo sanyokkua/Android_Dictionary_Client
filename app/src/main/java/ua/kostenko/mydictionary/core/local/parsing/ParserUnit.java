@@ -1,6 +1,6 @@
 package ua.kostenko.mydictionary.core.local.parsing;
 
-public class ParserUnit {
+public class ParserUnit{
     private String source;
     private long counter;
 

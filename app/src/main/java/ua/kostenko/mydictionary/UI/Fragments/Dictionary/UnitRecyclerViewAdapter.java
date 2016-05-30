@@ -9,28 +9,34 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
-public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> {
+public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> implements OnUpdate {
     private static final String TAG = UnitRecyclerViewAdapter.class.getSimpleName();
-    @NonNull private final List<Unit> unitList;
     @NonNull private final OnClickCustomListener<Unit> onClickCustomListener;
     @NonNull private final OnLongClickCustomListener<Unit> onLongClickCustomListener;
+    @NonNull private List<Unit> unitList;
+    @Inject UnitDao unitDao;
 
-    public UnitRecyclerViewAdapter(@NonNull final List<Unit> items, @NonNull final OnClickCustomListener<Unit> onClick,
+    public UnitRecyclerViewAdapter(@NonNull final OnClickCustomListener<Unit> onClick,
                                    @NonNull final OnLongClickCustomListener<Unit> onLonGClick) {
         checkNotNull(onClick, "You try to set null in OnClickCustomListener");
         checkNotNull(onLonGClick, "You try to set null in OnLongClickCustomListener");
+        App.getAppComponent().inject(this);
         onClickCustomListener = onClick;
         onLongClickCustomListener = onLonGClick;
-        unitList = items;
+        unitList = unitDao.findAll();
     }
 
     @Override
@@ -47,6 +53,12 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
     @Override
     public int getItemCount() {
         return unitList.size();
+    }
+
+    @Override
+    public void update() {
+        unitList = unitDao.findAll();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

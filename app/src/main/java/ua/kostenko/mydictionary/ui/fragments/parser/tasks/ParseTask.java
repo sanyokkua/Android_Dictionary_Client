@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,12 +48,18 @@ public class ParseTask extends AsyncTask<String, Void, List<ParserUnit>> {
     @Override
     protected List<ParserUnit> doInBackground(String... params) {
         final Parser<ParserUnit> parser = new TxtParser();
-        try {
-            Thread.sleep(1000 * 5);//TODO: only for testing
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return parser.parse(fileUtils.readFile(params[0]));
+        final List<ParserUnit> parse = parser.parse(fileUtils.readFile(params[0]));
+        Collections.sort(parse, new Comparator<ParserUnit>() {
+            @Override
+            public int compare(ParserUnit first, ParserUnit second) {
+                int result = 0;
+                if (first.getCounter() != second.getCounter()) {
+                    result = first.getCounter() > second.getCounter() ? -1 : 1;
+                }
+                return result;
+            }
+        });
+        return parse;
     }
 
     @Override

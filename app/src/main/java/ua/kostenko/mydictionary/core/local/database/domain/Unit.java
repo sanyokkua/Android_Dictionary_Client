@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "source")
+@DatabaseTable(tableName = "units")
 public class Unit {
     public static final String FIELD_SOURCE = "source";
     public static final String FIELD_TRANSLATION = "translation";
@@ -17,7 +17,7 @@ public class Unit {
     private String source;
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION)
     private String translations;
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION_ADDITIONAL)
+    @DatabaseField(canBeNull = true, dataType = DataType.STRING, columnName = FIELD_TRANSLATION_ADDITIONAL)
     private String translationsAdditional;
     @DatabaseField(dataType = DataType.STRING, columnName = FIELD_USER_TRANSLATION)
     private String userTranslation;
@@ -25,10 +25,14 @@ public class Unit {
     private long counter;
 
     public Unit() {
-        this.counter = 0;
+        this.counter = 1;
     }
 
-    public void incrementCounter(){
+    public void incrementCounterTo(long value) {
+        counter += value;
+    }
+
+    public void incrementCounter() {
         counter++;
     }
 

@@ -30,6 +30,7 @@ import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 
 public class UnitsFragment extends Fragment {
     private static final String TAG = UnitsFragment.class.getSimpleName();
+    private UnitRecyclerViewAdapter adapter;
     @Bind(R.id.units_list) RecyclerView recyclerViewUnitList;
     @Inject UnitDao unitDao;
 
@@ -61,8 +62,7 @@ public class UnitsFragment extends Fragment {
         if (recyclerViewUnitList != null) {
             Context context = view.getContext();
             recyclerViewUnitList.setLayoutManager(new LinearLayoutManager(context));
-            UnitRecyclerViewAdapter adapter = new UnitRecyclerViewAdapter(loadData(),
-                    new OnClickCustomListener<Unit>() {
+            adapter =  new UnitRecyclerViewAdapter(new OnClickCustomListener<Unit>() {
                         @Override
                         public void onItemClick(Unit item) {
                             onClick(item);
@@ -76,12 +76,6 @@ public class UnitsFragment extends Fragment {
                     });
             recyclerViewUnitList.setAdapter(adapter);
         }
-    }
-
-    @NonNull
-    private List<Unit> loadData() {
-        final List<Unit> tempList = unitDao.findAll();
-        return Collections.unmodifiableList(tempList);
     }
 
     private void onClick(@NonNull final Unit item) { //TODO: add realization
@@ -104,7 +98,13 @@ public class UnitsFragment extends Fragment {
 
     private void openAddWordDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), inflater);
+        UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), inflater, adapter);
         unitCreateDialog.show();
+    }
+
+    @Override
+    public void onResume() {
+        adapter.update();
+        super.onResume();
     }
 }

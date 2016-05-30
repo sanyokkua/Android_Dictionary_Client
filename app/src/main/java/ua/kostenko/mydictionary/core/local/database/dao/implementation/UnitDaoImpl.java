@@ -28,13 +28,17 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     public boolean saveUnit(@NonNull final Unit unit) {
         checkNotNull(unit);
         Unit temporaryUnit = findBySource(unit.getSource());
-        return isNotNull(temporaryUnit) ? updateUnit(temporaryUnit) : createUnit(unit);
+        return isNotNull(temporaryUnit) ? updateUnit(temporaryUnit, unit.getCounter()) : createUnit(unit);
     }
 
-    private boolean updateUnit(@NonNull final Unit existingUnit) {
+    private boolean updateUnit(@NonNull final Unit existingUnit, long counter) {
         boolean resultOfOperation;
         try {
-            existingUnit.incrementCounter();
+            if (counter > 0) {
+                existingUnit.incrementCounterTo(counter);
+            } else {
+                existingUnit.incrementCounter();
+            }
             int numbOfRowsUpdated = update(existingUnit);
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
         } catch (SQLException e) {
@@ -99,7 +103,9 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     public List<Unit> findAll() {
         List<Unit> unitList = null;
         try {
-            unitList = Collections.unmodifiableList(queryForAll());
+            QueryBuilder<Unit, String> builder = queryBuilder();
+            builder.orderBy(Unit.FIELD_COUNTER, false).orderBy(Unit.FIELD_SOURCE, true);
+            unitList = Collections.unmodifiableList(builder.query());
         } catch (SQLException e) {
             Log.e(TAG, "Error with queryForAll", e);
         }

@@ -15,6 +15,7 @@ import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
+import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
@@ -24,7 +25,7 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
     private final MaterialDialog progressDialog;
     @Inject Context context;
     @Inject UnitDao unitDao;
-    @Inject TranslateService translateService;
+    @Inject TranslateService<Unit> translateService;
 
     public AddAllTask(@NonNull final Context context) {
         checkNotNull(context);
@@ -69,9 +70,13 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
     }
 
     private void create(@NonNull final ParserUnit current) {
-        String translation = translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
-        Unit newUnit = new Unit(current.getSource(), translation, current.getCounter());
-        unitDao.saveUnit(newUnit);
+        translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource(), new OnResultCallback<Unit>() {
+            @Override
+            public void onResult(Unit result) {
+                Unit newUnit = new Unit(current.getSource(), result.getTranslations(), result.getTranslationsAdditional(), current.getCounter());
+                unitDao.saveUnit(newUnit);
+            }
+        });
     }
 
     @Override

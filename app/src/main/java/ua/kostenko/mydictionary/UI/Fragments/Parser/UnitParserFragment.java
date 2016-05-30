@@ -124,7 +124,7 @@ public class UnitParserFragment extends Fragment {
 
     private void openAddDialog(@NonNull final ParserUnit item) {
         final Unit unit = new Unit(item.getSource(), "", item.getCounter());
-        final UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), getLayoutInflater(null), unit);
+        final UnitCreateDialog unitCreateDialog = new UnitCreateDialog(getActivity(), getLayoutInflater(null), unit, null);
         unitCreateDialog.show();
     }
 
