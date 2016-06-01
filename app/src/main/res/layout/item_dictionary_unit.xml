@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_margin="@dimen/layout_common_margin"
-             android:foreground="?android:attr/selectableItemBackground">
+             android:foreground="?android:attr/selectableItemBackground"
+             android:padding="@dimen/unit_item_padding"
+             android:theme="@style/AppTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,29 +21,28 @@
                 android:id="@+id/unit_source_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Some Word"
-                android:textSize="@dimen/text_size_header"/>
+                android:hint="@string/hint_some_word"/>
 
             <TextView
                 android:id="@+id/unit_translation_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="translation"
+                android:hint="@string/hint_translation"
                 android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="0.1">
 
             <TextView
                 android:id="@+id/unit_counter_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:hint="15"
                 android:textSize="@dimen/text_size_common"/>
-        </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

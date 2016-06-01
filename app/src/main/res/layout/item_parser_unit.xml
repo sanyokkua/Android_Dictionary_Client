@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_margin="@dimen/layout_common_margin"
-             android:foreground="?android:attr/selectableItemBackground">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/parser_unit_item_padding"
+    android:theme="@style/AppTheme">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/source_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cfd8dc"
-        android:orientation="horizontal">
+        android:layout_weight="0.1"
+        android:hint="text"/>
 
-        <TextView
-            android:id="@+id/source_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:hint="text"
-            android:textSize="22sp"/>
+    <TextView
+        android:id="@+id/counter_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.9"
+        android:hint="444"
+        android:textSize="@dimen/text_size_small"/>
 
-        <TextView
-            android:id="@+id/counter_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="0.9"
-            android:hint="444"
-            android:textSize="18sp"/>
-
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>

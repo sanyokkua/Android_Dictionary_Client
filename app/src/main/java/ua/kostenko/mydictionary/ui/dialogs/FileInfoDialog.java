@@ -20,7 +20,7 @@ import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 public class FileInfoDialog {
     @Bind(R.id.file_size_text) TextView sizeEditText;
     @Bind(R.id.file_location_text) TextView locationEditText;
-    @BindString(R.string.dictionary_add_unit) String positiveText;
+    @BindString(R.string.parser_parse_all) String positiveText;
     @BindString(R.string.standard_cancel) String negativeText;
     private MaterialDialog.Builder builder;
     @NonNull

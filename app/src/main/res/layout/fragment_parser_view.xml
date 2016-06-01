@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    android:id="@+id/parser_fragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parser_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +24,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
                 android:gravity="fill_horizontal"
-                android:text="@string/parser_description"
-                android:textSize="@dimen/text_size_common"/>
+                android:text="@string/parser_description"/>
 
             <Button
                 android:id="@+id/open_file_button"
@@ -39,18 +39,21 @@
             android:id="@+id/parser_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#cfd8dc"
+            android:layout_margin="@dimen/parser_list_margin"
+            android:background="@color/colorLightPrimary"
+            android:padding="@dimen/parser_list_padding"
             tools:listitem="@layout/item_parser_unit"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:background="#7c4dff"
-        android:src="@android:drawable/ic_menu_add"/>
+        android:src="@drawable/ic_action_icon_parser_light"
+        tools:showIn="@layout/fragment_parser_view"/>
 
 </android.support.design.widget.CoordinatorLayout>

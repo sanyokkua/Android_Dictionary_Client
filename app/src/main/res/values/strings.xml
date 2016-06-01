@@ -25,9 +25,10 @@
     <string name="parser_open_file_button">Choose file from storage</string>
     <string name="parser_description">Here you can open one of text files in your phone and get all words in that file</string>
     <string name="parser_file_size">File size</string>
-    <string name="parser_file_location">File location</string>
+    <string name="parser_file_location">File location:</string>
     <string name="parser_confirm_question">Do you want to parse this file?</string>
     <string name="parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
+    <string name="parser_parse_all">Yes</string>
 
     <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
     <string name="field_hint_source">Source</string>
@@ -45,5 +46,14 @@
     <string name="parser_dialog_add_all_question">Are you sure to add all units to your dictionary?</string>
     <string name="parser_dialog_add_all_title">Processing</string>
     <string name="parser_dialog_add_all_content">Please wait until all units will be added to the dictionary</string>
+    <string name="source_text">Source text</string>
+    <string name="your_variant">Your variant</string>
+    <string name="additional">Additional</string>
+    <string name="translation">Translation</string>
+    <string name="add_unit">Add</string>
+    <string name="hint_some_word">Some Word</string>
+    <string name="hint_translation">translation</string>
+    <string name="unit_info_source">Source</string>
+    <string name="technologies">Technologies</string>
 
 </resources>

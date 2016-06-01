@@ -2,38 +2,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:padding="@dimen/addDialogPadding"
+              android:theme="@style/AppTheme">
 
-    <EditText
-        android:id="@+id/source_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/field_hint_source"/>
-
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/translate_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_translation"/>
+        <TableRow>
 
-        <EditText
-            android:id="@+id/translation_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:editable="false"
-            android:hint="@string/field_hint_translation"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/source_text"/>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/source_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_hint_source"
+                android:inputType="text"/>
+        </TableRow>
 
-    <EditText
-        android:id="@+id/user_translation_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/field_hint_user_translation"
-        android:inputType="none"/>
+        <TableRow
+            android:id="@+id/row_translation"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/translation"/>
+
+            <TextView
+                android:id="@+id/translation_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_hint_translation"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_additional"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/additional"/>
+
+            <TextView
+                android:id="@+id/translation_additional_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_hint_translation"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_user_variant"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_variant"/>
+
+            <EditText
+                android:id="@+id/user_translation_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_hint_user_translation"
+                android:inputType="text"/>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

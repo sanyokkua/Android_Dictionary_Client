@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -31,25 +32,28 @@ import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 public class UnitCreateDialog {
     private final MaterialDialog.Builder builder;
     private final OnUpdate onUpdateAdapter;
-    @NonNull private final View.OnClickListener onTranslateButtonClick;
     @NonNull private final MaterialDialog.SingleButtonCallback onNegativeButtonClick;
     @NonNull private final MaterialDialog.SingleButtonCallback onPositiveButtonClick;
     @Bind(R.id.source_text) EditText sourceEditText;
-    @Bind(R.id.translation_text) EditText translationEditText;
+    @Bind(R.id.translation_text) TextView translationEditText;
     @Bind(R.id.user_translation_text) EditText userTranslationEditText;
-    @Bind(R.id.translate_button) Button translateButton;
+    @Bind(R.id.row_translation) TableRow rowTranslation;
+    @Bind(R.id.row_additional) TableRow rowAdditional;
+    @Bind(R.id.row_user_variant) TableRow rowUserVariant;
     @BindString(R.string.dictionary_add_unit) String positiveText;
     @BindString(R.string.standard_cancel) String negativeText;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
     private Unit current;
+    private boolean isTranslated;
+    private MaterialDialog materialDialog;
 
     public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater, final OnUpdate onUpdate) {
         final View dialogView = inflater.inflate(R.layout.dialog_create_unit, null, false);
         ButterKnife.bind(this, dialogView);
         App.getAppComponent().inject(this);
         builder = new MaterialDialog.Builder(context);
-        builder.customView(dialogView, false);
+        builder.customView(dialogView, true);
         onNegativeButtonClick = new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -59,16 +63,16 @@ public class UnitCreateDialog {
         onPositiveButtonClick = new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                save(dialog);
-            }
-        };
-        onTranslateButtonClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                translate(v);
+                if (!isTranslated) {
+                    translate(dialogView);
+                } else {
+                    save(dialog);
+                    dialog.dismiss();
+                }
             }
         };
         onUpdateAdapter = onUpdate;
+        isTranslated = false;
     }
 
     public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit, final OnUpdate onUpdate) {
@@ -92,8 +96,13 @@ public class UnitCreateDialog {
         translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, getSourceText(), new OnResultCallback<Unit>() {
             @Override
             public void onResult(Unit result) {
+                isTranslated = true;
                 current = result;
                 translationEditText.setText(result.getTranslations());
+                materialDialog.setActionButton(DialogAction.POSITIVE, R.string.add_unit);
+                rowTranslation.setVisibility(View.VISIBLE);
+                rowAdditional.setVisibility(View.VISIBLE);
+                rowUserVariant.setVisibility(View.VISIBLE);
             }
         });
         Toast.makeText(v.getContext(), "Wait a while. Application doing request", Toast.LENGTH_LONG).show();
@@ -106,13 +115,13 @@ public class UnitCreateDialog {
     private MaterialDialog getDialog() {
         checkNotNull(onNegativeButtonClick);
         checkNotNull(onPositiveButtonClick);
-        checkNotNull(onTranslateButtonClick);
         builder.positiveText(positiveText);
+        builder.autoDismiss(false);
         builder.negativeText(negativeText);
         builder.onPositive(onPositiveButtonClick);
         builder.onNegative(onNegativeButtonClick);
-        translateButton.setOnClickListener(onTranslateButtonClick);
-        return builder.build();
+        materialDialog = builder.build();
+        return materialDialog;
     }
 
     public String getSourceText() {

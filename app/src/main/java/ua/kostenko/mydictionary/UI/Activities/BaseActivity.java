@@ -2,6 +2,7 @@ package ua.kostenko.mydictionary.ui.activities;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,8 +22,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         if (addToBackStack) {
-            transaction.add(R.id.main_activity_content_holder, fragment);
-            transaction.addToBackStack(fragment.getClass().getSimpleName());
+            String backStateName = fragment.getClass().getName();
+            FragmentManager manager = getSupportFragmentManager();
+            boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+            if (!fragmentPopped) {
+                transaction.add(R.id.main_activity_content_holder, fragment);
+                transaction.addToBackStack(fragment.getClass().getSimpleName());
+            }
         }
         transaction.replace(R.id.main_activity_content_holder, fragment);
         transaction.commit();

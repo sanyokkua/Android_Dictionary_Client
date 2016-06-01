@@ -17,4 +17,11 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="addDialogPadding">5dp</dimen>
+    <dimen name="unit_item_padding">15dp</dimen>
+    <dimen name="parser_unit_item_padding">10dp</dimen>
+    <dimen name="parser_list_margin">5dp</dimen>
+    <dimen name="parser_list_padding">5dp</dimen>
+    <dimen name="parser_dialog_padding">10dp</dimen>
+
 </resources>

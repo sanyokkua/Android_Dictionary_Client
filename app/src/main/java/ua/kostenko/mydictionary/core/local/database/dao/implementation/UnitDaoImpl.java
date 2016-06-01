@@ -28,7 +28,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     public boolean saveUnit(@NonNull final Unit unit) {
         checkNotNull(unit);
         Unit temporaryUnit = findBySource(unit.getSource());
-        Log.d(TAG, String.format("saveUnit(): temporaryUnit: %s", temporaryUnit.toString()));
+        Log.d(TAG, String.format("saveUnit(): temporaryUnit: %s", isNotNull(temporaryUnit) ? temporaryUnit.toString() : ""));
         return isNotNull(temporaryUnit) ? updateUnit(temporaryUnit, unit.getCounter()) : createUnit(unit);
     }
 

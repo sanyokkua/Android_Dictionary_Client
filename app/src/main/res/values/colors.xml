@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="colorAccent" type="color">#EC407A</item>
+    <item name="colorPrimary" type="color">#2196F3</item>
+    <item name="colorPrimaryDark" type="color">#1565C0</item>
+    <item name="colorLightPrimary" type="color">#B3E5FC</item>
+    <item name="colorPrimaryText" type="color">#212121</item>
+    <item name="colorSecondaryText" type="color">#727272</item>
+    <item name="colorDivider" type="color">#B6B6B6</item>
+    <item name="colorTextIcons" type="color">#FFFFFF</item>
+</resources>
