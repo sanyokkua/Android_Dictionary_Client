@@ -2,6 +2,7 @@ package ua.kostenko.mydictionary.core.local.dataaccess;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.File;
 
@@ -21,6 +22,7 @@ public final class DataAccessUtils {
 
     public File getFileByPath(@NonNull final String path) {
         validatePath(path);
+        Log.d(TAG, String.format("getFileByPath(): %s", path));
         return new File(path);
     }
 

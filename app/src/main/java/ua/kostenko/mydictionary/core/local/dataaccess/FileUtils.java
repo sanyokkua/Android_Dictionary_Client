@@ -30,6 +30,7 @@ public final class FileUtils {
         try {
             bufferedReader = new BufferedReader(new FileReader(currentFile));
             textFromFile = readText(bufferedReader);
+            Log.d(TAG, String.format("Text from file: %s", textFromFile));
         } catch (IOException e) {
             Log.e(TAG, "Error with reading file", e);
         } finally {

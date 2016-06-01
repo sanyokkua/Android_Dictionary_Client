@@ -36,6 +36,10 @@ public class Unit {
         counter++;
     }
 
+    public void decrementCounter() {
+        counter = counter - 1 < 0 ? 0 : counter--;
+    }
+
     public Unit(@NonNull final String source, @NonNull final String translations) {
         this();
         this.source = source;
