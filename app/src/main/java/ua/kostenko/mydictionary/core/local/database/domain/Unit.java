@@ -45,12 +45,18 @@ public class Unit {
     public Unit(@NonNull final String source, @NonNull final String translations, final long counter) {
         this.source = source;
         this.translations = translations;
-        this.counter = counter;
+        this.counter = counter > 0 ? counter : 1;
     }
 
     private Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
         this(source, translations, counter);
         this.userTranslation = userTranslation;
+    }
+
+    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String translationsAdditional,
+                @NonNull final String userTranslation) {
+        this(source, translations, userTranslation, 1);
+        this.translationsAdditional = translationsAdditional;
     }
 
     public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String translationsAdditional,

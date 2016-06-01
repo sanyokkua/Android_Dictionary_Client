@@ -2,7 +2,6 @@ package ua.kostenko.mydictionary.ui.fragments.dictionary;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -39,10 +40,14 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
     @NonNull private List<Unit> unitList;
     @Inject UnitDao unitDao;
 
-    public UnitRecyclerViewAdapter(@NonNull final OnClickCustomListener<Unit> onClick) {
-        checkNotNull(onClick, "You try to set null in OnClickCustomListener");
+    public UnitRecyclerViewAdapter() {
         App.getAppComponent().inject(this);
-        onClickCustomListener = onClick;
+        onClickCustomListener = new OnClickCustomListener<Unit>() {
+            @Override
+            public void onItemClick(Unit item) {
+                show(item);
+            }
+        };
         onLongClickCustomListener = new OnLongClickCustomListener<Unit>() {
             @Override
             public void onItemLongClick(Unit item, View view) {
@@ -60,7 +65,7 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_show:
-                        show(item, view);
+                        show(item);
                         break;
                     case R.id.action_remove:
                         remove(item, view);
@@ -72,14 +77,11 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
         popupMenu.show();
     }
 
-    private void show(Unit item, View view) {
-//        Fragment fragment = UnitInfoFragment.newInstance(item.getSource());
-//        Utils.checkNotNull(fragment, "Fragment can't be null!");
-//        FragmentTransaction transaction = .getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        transaction.replace(R.id.main_activity_content_holder, fragment);
-//        transaction.commit();
-//        Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
+    private void show(Unit item) {
+        Fragment fragment = UnitInfoFragment.newInstance(item.getSource());
+        Utils.checkNotNull(fragment, "Fragment can't be null!");
+        EventBus.getDefault().post(fragment);
+        Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
     }
 
     private void remove(final Unit item, View view) {

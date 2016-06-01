@@ -13,9 +13,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     protected void replaceFragment(@NonNull final Fragment fragment) {
+        replaceFragment(fragment, false);
+    }
+
+    protected void replaceFragment(@NonNull final Fragment fragment, boolean addToBackStack) {
         Utils.checkNotNull(fragment, "Fragment can't be null!");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        if (addToBackStack) {
+            transaction.add(R.id.main_activity_content_holder, fragment);
+            transaction.addToBackStack(fragment.getClass().getSimpleName());
+        }
         transaction.replace(R.id.main_activity_content_holder, fragment);
         transaction.commit();
         Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));

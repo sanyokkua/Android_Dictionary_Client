@@ -23,7 +23,7 @@ import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNull;
 
-public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
+public class AddAllTask extends AsyncTask<List<ParserUnit>, Integer, Boolean> {
     private static final String TAG = AddAllTask.class.getSimpleName();
     private MaterialDialog progressDialog;
     @Inject Context context;
@@ -36,7 +36,7 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
         progressDialog = new MaterialDialog.Builder(context)
                 .title(R.string.parser_dialog_add_all_title)
                 .content(R.string.parser_dialog_add_all_content)
-                .progress(true, 0)
+                .progress(false, 100)
                 .canceledOnTouchOutside(false)
                 .build();
     }
@@ -49,20 +49,32 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(List<ParserUnit>... params) {
-        for (ParserUnit current : params[0]) {
+        List<ParserUnit> unitsList = params[0];
+        int counter = 0;
+        int maxSize = unitsList.size();
+        for (ParserUnit current : unitsList) {
             Log.d(TAG, "UnitDao: " + unitDao);
             Unit unit = unitDao.findBySource(current.getSource());
             Log.d(TAG, "Unit: " + unit);
-            if (isNull(unit)){
-                translateService.translate(Languages.ENGLISH, Languages.RUSSIAN, current.getSource(), new OnResultCallback<Unit>() {
-                    @Override
-                    public void onResult(Unit result) {
-                        unitDao.saveUnit(result);
-                    }
-                });
+            if (isNull(unit)) {
+                Unit translated = translateService.translateSync(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
+                unitDao.saveUnit(translated);
+            }else {
+                unitDao.saveUnit(unit);
             }
+            counter++;
+            publishProgress(counter, maxSize);
         }
         return true;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        int progress = values[0];
+        int size = values[1];
+        progressDialog.setMaxProgress(size);
+        progressDialog.setProgress(progress);
     }
 
     @Override

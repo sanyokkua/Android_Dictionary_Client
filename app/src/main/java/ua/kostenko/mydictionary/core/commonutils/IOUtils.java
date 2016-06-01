@@ -5,11 +5,13 @@ import android.util.Log;
 import java.io.Closeable;
 import java.io.IOException;
 
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
+
 public class IOUtils {
     private static final String TAG = IOUtils.class.getSimpleName();
 
     public static void closeQuietly(Closeable closeable) {
-        if (Utils.isNotNull(closeable)) {
+        if (isNotNull(closeable)) {
             try {
                 closeable.close();
             } catch (IOException e) {

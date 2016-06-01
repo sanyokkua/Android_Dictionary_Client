@@ -34,7 +34,9 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     private boolean updateUnit(@NonNull final Unit existingUnit, long counter) {
         boolean resultOfOperation;
         try {
-            if (counter > 0) {
+            if (existingUnit.getCounter() == counter) {
+                existingUnit.incrementCounter();
+            } else if (counter > 0) {
                 existingUnit.incrementCounterTo(counter);
             } else {
                 existingUnit.incrementCounter();

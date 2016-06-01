@@ -1,6 +1,9 @@
 package ua.kostenko.mydictionary.core.webpart.services.implementation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -32,7 +35,7 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
             @Override
             public void onResponse(Call<TranslateServiceResponse> call, Response<TranslateServiceResponse> response) {
                 TranslateServiceResponse body = response.body();
-                Unit unit = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "", 0);
+                Unit unit = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "");
                 onResultCallback.onResult(unit);
             }
 
@@ -41,5 +44,21 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
                 onResultCallback.onResult(new Unit(text, ""));
             }
         });
+    }
+
+    @Override
+    public Unit translateSync(@NonNull Languages from, @NonNull Languages to, @NonNull String text) {
+        RestApi restApi = retrofit.create(RestApi.class);
+        Call<TranslateServiceResponse> call = restApi.getTranslation(from.getLangCode(), to.getLangCode(), text);
+        Unit result;
+        try {
+            Response<TranslateServiceResponse> execute = call.execute();
+            TranslateServiceResponse body = execute.body();
+            result = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "");
+        } catch (IOException e) {
+            result = new Unit(text, "");
+            Log.w(TAG, String.format("Error occur in Request to the server. Word: %s", text), e);
+        }
+        return result;
     }
 }

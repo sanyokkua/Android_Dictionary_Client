@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,13 +33,14 @@ import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.ui.OnClickCustomListener;
 import ua.kostenko.mydictionary.ui.dialogs.FileInfoDialog;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
+import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 import ua.kostenko.mydictionary.ui.fragments.parser.tasks.AddAllTask;
 import ua.kostenko.mydictionary.ui.fragments.parser.tasks.ParseTask;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotEmpty;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
-public class UnitParserFragment extends Fragment {
+public class UnitParserFragment extends BaseFragment {
     private static final String TAG = UnitParserFragment.class.getSimpleName();
     private static final int PICK_FILE_CODE = 1;
     @Bind(R.id.open_file_button) Button openFileButton;

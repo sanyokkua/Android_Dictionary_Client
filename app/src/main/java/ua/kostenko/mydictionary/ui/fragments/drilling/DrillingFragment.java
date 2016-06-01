@@ -2,18 +2,17 @@ package ua.kostenko.mydictionary.ui.fragments.drilling;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ua.kostenko.mydictionary.R;
+import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 
-public class DrillingFragment extends Fragment {
+public class DrillingFragment extends BaseFragment {
     private static final String TAG = DrillingFragment.class.getSimpleName();
 
     public DrillingFragment() {
-        // Required empty public constructor
     }
 
     public static DrillingFragment newInstance() {

@@ -15,7 +15,7 @@ import ua.kostenko.mydictionary.core.commonutils.IOUtils;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
-public final class FileUtils { //TODO: finish realization
+public final class FileUtils {
     private static final String TAG = FileUtils.class.getSimpleName();
     @Inject DataAccessUtils dataAccessUtils;
 

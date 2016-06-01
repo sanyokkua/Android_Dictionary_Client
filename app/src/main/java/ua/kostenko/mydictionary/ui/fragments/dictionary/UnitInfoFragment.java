@@ -2,7 +2,6 @@ package ua.kostenko.mydictionary.ui.fragments.dictionary;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,9 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 
-public class UnitInfoFragment extends Fragment {
+public class UnitInfoFragment extends BaseFragment {
     private static final String TAG = UnitsFragment.class.getSimpleName();
     private static final String UNIT_SOURCE = "UNIT_SOURCE";
     @Bind(R.id.source_text) TextView sourceTextView;

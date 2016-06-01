@@ -81,8 +81,7 @@ public class UnitCreateDialog {
 
     private void save(MaterialDialog dialog) {
         unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(),
-                isNotNull(current) ? current.getTranslationsAdditional() : "", getUserTranslationText(),
-                isNotNull(current) ? current.getCounter() : 0));
+                isNotNull(current) ? current.getTranslationsAdditional() : "", getUserTranslationText(), current.getCounter()));
         if (isNotNull(onUpdateAdapter)) {
             onUpdateAdapter.update();
         }

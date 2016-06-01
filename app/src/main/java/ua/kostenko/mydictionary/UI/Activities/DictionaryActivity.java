@@ -2,6 +2,7 @@ package ua.kostenko.mydictionary.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,13 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitsFragment;
-import ua.kostenko.mydictionary.ui.fragments.parser.UnitParserFragment;
 
-public class DictionaryActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DictionaryActivity extends BaseActivity {
     private static final String TAG = DictionaryActivity.class.getSimpleName();
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
@@ -30,7 +34,7 @@ public class DictionaryActivity extends BaseActivity implements NavigationView.O
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new SidebarFragmentNavigation(drawer));
         replaceFragment(UnitsFragment.newInstance());
     }
 
@@ -64,20 +68,20 @@ public class DictionaryActivity extends BaseActivity implements NavigationView.O
         return super.onOptionsItemSelected(item);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void navigate(Fragment fragment) {
+        replaceFragment(fragment, true);
+    }
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_units_fragment) {
-            replaceFragment(UnitsFragment.newInstance());
-        } else if (id == R.id.nav_parser_fragment) {
-            replaceFragment(UnitParserFragment.newInstance());
-        } else if (id == R.id.nav_drilling_fragment) {
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 
-        } else if (id == R.id.nav_settings_fragment) {
-
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 }
