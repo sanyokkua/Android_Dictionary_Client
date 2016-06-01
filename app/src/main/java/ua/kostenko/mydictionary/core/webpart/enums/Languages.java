@@ -3,7 +3,7 @@ package ua.kostenko.mydictionary.core.webpart.enums;
 import android.support.annotation.NonNull;
 
 public enum Languages {
-    ENGLISH("eng"), RUSSIAN("rus");
+    ENGLISH("en"), RUSSIAN("ru");
 
     private String code;
 
