@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -16,6 +19,7 @@ import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
+import ua.kostenko.mydictionary.core.local.database.domain.MyMap;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 
@@ -25,6 +29,8 @@ public class UnitInfoFragment extends BaseFragment {
     @Bind(R.id.source_text) TextView sourceTextView;
     @Bind(R.id.translation_text) TextView translationTextView;
     @Bind(R.id.additional_translations) TextView additionalTranslationTextView;
+    @Bind(R.id.user_translation) TextView userTranslationTextView;
+    @Bind(R.id.technologies) TextView technologiesTextView;
     @Inject UnitDao unitDao;
     private Unit unit;
 
@@ -66,9 +72,23 @@ public class UnitInfoFragment extends BaseFragment {
 
     @Override
     public void onResume() {
+        String valueAsString = getPrettyJsonFromMap(unit.getTranslationsAdditional());
         sourceTextView.setText(unit.getSource());
         translationTextView.setText(unit.getTranslations());
-        additionalTranslationTextView.setText(unit.getTranslationsAdditional());
+        additionalTranslationTextView.setText(valueAsString);
+        userTranslationTextView.setText(unit.getUserTranslation());
+        technologiesTextView.setText(unit.getTechnologies());
         super.onResume();
+    }
+
+    private String getPrettyJsonFromMap(MyMap translationsAdditional) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String valueAsString = "";
+        try {
+            valueAsString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(translationsAdditional);
+        } catch (JsonProcessingException e) {
+            Log.w(TAG, "Error with prettyfying json", e);
+        }
+        return valueAsString;
     }
 }

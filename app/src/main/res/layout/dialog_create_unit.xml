@@ -6,75 +6,65 @@
               android:padding="@dimen/addDialogPadding"
               android:theme="@style/AppTheme">
 
-    <TableLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TableRow>
+        <EditText
+            android:id="@+id/source_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/field_hint_source"
+            android:inputType="text"
+            android:textSize="@dimen/text_size_common"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/source_text"/>
+    </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/source_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/field_hint_source"
-                android:inputType="text"/>
-        </TableRow>
+    <LinearLayout
+        android:id="@+id/row_translation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <TableRow
-            android:id="@+id/row_translation"
-            android:visibility="gone">
+        <TextView
+            android:id="@+id/translation_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/field_hint_translation"
+            android:textSize="@dimen/text_size_common"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/translation"/>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/translation_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/field_hint_translation"/>
+    <LinearLayout
+        android:id="@+id/row_additional"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        </TableRow>
+        <TextView
+            android:id="@+id/translation_additional_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/field_hint_translation"
+            android:textSize="@dimen/text_size_common"/>
 
-        <TableRow
-            android:id="@+id/row_additional"
-            android:visibility="gone">
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/additional"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/row_user_variant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
-            <TextView
-                android:id="@+id/translation_additional_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/field_hint_translation"/>
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row_user_variant"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/your_variant"/>
-
-            <EditText
-                android:id="@+id/user_translation_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/field_hint_user_translation"
-                android:inputType="text"/>
-        </TableRow>
-    </TableLayout>
+        <EditText
+            android:id="@+id/user_translation_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/field_hint_user_translation"
+            android:inputType="text"
+            android:textSize="@dimen/text_size_common"/>
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

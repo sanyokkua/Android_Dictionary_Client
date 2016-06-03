@@ -13,16 +13,19 @@ public class Unit {
     public static final String FIELD_TRANSLATION_ADDITIONAL = "translationAdditional";
     public static final String FIELD_USER_TRANSLATION = "userTranslation";
     public static final String FIELD_COUNTER = "counter";
+    public static final String FIELD_TECHNOLOGIES = "technologies";
     @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING, columnName = FIELD_SOURCE)
     private String source;
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION)
     private String translations;
-    @DatabaseField(canBeNull = true, dataType = DataType.STRING, columnName = FIELD_TRANSLATION_ADDITIONAL)
-    private String translationsAdditional;
+    @DatabaseField(canBeNull = true, dataType = DataType.SERIALIZABLE, columnName = FIELD_TRANSLATION_ADDITIONAL)
+    private MyMap translationsAdditional;
     @DatabaseField(dataType = DataType.STRING, columnName = FIELD_USER_TRANSLATION)
     private String userTranslation;
     @DatabaseField(dataType = DataType.LONG, columnName = FIELD_COUNTER)
     private long counter;
+    @DatabaseField(dataType = DataType.STRING, columnName = FIELD_TECHNOLOGIES)
+    private String technologies;
 
     public Unit() {
         this.counter = 1;
@@ -52,21 +55,12 @@ public class Unit {
         this.counter = counter > 0 ? counter : 1;
     }
 
-    private Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String userTranslation, final long counter) {
+    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final MyMap translationsAdditional,
+                @NonNull final String userTranslation, final long counter, @NonNull final String technologies) {
         this(source, translations, counter);
+        this.translationsAdditional = translationsAdditional;
         this.userTranslation = userTranslation;
-    }
-
-    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String translationsAdditional,
-                @NonNull final String userTranslation) {
-        this(source, translations, userTranslation, 1);
-        this.translationsAdditional = translationsAdditional;
-    }
-
-    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final String translationsAdditional,
-                @NonNull final String userTranslation, final long counter) {
-        this(source, translations, userTranslation, counter);
-        this.translationsAdditional = translationsAdditional;
+        this.technologies = technologies;
     }
 
     public long getCounter() {
@@ -93,12 +87,20 @@ public class Unit {
         this.userTranslation = userTranslation;
     }
 
-    public String getTranslationsAdditional() {
+    public MyMap getTranslationsAdditional() {
         return translationsAdditional;
     }
 
-    public void setTranslationsAdditional(String translationsAdditional) {
+    public void setTranslationsAdditional(MyMap translationsAdditional) {
         this.translationsAdditional = translationsAdditional;
+    }
+
+    public String getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(String technologies) {
+        this.technologies = technologies;
     }
 
     public String getSource() {

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,7 +36,7 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
             @Override
             public void onResponse(Call<TranslateServiceResponse> call, Response<TranslateServiceResponse> response) {
                 TranslateServiceResponse body = response.body();
-                Unit unit = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "");
+                Unit unit = createUnit(body, text);
                 onResultCallback.onResult(unit);
             }
 
@@ -46,6 +47,21 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
         });
     }
 
+    @NonNull
+    private Unit createUnit(TranslateServiceResponse body, @NonNull String text) {
+        return new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "", 0, getTechnologies(body));
+    }
+
+    private String getTechnologies(TranslateServiceResponse body) {
+        StringBuilder builder = new StringBuilder();
+        List<String> technologies = body.getTechnologies();
+        for (String technology : technologies) {
+            builder.append(technology);
+            builder.append(";\n\n");
+        }
+        return builder.toString();
+    }
+
     @Override
     public Unit translateSync(@NonNull Languages from, @NonNull Languages to, @NonNull String text) {
         RestApi restApi = retrofit.create(RestApi.class);
@@ -54,7 +70,7 @@ public class TranslateServiceImpl implements TranslateService<Unit> {
         try {
             Response<TranslateServiceResponse> execute = call.execute();
             TranslateServiceResponse body = execute.body();
-            result = new Unit(text, body.getTranslation(), body.getAdditionalTranslations(), "");
+            result = createUnit(body, text);
         } catch (IOException e) {
             result = new Unit(text, "");
             Log.w(TAG, String.format("Error occur in Request to the server. Word: %s", text), e);

@@ -55,5 +55,8 @@
     <string name="hint_translation">translation</string>
     <string name="unit_info_source">Source</string>
     <string name="technologies">Technologies</string>
+    <string name="user_variant">User variant</string>
+    <string name="additional_information">Additional information</string>
+    <string name="translation_info">Translation</string>
 
 </resources>

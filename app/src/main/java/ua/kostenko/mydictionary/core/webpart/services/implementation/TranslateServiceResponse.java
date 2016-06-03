@@ -3,6 +3,10 @@ package ua.kostenko.mydictionary.core.webpart.services.implementation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
+import ua.kostenko.mydictionary.core.local.database.domain.MyMap;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TranslateServiceResponse {
     @JsonProperty("code")
@@ -12,11 +16,14 @@ public class TranslateServiceResponse {
     @JsonProperty("translation")
     private String translation;
     @JsonProperty("translationAdditional")
-    private String additionalTranslations;
+    private MyMap additionalTranslations;
+    @JsonProperty("technologies")
+    private List<String> technologies;
     @JsonProperty("errorCode")
     private String errorCode;
 
-    public TranslateServiceResponse() {}
+    public TranslateServiceResponse() {
+    }
 
     public int getCode() {
         return code;
@@ -42,12 +49,20 @@ public class TranslateServiceResponse {
         this.translation = translation;
     }
 
-    public String getAdditionalTranslations() {
+    public MyMap getAdditionalTranslations() {
         return additionalTranslations;
     }
 
-    public void setAdditionalTranslations(String additionalTranslations) {
+    public void setAdditionalTranslations(MyMap additionalTranslations) {
         this.additionalTranslations = additionalTranslations;
+    }
+
+    public List<String> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(List<String> technologies) {
+        this.technologies = technologies;
     }
 
     public String getErrorCode() {
