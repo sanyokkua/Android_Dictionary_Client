@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.6"
+                android:layout_weight="0.9"
                 android:gravity="fill_horizontal"
                 android:text="@string/parser_description"/>
 
@@ -30,7 +30,7 @@
                 android:id="@+id/open_file_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_weight="0.1"
                 android:text="@string/parser_open_file_button"/>
 
         </LinearLayout>
@@ -43,6 +43,14 @@
             android:background="@color/colorLightPrimary"
             android:padding="@dimen/parser_list_padding"
             tools:listitem="@layout/item_parser_unit"/>
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/parser_list_no_data_available"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

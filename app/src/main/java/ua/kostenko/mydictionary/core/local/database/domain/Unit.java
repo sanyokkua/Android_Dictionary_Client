@@ -14,12 +14,13 @@ public class Unit {
     public static final String FIELD_USER_TRANSLATION = "userTranslation";
     public static final String FIELD_COUNTER = "counter";
     public static final String FIELD_TECHNOLOGIES = "technologies";
+
     @DatabaseField(id = true, canBeNull = false, dataType = DataType.STRING, columnName = FIELD_SOURCE)
     private String source;
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = FIELD_TRANSLATION)
     private String translations;
     @DatabaseField(canBeNull = true, dataType = DataType.SERIALIZABLE, columnName = FIELD_TRANSLATION_ADDITIONAL)
-    private MyMap translationsAdditional;
+    private SerializableMap translationsAdditional;
     @DatabaseField(dataType = DataType.STRING, columnName = FIELD_USER_TRANSLATION)
     private String userTranslation;
     @DatabaseField(dataType = DataType.LONG, columnName = FIELD_COUNTER)
@@ -29,18 +30,6 @@ public class Unit {
 
     public Unit() {
         this.counter = 1;
-    }
-
-    public void incrementCounterTo(long value) {
-        counter += value;
-    }
-
-    public void incrementCounter() {
-        counter++;
-    }
-
-    public void decrementCounter() {
-        counter = counter - 1 < 0 ? 0 : counter--;
     }
 
     public Unit(@NonNull final String source, @NonNull final String translations) {
@@ -55,12 +44,24 @@ public class Unit {
         this.counter = counter > 0 ? counter : 1;
     }
 
-    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final MyMap translationsAdditional,
+    public Unit(@NonNull final String source, @NonNull final String translations, @NonNull final SerializableMap translationsAdditional,
                 @NonNull final String userTranslation, final long counter, @NonNull final String technologies) {
         this(source, translations, counter);
         this.translationsAdditional = translationsAdditional;
         this.userTranslation = userTranslation;
         this.technologies = technologies;
+    }
+
+    public void incrementCounterTo(long value) {
+        counter += value;
+    }
+
+    public void incrementCounter() {
+        counter++;
+    }
+
+    public void decrementCounter() {
+        counter = counter - 1 < 0 ? 0 : counter--;
     }
 
     public long getCounter() {
@@ -87,11 +88,11 @@ public class Unit {
         this.userTranslation = userTranslation;
     }
 
-    public MyMap getTranslationsAdditional() {
+    public SerializableMap getTranslationsAdditional() {
         return translationsAdditional;
     }
 
-    public void setTranslationsAdditional(MyMap translationsAdditional) {
+    public void setTranslationsAdditional(SerializableMap translationsAdditional) {
         this.translationsAdditional = translationsAdditional;
     }
 

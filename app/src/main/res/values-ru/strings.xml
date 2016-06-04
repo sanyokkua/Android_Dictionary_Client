@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Мой словарь</string>
+
+    <!-- - - - - - - - Drawer - - - - - - - - - - - - - - -->
+    <string name="navigation_drawer_open">Открыть боковое меню</string>
+    <string name="navigation_drawer_close">Закрыть боковое меню</string>
+    <string name="navigation_drawer_fragment_units">Список слов</string>
+    <string name="navigation_drawer_fragment_parser">Парсер текстовых файлов</string>
+    <string name="navigation_drawer_fragment_drilling">Упражнения</string>
+    <string name="navigation_drawer_fragment_settings">Настройки</string>
+    <string name="navigation_drawer_option_divider">Остальное</string>
+
+    <!-- - - - - - - - Dictionary operations - - - - - - - - - - - - - - -->
+    <string name="dictionary_create_unit_dialog_translate">Найти перевод</string>
+
+    <!-- - - - - - - - Standard dialog words - - - - - - - - - - - - - - -->
+    <string name="standard_cancel">Отмена</string>
+    <string name="standard_ok">Ок</string>
+
+    <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
+    <string name="parser_open_file_button">Выбрать файл</string>
+    <string name="parser_description">Здесь вы можете открыть файл и достать все слова из него</string>
+    <string name="parser_file_size">Размер файла</string>
+    <string name="parser_file_location">Расположение файла:</string>
+    <string name="parser_confirm_question">Вы хотите разобрать этот файл?</string>
+    <string name="parser_nothing_to_parse">Нету ничего для добавления, сначала следует открыть файл</string>
+    <string name="parser_parse_all">Да</string>
+    <string name="parser_progress_dialog">Загрузка</string>
+    <string name="parser_progress_dialog_content">Подождите пока файл не будет разобран</string>
+    <string name="parser_dialog_add_all_warning">Предупреждение</string>
+    <string name="parser_dialog_add_all_question">Вы уверены что хотите добавить все слова?</string>
+    <string name="parser_dialog_add_all_title">Обработка</string>
+    <string name="parser_dialog_add_all_content">Подождите пока слова будут добавлены</string>
+    <string name="parser_list_no_data_available">Пока что ничего нету</string>
+
+    <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
+    <string name="field_hint_source">Оригинал</string>
+    <string name="field_hint_user_translation">Пользовательский перевод</string>
+    <string name="add_unit">Добавить</string>
+
+    <!-- - - - - - - - Unit list - - - - - - - - - - - - - - -->
+    <string name="unit_list_item_hint_source">Слово</string>
+    <string name="unit_list_item_hint_translation">Перевод</string>
+
+    <!-- - - - - - - - Fragment unit info - - - - - - - - - - - - - - -->
+    <string name="fragment_unit_info_source">Оригинал</string>
+    <string name="fragment_unit_info_translation">Перевод</string>
+    <string name="fragment_unit_info_additional_translation">Дополнительно</string>
+    <string name="fragment_unit_info_user_translation">Пользовательский перевод</string>
+    <string name="fragment_unit_info_technologies">Технологии</string>
+
+    <!-- - - - - - - - Fragment Units item menu - - - - - - - - - - - - - - -->
+    <string name="menu_unit_show">Показать</string>
+    <string name="menu_unit_remove">Удалить</string>
+
+
+</resources>

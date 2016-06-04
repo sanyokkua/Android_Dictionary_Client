@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-import ua.kostenko.mydictionary.core.local.database.domain.MyMap;
+import ua.kostenko.mydictionary.core.local.database.domain.SerializableMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TranslateServiceResponse {
@@ -16,7 +16,7 @@ public class TranslateServiceResponse {
     @JsonProperty("translation")
     private String translation;
     @JsonProperty("translationAdditional")
-    private MyMap additionalTranslations;
+    private SerializableMap additionalTranslations;
     @JsonProperty("technologies")
     private List<String> technologies;
     @JsonProperty("errorCode")
@@ -49,11 +49,11 @@ public class TranslateServiceResponse {
         this.translation = translation;
     }
 
-    public MyMap getAdditionalTranslations() {
+    public SerializableMap getAdditionalTranslations() {
         return additionalTranslations;
     }
 
-    public void setAdditionalTranslations(MyMap additionalTranslations) {
+    public void setAdditionalTranslations(SerializableMap additionalTranslations) {
         this.additionalTranslations = additionalTranslations;
     }
 

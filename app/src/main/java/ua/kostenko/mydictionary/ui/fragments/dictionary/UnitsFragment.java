@@ -23,9 +23,9 @@ import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 
 public class UnitsFragment extends BaseFragment {
     private static final String TAG = UnitsFragment.class.getSimpleName();
-    private UnitRecyclerViewAdapter adapter;
     @Bind(R.id.units_list) RecyclerView recyclerViewUnitList;
     @Inject UnitDao unitDao;
+    private UnitRecyclerViewAdapter adapter;
 
     public UnitsFragment() {
     }

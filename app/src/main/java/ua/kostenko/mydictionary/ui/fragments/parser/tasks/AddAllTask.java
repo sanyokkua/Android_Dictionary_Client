@@ -17,7 +17,6 @@ import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
-import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
@@ -59,7 +58,7 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Integer, Boolean> {
             if (isNull(unit)) {
                 Unit translated = translateService.translateSync(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
                 unitDao.saveUnit(translated);
-            }else {
+            } else {
                 unitDao.saveUnit(unit);
             }
             counter++;

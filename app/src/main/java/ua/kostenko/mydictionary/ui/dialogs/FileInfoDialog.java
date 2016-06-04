@@ -22,11 +22,9 @@ public class FileInfoDialog {
     @Bind(R.id.file_location_text) TextView locationEditText;
     @BindString(R.string.parser_parse_all) String positiveText;
     @BindString(R.string.standard_cancel) String negativeText;
+    @NonNull private MaterialDialog.SingleButtonCallback onNegativeButtonClick;
+    @NonNull private MaterialDialog.SingleButtonCallback onPositiveButtonClick;
     private MaterialDialog.Builder builder;
-    @NonNull
-    private MaterialDialog.SingleButtonCallback onNegativeButtonClick;
-    @NonNull
-    private MaterialDialog.SingleButtonCallback onPositiveButtonClick;
     private OnClickCustomListener<String> okCallback;
 
     private FileInfoDialog(final Context context, final LayoutInflater inflater) {

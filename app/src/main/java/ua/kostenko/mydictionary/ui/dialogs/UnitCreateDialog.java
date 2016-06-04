@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
-import ua.kostenko.mydictionary.core.local.database.domain.MyMap;
+import ua.kostenko.mydictionary.core.local.database.domain.SerializableMap;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
@@ -51,7 +51,8 @@ public class UnitCreateDialog {
     private boolean isTranslated;
     private MaterialDialog materialDialog;
 
-    public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater, final OnUpdate onUpdate) {
+    public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater,
+                            @NonNull final OnUpdate onUpdate) {
         final View dialogView = inflater.inflate(R.layout.dialog_create_unit, null, false);
         ButterKnife.bind(this, dialogView);
         App.getAppComponent().inject(this);
@@ -78,11 +79,12 @@ public class UnitCreateDialog {
         isTranslated = false;
     }
 
-    public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit, final OnUpdate onUpdate) {
+    public UnitCreateDialog(@NonNull final Context context, LayoutInflater inflater, Unit unit,
+                            @NonNull final OnUpdate onUpdate) {
         this(context, inflater, onUpdate);
         sourceEditText.setText(unit.getSource());
         translationTextView.setText(unit.getTranslations());
-        MyMap translationsAdditional = unit.getTranslationsAdditional();
+        SerializableMap translationsAdditional = unit.getTranslationsAdditional();
         translationAdditionalTextView.setText(isNotNull(translationsAdditional) ? translationsAdditional.toString() : "");
         userTranslationEditText.setText(unit.getUserTranslation());
         current = unit;
@@ -90,7 +92,7 @@ public class UnitCreateDialog {
 
     private void save(MaterialDialog dialog) {
         unitDao.saveUnit(new Unit(getSourceText(), getTranslationText(),
-                isNotNull(current) ? current.getTranslationsAdditional() : new MyMap(),
+                isNotNull(current) ? current.getTranslationsAdditional() : new SerializableMap(),
                 getUserTranslationText(), current.getCounter(), current.getTechnologies()));
         if (isNotNull(onUpdateAdapter)) {
             onUpdateAdapter.update();

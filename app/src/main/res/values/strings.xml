@@ -31,6 +31,7 @@
     <string name="parser_dialog_add_all_question">Are you sure to add all units to your dictionary?</string>
     <string name="parser_dialog_add_all_title">Processing</string>
     <string name="parser_dialog_add_all_content">Please wait until all units will be added to the dictionary</string>
+    <string name="parser_list_no_data_available">No data available</string>
 
     <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
     <string name="field_hint_source">Source</string>

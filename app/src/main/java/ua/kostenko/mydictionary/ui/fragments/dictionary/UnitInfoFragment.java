@@ -19,7 +19,7 @@ import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
-import ua.kostenko.mydictionary.core.local.database.domain.MyMap;
+import ua.kostenko.mydictionary.core.local.database.domain.SerializableMap;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
 
@@ -81,7 +81,7 @@ public class UnitInfoFragment extends BaseFragment {
         super.onResume();
     }
 
-    private String getPrettyJsonFromMap(MyMap translationsAdditional) {
+    private String getPrettyJsonFromMap(SerializableMap translationsAdditional) {
         ObjectMapper objectMapper = new ObjectMapper();
         String valueAsString = "";
         try {

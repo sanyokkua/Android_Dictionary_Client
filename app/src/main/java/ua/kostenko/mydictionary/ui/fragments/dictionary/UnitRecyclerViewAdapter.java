@@ -37,8 +37,8 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
     private static final String TAG = UnitRecyclerViewAdapter.class.getSimpleName();
     @NonNull private final OnClickCustomListener<Unit> onClickCustomListener;
     @NonNull private final OnLongClickCustomListener<Unit> onLongClickCustomListener;
-    @NonNull private List<Unit> unitList;
     @Inject UnitDao unitDao;
+    @NonNull private List<Unit> unitList;
 
     public UnitRecyclerViewAdapter() {
         App.getAppComponent().inject(this);

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -45,6 +46,7 @@ public class UnitParserFragment extends BaseFragment {
     private static final int PICK_FILE_CODE = 1;
     @Bind(R.id.open_file_button) Button openFileButton;
     @Bind(R.id.parser_list) RecyclerView parserListView;
+    @Bind(R.id.empty_view) TextView emptyTextView;
     @Inject DataAccessUtils dataAccessUtils;
     private List<ParserUnit> result;
 
@@ -65,6 +67,8 @@ public class UnitParserFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parser_view, container, false);
         ButterKnife.bind(this, view);
+        parserListView.setVisibility(View.GONE);
+        emptyTextView.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -109,6 +113,8 @@ public class UnitParserFragment extends BaseFragment {
 
     private void setAdapterWithData() {
         if (isNotNull(parserListView)) {
+            parserListView.setVisibility(View.VISIBLE);
+            emptyTextView.setVisibility(View.GONE);
             parserListView.setLayoutManager(new LinearLayoutManager(getActivity()));
             ParserUnitRecyclerViewAdapter adapter = new ParserUnitRecyclerViewAdapter(result, new OnClickCustomListener<ParserUnit>() {
                 @Override
