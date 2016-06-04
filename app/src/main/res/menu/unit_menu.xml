@@ -4,11 +4,11 @@
     <item
         android:id="@+id/action_show"
         android:orderInCategory="100"
-        android:title="Show"
+        android:title="@string/menu_unit_show"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_remove"
         android:orderInCategory="100"
-        android:title="Remove"
+        android:title="@string/menu_unit_remove"
         app:showAsAction="never" />
 </menu>

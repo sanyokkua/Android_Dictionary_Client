@@ -29,7 +29,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/unit_info_source"/>
+                        android:text="@string/fragment_unit_info_source"/>
 
                     <TextView
                         android:id="@+id/source_text"
@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/translation_info"/>
+                        android:text="@string/fragment_unit_info_translation"/>
 
                     <TextView
                         android:id="@+id/translation_text"
@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/additional_information"/>
+                        android:text="@string/fragment_unit_info_additional_translation"/>
 
                     <TextView
                         android:id="@+id/additional_translations"
@@ -104,7 +104,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/user_variant"/>
+                        android:text="@string/fragment_unit_info_user_translation"/>
 
                     <TextView
                         android:id="@+id/user_translation"
@@ -129,7 +129,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/technologies"/>
+                        android:text="@string/fragment_unit_info_technologies"/>
 
                     <TextView
                         android:id="@+id/technologies"

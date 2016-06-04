@@ -31,7 +31,6 @@
             android:id="@+id/translation_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_hint_translation"
             android:textSize="@dimen/text_size_common"/>
 
     </LinearLayout>
@@ -47,7 +46,6 @@
             android:id="@+id/translation_additional_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_hint_translation"
             android:textSize="@dimen/text_size_common"/>
 
     </LinearLayout>

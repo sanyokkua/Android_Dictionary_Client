@@ -21,13 +21,13 @@
                 android:id="@+id/unit_source_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_some_word"/>
+                android:hint="@string/unit_list_item_hint_source"/>
 
             <TextView
                 android:id="@+id/unit_translation_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_translation"
+                android:hint="@string/unit_list_item_hint_translation"
                 android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 

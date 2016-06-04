@@ -11,52 +11,47 @@
     <string name="navigation_drawer_option_divider">Other</string>
 
     <!-- - - - - - - - Dictionary operations - - - - - - - - - - - - - - -->
-    <string name="dictionary_add_unit">Add Unit</string>
+    <string name="dictionary_create_unit_dialog_translate">Find translation</string>
 
     <!-- - - - - - - - Standard dialog words - - - - - - - - - - - - - - -->
-    <string name="standard_open">Open</string>
     <string name="standard_cancel">Cancel</string>
-    <string name="standard_close">Close</string>
-    <string name="standard_back">Back</string>
     <string name="standard_ok">OK</string>
-    <string name="standard_remove">Remove</string>
 
     <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
-    <string name="parser_open_file_button">Choose file from storage</string>
-    <string name="parser_description">Here you can open one of text files in your phone and get all words in that file</string>
+    <string name="parser_open_file_button">Choose file</string>
+    <string name="parser_description">Here you can open one of text files in your phone and get all words from it</string>
     <string name="parser_file_size">File size</string>
     <string name="parser_file_location">File location:</string>
     <string name="parser_confirm_question">Do you want to parse this file?</string>
     <string name="parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
     <string name="parser_parse_all">Yes</string>
-
-    <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
-    <string name="field_hint_source">Source</string>
-    <string name="field_hint_translation">Translation</string>
-    <string name="field_hint_user_translation">User variant of translation</string>
-    <string name="button_translation">Translate</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="drawer_application_name">Name of application hardcode</string>
-    <string name="drawer_application_secondary_text">android.studio@android.com</string>
     <string name="parser_progress_dialog">Loading</string>
     <string name="parser_progress_dialog_content">Please wait until file will be parsed</string>
     <string name="parser_dialog_add_all_warning">Warning</string>
     <string name="parser_dialog_add_all_question">Are you sure to add all units to your dictionary?</string>
     <string name="parser_dialog_add_all_title">Processing</string>
     <string name="parser_dialog_add_all_content">Please wait until all units will be added to the dictionary</string>
-    <string name="source_text">Source text</string>
-    <string name="your_variant">Your variant</string>
-    <string name="additional">Additional</string>
-    <string name="translation">Translation</string>
-    <string name="add_unit">Add</string>
-    <string name="hint_some_word">Some Word</string>
-    <string name="hint_translation">translation</string>
-    <string name="unit_info_source">Source</string>
-    <string name="technologies">Technologies</string>
-    <string name="user_variant">User variant</string>
-    <string name="additional_information">Additional information</string>
-    <string name="translation_info">Translation</string>
 
+    <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
+    <string name="field_hint_source">Source</string>
+    <string name="field_hint_user_translation">User variant of translation</string>
+    <string name="add_unit">Add</string>
+
+    <!-- - - - - - - - Unit list - - - - - - - - - - - - - - -->
+    <string name="unit_list_item_hint_source">Some Word</string>
+    <string name="unit_list_item_hint_translation">translation</string>
+
+    <!-- - - - - - - - Fragment unit info - - - - - - - - - - - - - - -->
+    <string name="fragment_unit_info_source">Source</string>
+    <string name="fragment_unit_info_translation">Translation</string>
+    <string name="fragment_unit_info_additional_translation">Additional</string>
+    <string name="fragment_unit_info_user_translation">User translation</string>
+    <string name="fragment_unit_info_technologies">Technologies</string>
+
+    <!-- - - - - - - - Fragment Units item menu - - - - - - - - - - - - - - -->
+    <string name="menu_unit_show">Show</string>
+    <string name="menu_unit_remove">Remove</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

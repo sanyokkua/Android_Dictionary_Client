@@ -43,7 +43,7 @@ public class UnitCreateDialog {
     @Bind(R.id.row_translation) LinearLayout rowTranslation;
     @Bind(R.id.row_additional) LinearLayout rowAdditional;
     @Bind(R.id.row_user_variant) TextInputLayout rowUserVariant;
-    @BindString(R.string.dictionary_add_unit) String positiveText;
+    @BindString(R.string.dictionary_create_unit_dialog_translate) String positiveText;
     @BindString(R.string.standard_cancel) String negativeText;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
