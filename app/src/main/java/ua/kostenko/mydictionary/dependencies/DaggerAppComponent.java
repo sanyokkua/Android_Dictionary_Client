@@ -8,6 +8,7 @@ import ua.kostenko.mydictionary.core.local.dataaccess.FileUtils;
 import ua.kostenko.mydictionary.core.local.exercises.QuestionExercise;
 import ua.kostenko.mydictionary.core.webpart.services.implementation.TranslateServiceImpl;
 import ua.kostenko.mydictionary.ui.activities.DictionaryActivity;
+import ua.kostenko.mydictionary.ui.activities.SidebarFragmentNavigation;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitInfoFragment;
 import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitsFragment;
@@ -45,4 +46,6 @@ public interface DaggerAppComponent {
     void inject(QuestionExercise questionExercise);
 
     void inject(ExerciseFragment exerciseFragment);
+
+    void inject(SidebarFragmentNavigation sidebarFragmentNavigation);
 }

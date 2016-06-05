@@ -29,7 +29,6 @@ import butterknife.OnClick;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.dataaccess.DataAccessUtils;
-import ua.kostenko.mydictionary.core.local.database.DatabaseHelper;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
 import ua.kostenko.mydictionary.ui.dialogs.FileInfoDialog;
@@ -50,7 +49,6 @@ public class UnitParserFragment extends BaseFragment {
     @Bind(R.id.parser_list) RecyclerView parserListView;
     @Bind(R.id.empty_view) TextView emptyTextView;
     @Inject DataAccessUtils dataAccessUtils;
-    @Inject DatabaseHelper databaseHelper;
     private List<ParserUnit> result;
 
     public UnitParserFragment() {
@@ -64,7 +62,6 @@ public class UnitParserFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-        databaseHelper.setNeedToUpdate(false);
     }
 
     @Override
@@ -172,17 +169,5 @@ public class UnitParserFragment extends BaseFragment {
     private void addAllUnits(@NonNull List<ParserUnit> result) {
         AddAllTask addAllTask = new AddAllTask(getContext());
         addAllTask.execute(result);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        databaseHelper.setNeedToUpdate(false);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        databaseHelper.setNeedToUpdate(true);
     }
 }
