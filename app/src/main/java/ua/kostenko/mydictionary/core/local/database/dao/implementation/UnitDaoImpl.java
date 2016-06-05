@@ -13,12 +13,14 @@ import java.util.List;
 
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.ui.iterfaces.OnUpdate;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
 public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
     private static final String TAG = UnitDaoImpl.class.getSimpleName();
+    private OnUpdate onUpdate;
 
     public UnitDaoImpl(ConnectionSource connectionSource, Class<Unit> dataClass) throws SQLException {
         super(connectionSource, dataClass);
@@ -44,6 +46,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
             }
             int numbOfRowsUpdated = update(existingUnit);
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
+            update();
         } catch (SQLException e) {
             Log.e(TAG, "Error while updating unit", e);
             resultOfOperation = false;
@@ -57,6 +60,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
         try {
             int numbOfRowsUpdated = create(newUnit);
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
+            update();
         } catch (SQLException e) {
             Log.e(TAG, "Error while creating unit", e);
             resultOfOperation = false;
@@ -71,11 +75,18 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
         try {
             final int numbOfRowsUpdated = delete(unit);
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);
+            update();
         } catch (SQLException e) {
             resultOfOperation = false;
             Log.e(TAG, "Removing of " + unit.toString() + " failed", e);
         }
         return resultOfOperation;
+    }
+
+    private void update() {
+        if (isNotNull(onUpdate)) {
+            onUpdate.update();
+        }
     }
 
     @Override
@@ -113,5 +124,10 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
             Log.e(TAG, "Error with queryForAll", e);
         }
         return unitList;
+    }
+
+    @Override public void setOnUpdate(@NonNull OnUpdate onUpdate) {
+        checkNotNull(onUpdate);
+        this.onUpdate = onUpdate;
     }
 }

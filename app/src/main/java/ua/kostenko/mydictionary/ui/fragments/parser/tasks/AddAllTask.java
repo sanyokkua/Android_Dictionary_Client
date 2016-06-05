@@ -24,10 +24,10 @@ import static ua.kostenko.mydictionary.core.commonutils.Utils.isNull;
 
 public class AddAllTask extends AsyncTask<List<ParserUnit>, Integer, Boolean> {
     private static final String TAG = AddAllTask.class.getSimpleName();
-    private MaterialDialog progressDialog;
     @Inject Context context;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
+    private MaterialDialog progressDialog;
 
     public AddAllTask(@NonNull final Context context) {
         checkNotNull(context);
@@ -57,8 +57,10 @@ public class AddAllTask extends AsyncTask<List<ParserUnit>, Integer, Boolean> {
             Log.d(TAG, "Unit: " + unit);
             if (isNull(unit)) {
                 Unit translated = translateService.translateSync(Languages.ENGLISH, Languages.RUSSIAN, current.getSource());
+                translated.setCounter(current.getCounter());
                 unitDao.saveUnit(translated);
             } else {
+                unit.setCounter(unit.getCounter() + current.getCounter());
                 unitDao.saveUnit(unit);
             }
             counter++;

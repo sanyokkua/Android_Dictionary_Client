@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.ui;
+package ua.kostenko.mydictionary.ui.iterfaces;
 
 import android.view.View;
 

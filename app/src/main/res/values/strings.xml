@@ -6,7 +6,7 @@
     <string name="navigation_drawer_close">Close drawer</string>
     <string name="navigation_drawer_fragment_units">Units list</string>
     <string name="navigation_drawer_fragment_parser">Text File parser</string>
-    <string name="navigation_drawer_fragment_drilling">Drilling</string>
+    <string name="navigation_drawer_fragment_exercise">Exercise</string>
     <string name="navigation_drawer_fragment_settings">Settings</string>
     <string name="navigation_drawer_option_divider">Other</string>
 
@@ -53,6 +53,12 @@
     <string name="menu_unit_show">Show</string>
     <string name="menu_unit_remove">Remove</string>
 
+    <!-- - - - - - - - Fragment Exercise - - - - - - - - - - - - - - -->
+    <string name="fragment_exercise_from">From</string>
+    <string name="fragment_exercise_correct_answer">Correct</string>
+    <string name="fragment_exercise_wrong_answer">Wrong</string>
+    <string name="fragment_exercise_next_unit_dialog_wait">Loading</string>
+    <string name="fragment_exercise_not_enough_words">Not enough words in dictionary</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

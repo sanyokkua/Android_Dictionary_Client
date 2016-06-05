@@ -11,18 +11,9 @@
             android:icon="@drawable/ic_action_icon_parser_dark"
             android:title="@string/navigation_drawer_fragment_parser"/>
         <item
-            android:id="@+id/nav_drilling_fragment"
+            android:id="@+id/nav_exercise_fragment"
             android:icon="@drawable/ic_action_icon_exercise_dark"
-            android:title="@string/navigation_drawer_fragment_drilling"/>
+            android:title="@string/navigation_drawer_fragment_exercise"/>
     </group>
-
-    <item android:title="@string/navigation_drawer_option_divider">
-        <menu>
-            <item
-                android:id="@+id/nav_settings_fragment"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/navigation_drawer_fragment_settings"/>
-        </menu>
-    </item>
 
 </menu>

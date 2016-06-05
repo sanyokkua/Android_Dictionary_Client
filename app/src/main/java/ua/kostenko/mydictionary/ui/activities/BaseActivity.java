@@ -8,7 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.core.commonutils.Utils;
+
+import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
@@ -18,20 +19,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void replaceFragment(@NonNull final Fragment fragment, boolean addToBackStack) {
-        Utils.checkNotNull(fragment, "Fragment can't be null!");
+        checkNotNull(fragment, "Fragment can't be null!");
+        final String fragmentName = fragment.getClass().getSimpleName();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         if (addToBackStack) {
-            String backStateName = fragment.getClass().getName();
             FragmentManager manager = getSupportFragmentManager();
-            boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-            if (!fragmentPopped) {
+            boolean fragmentPopped = manager.popBackStackImmediate(fragmentName, 0);
+            if (!fragmentPopped && manager.findFragmentByTag(fragmentName) == null) {
                 transaction.add(R.id.main_activity_content_holder, fragment);
-                transaction.addToBackStack(fragment.getClass().getSimpleName());
+                transaction.addToBackStack(fragmentName);
             }
         }
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.replace(R.id.main_activity_content_holder, fragment);
         transaction.commit();
-        Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
+        Log.d(TAG, String.format("Fragment was replaced to : %s", fragmentName));
     }
 }

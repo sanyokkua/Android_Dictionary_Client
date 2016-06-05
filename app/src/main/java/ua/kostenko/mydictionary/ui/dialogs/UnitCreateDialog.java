@@ -26,7 +26,7 @@ import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.webpart.enums.Languages;
 import ua.kostenko.mydictionary.core.webpart.services.OnResultCallback;
 import ua.kostenko.mydictionary.core.webpart.services.TranslateService;
-import ua.kostenko.mydictionary.ui.fragments.dictionary.OnUpdate;
+import ua.kostenko.mydictionary.ui.iterfaces.OnUpdate;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;

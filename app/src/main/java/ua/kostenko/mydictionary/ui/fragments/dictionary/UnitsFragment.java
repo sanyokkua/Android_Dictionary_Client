@@ -20,6 +20,7 @@ import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.ui.dialogs.UnitCreateDialog;
 import ua.kostenko.mydictionary.ui.fragments.BaseFragment;
+import ua.kostenko.mydictionary.ui.fragments.dictionary.adapters.UnitRecyclerViewAdapter;
 
 public class UnitsFragment extends BaseFragment {
     private static final String TAG = UnitsFragment.class.getSimpleName();

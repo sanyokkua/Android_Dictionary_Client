@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.iterfaces.OnClickCustomListener;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 

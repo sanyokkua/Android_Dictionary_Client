@@ -6,7 +6,7 @@
     <string name="navigation_drawer_close">Закрыть боковое меню</string>
     <string name="navigation_drawer_fragment_units">Список слов</string>
     <string name="navigation_drawer_fragment_parser">Парсер текстовых файлов</string>
-    <string name="navigation_drawer_fragment_drilling">Упражнения</string>
+    <string name="navigation_drawer_fragment_exercise">Упражнения</string>
     <string name="navigation_drawer_fragment_settings">Настройки</string>
     <string name="navigation_drawer_option_divider">Остальное</string>
 
@@ -53,5 +53,11 @@
     <string name="menu_unit_show">Показать</string>
     <string name="menu_unit_remove">Удалить</string>
 
+    <!-- - - - - - - - Fragment Exercise - - - - - - - - - - - - - - -->
+    <string name="fragment_exercise_from">Из</string>
+    <string name="fragment_exercise_correct_answer">Правильно</string>
+    <string name="fragment_exercise_wrong_answer">Не правильно</string>
+    <string name="fragment_exercise_next_unit_dialog_wait">Загрузка</string>
+    <string name="fragment_exercise_not_enough_words">Не достаточно слов в словаре</string>
 
 </resources>

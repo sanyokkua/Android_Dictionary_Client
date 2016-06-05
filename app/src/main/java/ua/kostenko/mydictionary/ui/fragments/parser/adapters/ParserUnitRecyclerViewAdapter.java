@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.ui.fragments.parser;
+package ua.kostenko.mydictionary.ui.fragments.parser.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.local.parsing.ParserUnit;
-import ua.kostenko.mydictionary.ui.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.iterfaces.OnClickCustomListener;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 

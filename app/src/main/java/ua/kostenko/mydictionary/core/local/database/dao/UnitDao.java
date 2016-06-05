@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
+import ua.kostenko.mydictionary.ui.iterfaces.OnUpdate;
 
 public interface UnitDao {
     boolean saveUnit(@NonNull final Unit unit);
@@ -16,5 +17,7 @@ public interface UnitDao {
     Unit findByTranslation(@NonNull final String translation);
 
     List<Unit> findAll();
+
+    void setOnUpdate(@NonNull OnUpdate onUpdate);
 
 }

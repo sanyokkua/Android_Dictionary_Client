@@ -1,4 +1,4 @@
-package ua.kostenko.mydictionary.ui.fragments.dictionary;
+package ua.kostenko.mydictionary.ui.fragments.dictionary.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -26,18 +26,23 @@ import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
 import ua.kostenko.mydictionary.core.commonutils.Utils;
+import ua.kostenko.mydictionary.core.local.database.DatabaseHelper;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
-import ua.kostenko.mydictionary.ui.OnClickCustomListener;
-import ua.kostenko.mydictionary.ui.OnLongClickCustomListener;
+import ua.kostenko.mydictionary.ui.fragments.dictionary.UnitInfoFragment;
+import ua.kostenko.mydictionary.ui.iterfaces.OnClickCustomListener;
+import ua.kostenko.mydictionary.ui.iterfaces.OnLongClickCustomListener;
+import ua.kostenko.mydictionary.ui.iterfaces.OnUpdate;
 
 import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
+import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
 public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerViewAdapter.ViewHolder> implements OnUpdate {
     private static final String TAG = UnitRecyclerViewAdapter.class.getSimpleName();
     @NonNull private final OnClickCustomListener<Unit> onClickCustomListener;
     @NonNull private final OnLongClickCustomListener<Unit> onLongClickCustomListener;
     @Inject UnitDao unitDao;
+    @Inject DatabaseHelper databaseHelper;
     @NonNull private List<Unit> unitList;
 
     public UnitRecyclerViewAdapter() {
@@ -58,7 +63,7 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
     }
 
     private void onLongClick(final Unit item, final View view) {
-        PopupMenu popupMenu = new PopupMenu(view.getContext(), view, Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view, Gravity.CENTER);
         popupMenu.inflate(R.menu.unit_menu);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -125,8 +130,11 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
 
     @Override
     public void update() {
-        unitList = unitDao.findAll();
-        notifyDataSetChanged();
+        List<Unit> unitsUpdated = databaseHelper.getUnits();
+        if (isNotNull(unitsUpdated) && unitsUpdated.size() != unitList.size()) {
+            unitList = unitsUpdated;
+            notifyDataSetChanged();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

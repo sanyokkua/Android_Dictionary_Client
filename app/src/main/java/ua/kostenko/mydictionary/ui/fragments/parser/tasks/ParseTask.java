@@ -23,8 +23,8 @@ import static ua.kostenko.mydictionary.core.commonutils.Utils.checkNotNull;
 
 public class ParseTask extends AsyncTask<String, Void, List<ParserUnit>> {
     private final OnFinish onFinish;
-    private MaterialDialog progressDialog;
     @Inject FileUtils fileUtils;
+    private MaterialDialog progressDialog;
 
     public ParseTask(@NonNull final Context context, @NonNull final OnFinish onFinish) {
         App.getAppComponent().inject(this);

@@ -10,6 +10,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.dao.UserDao;
@@ -17,6 +19,7 @@ import ua.kostenko.mydictionary.core.local.database.dao.implementation.UnitDaoIm
 import ua.kostenko.mydictionary.core.local.database.dao.implementation.UserDaoImpl;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
 import ua.kostenko.mydictionary.core.local.database.domain.User;
+import ua.kostenko.mydictionary.ui.iterfaces.OnUpdate;
 
 public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
@@ -24,6 +27,8 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final int DB_VERSION = 1;
     private UnitDao unitDao;
     private UserDao userDao;
+    private List<Unit> units;
+    private boolean isNeedToUpdate;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -62,6 +67,14 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public UnitDao getUnitDao() throws SQLException {
         if (unitDao == null) {
             unitDao = new UnitDaoImpl(getConnectionSource(), Unit.class);
+            isNeedToUpdate = true;
+            unitDao.setOnUpdate(new OnUpdate() {
+                @Override public void update() {
+                    if (isNeedToUpdate) {
+                        units = unitDao.findAll();
+                    }
+                }
+            });
         }
         return unitDao;
     }
@@ -72,5 +85,25 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             userDao = new UserDaoImpl(getConnectionSource(), User.class);
         }
         return userDao;
+    }
+
+    public List<Unit> getUnits() {
+        if (units == null) {
+            try {
+                units = getUnitDao().findAll();
+            } catch (SQLException e) {
+                Log.e(TAG, "Error in getting unit dao", e);
+                throw new RuntimeException(e);
+            }
+        }
+        return Collections.unmodifiableList(units);
+    }
+
+    public boolean isNeedToUpdate() {
+        return isNeedToUpdate;
+    }
+
+    public void setNeedToUpdate(boolean needToUpdate) {
+        isNeedToUpdate = needToUpdate;
     }
 }
