@@ -30,6 +30,7 @@ public class SidebarFragmentNavigation implements NavigationView.OnNavigationIte
         int id = item.getItemId();
         if (id == R.id.nav_units_fragment) {
             databaseHelper.setNeedToUpdate(true);
+            databaseHelper.updateUnitList();
             EventBus.getDefault().post(UnitsFragment.newInstance());
         } else if (id == R.id.nav_parser_fragment) {
             databaseHelper.setNeedToUpdate(false);

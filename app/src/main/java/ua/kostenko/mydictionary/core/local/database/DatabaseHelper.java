@@ -71,12 +71,16 @@ public final class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             unitDao.setOnUpdate(new OnUpdate() {
                 @Override public void update() {
                     if (isNeedToUpdate) {
-                        units = unitDao.findAll();
+                        updateUnitList();
                     }
                 }
             });
         }
         return unitDao;
+    }
+
+    public void updateUnitList() {
+        units = unitDao.findAll();
     }
 
     @NonNull
