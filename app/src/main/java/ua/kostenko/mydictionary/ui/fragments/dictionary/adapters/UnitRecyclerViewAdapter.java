@@ -25,7 +25,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ua.kostenko.mydictionary.App;
 import ua.kostenko.mydictionary.R;
-import ua.kostenko.mydictionary.core.commonutils.Utils;
 import ua.kostenko.mydictionary.core.local.database.DatabaseHelper;
 import ua.kostenko.mydictionary.core.local.database.dao.UnitDao;
 import ua.kostenko.mydictionary.core.local.database.domain.Unit;
@@ -84,16 +83,16 @@ public class UnitRecyclerViewAdapter extends RecyclerView.Adapter<UnitRecyclerVi
 
     private void show(Unit item) {
         Fragment fragment = UnitInfoFragment.newInstance(item.getSource());
-        Utils.checkNotNull(fragment, "Fragment can't be null!");
+        checkNotNull(fragment, "Fragment can't be null!");
         EventBus.getDefault().post(fragment);
         Log.d(TAG, String.format("Fragment was replaced to : %s", fragment.getClass().getSimpleName()));
     }
 
     private void remove(final Unit item, View view) {
         MaterialDialog dialog = new MaterialDialog.Builder(view.getContext())
-                .title("Remove unit?")
-                .positiveText("Remove")
-                .negativeText("Cancel")
+                .title(R.string.dialog_remove_title)
+                .positiveText(R.string.dialog_remove_positive)
+                .negativeText(R.string.dialog_remove_negative)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

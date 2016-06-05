@@ -47,8 +47,8 @@ public class UnitCreateDialog {
     @BindString(R.string.standard_cancel) String negativeText;
     @Inject UnitDao unitDao;
     @Inject TranslateService<Unit> translateService;
-    private Unit current;
     private boolean isTranslated;
+    private Unit current;
     private MaterialDialog materialDialog;
 
     public UnitCreateDialog(@NonNull final Context context, @NonNull final LayoutInflater inflater,
@@ -97,7 +97,7 @@ public class UnitCreateDialog {
         if (isNotNull(onUpdateAdapter)) {
             onUpdateAdapter.update();
         }
-        Toast.makeText(dialog.getView().getContext(), "Ok", Toast.LENGTH_LONG).show();
+        Toast.makeText(dialog.getView().getContext(), R.string.dialog_create_toast_message_ok, Toast.LENGTH_LONG).show();
     }
 
     private void translate(View v) {
@@ -108,13 +108,13 @@ public class UnitCreateDialog {
                 current = result;
                 translationTextView.setText(result.getTranslations());
                 translationAdditionalTextView.setText(result.getTranslationsAdditional().toString());
-                materialDialog.setActionButton(DialogAction.POSITIVE, R.string.add_unit);
+                materialDialog.setActionButton(DialogAction.POSITIVE, R.string.dialog_create_add_unit);
                 rowTranslation.setVisibility(View.VISIBLE);
                 rowAdditional.setVisibility(View.VISIBLE);
                 rowUserVariant.setVisibility(View.VISIBLE);
             }
         });
-        Toast.makeText(v.getContext(), "Wait a while. Application doing request", Toast.LENGTH_LONG).show();
+        Toast.makeText(v.getContext(), R.string.dialog_create_toast_message_request, Toast.LENGTH_LONG).show();
     }
 
     public void show() {

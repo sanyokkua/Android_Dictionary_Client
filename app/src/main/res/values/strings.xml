@@ -34,9 +34,11 @@
     <string name="parser_list_no_data_available">No data available</string>
 
     <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
-    <string name="field_hint_source">Source</string>
-    <string name="field_hint_user_translation">User variant of translation</string>
-    <string name="add_unit">Add</string>
+    <string name="dialog_create_field_hint_source">Source</string>
+    <string name="dialog_create_field_hint_user_translation">User variant of translation</string>
+    <string name="dialog_create_add_unit">Add</string>
+    <string name="dialog_create_toast_message_request">Wait a while. Application doing request</string>
+    <string name="dialog_create_toast_message_ok">Added</string>
 
     <!-- - - - - - - - Unit list - - - - - - - - - - - - - - -->
     <string name="unit_list_item_hint_source">Some Word</string>
@@ -60,5 +62,9 @@
     <string name="fragment_exercise_next_unit_dialog_wait">Loading</string>
     <string name="fragment_exercise_not_enough_words">Not enough words in dictionary</string>
 
+    <!-- - - - - - - - Remove dialog - - - - - - - - - - - - - - -->
+    <string name="dialog_remove_title">Remove unit?</string>
+    <string name="dialog_remove_positive">Remove</string>
+    <string name="dialog_remove_negative">Cancel</string>
 
 </resources>

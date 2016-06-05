@@ -34,9 +34,11 @@
     <string name="parser_list_no_data_available">Пока что ничего нету</string>
 
     <!-- - - - - - - - Create dialog - - - - - - - - - - - - - - -->
-    <string name="field_hint_source">Оригинал</string>
-    <string name="field_hint_user_translation">Пользовательский перевод</string>
-    <string name="add_unit">Добавить</string>
+    <string name="dialog_create_field_hint_source">Оригинал</string>
+    <string name="dialog_create_field_hint_user_translation">Пользовательский перевод</string>
+    <string name="dialog_create_add_unit">Добавить</string>
+    <string name="dialog_create_toast_message_request">Подождите немного. Идет запрос на сервер</string>
+    <string name="dialog_create_toast_message_ok">Добавлено</string>
 
     <!-- - - - - - - - Unit list - - - - - - - - - - - - - - -->
     <string name="unit_list_item_hint_source">Слово</string>
@@ -59,5 +61,10 @@
     <string name="fragment_exercise_wrong_answer">Не правильно</string>
     <string name="fragment_exercise_next_unit_dialog_wait">Загрузка</string>
     <string name="fragment_exercise_not_enough_words">Не достаточно слов в словаре</string>
+
+    <!-- - - - - - - - Remove dialog - - - - - - - - - - - - - - -->
+    <string name="dialog_remove_title">Удалить слово</string>
+    <string name="dialog_remove_positive">Удалить</string>
+    <string name="dialog_remove_negative">Отмена</string>
 
 </resources>

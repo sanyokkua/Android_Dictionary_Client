@@ -14,7 +14,7 @@
             android:id="@+id/source_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_hint_source"
+            android:hint="@string/dialog_create_field_hint_source"
             android:inputType="text"
             android:textSize="@dimen/text_size_common"/>
 
@@ -60,7 +60,7 @@
             android:id="@+id/user_translation_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_hint_user_translation"
+            android:hint="@string/dialog_create_field_hint_user_translation"
             android:inputType="text"
             android:textSize="@dimen/text_size_common"/>
     </android.support.design.widget.TextInputLayout>
