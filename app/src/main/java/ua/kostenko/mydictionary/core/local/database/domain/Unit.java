@@ -61,7 +61,7 @@ public class Unit {
     }
 
     public void decrementCounter() {
-        counter = counter - 1 < 0 ? 0 : counter--;
+        counter = counter - 1 < 0 ? 0 : counter - 1;
     }
 
     public long getCounter() {

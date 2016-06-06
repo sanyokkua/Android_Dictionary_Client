@@ -42,7 +42,7 @@ public class UnitDaoImpl extends BaseDaoImpl<Unit, String> implements UnitDao {
             } else if (counter > 0) {
                 existingUnit.incrementCounterTo(counter);
             } else {
-                existingUnit.incrementCounter();
+                existingUnit.decrementCounter();
             }
             int numbOfRowsUpdated = update(existingUnit);
             resultOfOperation = DaoUtils.validateCorrectNumberOfRows(numbOfRowsUpdated);

@@ -95,7 +95,6 @@ public class QuestionExercise {
         boolean result = false;
         if (unit.getTranslations().equals(answer)) {
             correctAnswer(unit);
-            moveForward();
             result = true;
         } else {
             wrongAnswer(unit);
@@ -105,7 +104,7 @@ public class QuestionExercise {
     }
 
     private void correctAnswer(@NonNull Unit unit) {
-        unit.decrementCounter();
+        unit.setCounter(-1);
         unitDao.saveUnit(unit);
     }
 
