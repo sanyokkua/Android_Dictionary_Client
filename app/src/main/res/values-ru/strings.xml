@@ -20,7 +20,7 @@
     <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
     <string name="parser_open_file_button">Выбрать файл</string>
     <string name="parser_description">Здесь вы можете открыть файл и достать все слова из него</string>
-    <string name="parser_file_size">Размер файла</string>
+    <string name="parser_file_size">Размер файла (Кб):</string>
     <string name="parser_file_location">Расположение файла:</string>
     <string name="parser_confirm_question">Вы хотите разобрать этот файл?</string>
     <string name="parser_nothing_to_parse">Нету ничего для добавления, сначала следует открыть файл</string>

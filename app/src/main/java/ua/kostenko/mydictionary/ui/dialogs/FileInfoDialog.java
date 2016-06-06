@@ -51,7 +51,7 @@ public class FileInfoDialog {
                           @NonNull final OnClickCustomListener<String> okCallback) {
         this(context, inflater);
         checkNotNull(okCallback);
-        sizeEditText.setText(String.valueOf(fileSize));
+        sizeEditText.setText(String.valueOf(fileSize / 1024));
         locationEditText.setText(fileLocation);
         this.okCallback = okCallback;
     }

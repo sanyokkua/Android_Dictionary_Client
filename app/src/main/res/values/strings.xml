@@ -20,7 +20,7 @@
     <!-- - - - - - - - Parser - - - - - - - - - - - - - - -->
     <string name="parser_open_file_button">Choose file</string>
     <string name="parser_description">Here you can open one of text files in your phone and get all words from it</string>
-    <string name="parser_file_size">File size</string>
+    <string name="parser_file_size">File size (Kb):</string>
     <string name="parser_file_location">File location:</string>
     <string name="parser_confirm_question">Do you want to parse this file?</string>
     <string name="parser_nothing_to_parse">Nothing to add, list is empty, parse text file before add all</string>
