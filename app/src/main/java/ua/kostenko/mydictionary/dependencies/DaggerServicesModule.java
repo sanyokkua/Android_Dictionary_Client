@@ -24,7 +24,7 @@ public class DaggerServicesModule {
     @Singleton
     public Retrofit provideRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl("http://webdictionary-kostenko.rhcloud.com")
+                .baseUrl("http://dictionary-kostenko.rhcloud.com")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

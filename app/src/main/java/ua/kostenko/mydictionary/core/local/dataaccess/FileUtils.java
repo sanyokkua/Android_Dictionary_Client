@@ -17,6 +17,7 @@ import static ua.kostenko.mydictionary.core.commonutils.Utils.isNotNull;
 
 public final class FileUtils {
     private static final String TAG = FileUtils.class.getSimpleName();
+    private static final String REGULAR_EXPRESSION = "\\W|[1234567890_-]+";
     @Inject DataAccessUtils dataAccessUtils;
 
     public FileUtils() {
@@ -43,8 +44,11 @@ public final class FileUtils {
         final StringBuilder stringBuilder = new StringBuilder();
         String line;
         while (isNotNull((line = bufferedReader.readLine()))) {
-            stringBuilder.append(line);
-            stringBuilder.append('\n');
+            String[] splitedLine = line.trim().split(REGULAR_EXPRESSION);
+            for (String element : splitedLine) {
+                stringBuilder.append(element);
+                stringBuilder.append('\n');
+            }
         }
         return stringBuilder.toString();
     }
